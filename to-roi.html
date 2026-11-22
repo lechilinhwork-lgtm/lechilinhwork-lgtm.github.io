@@ -60,7 +60,10 @@ b{font-weight:800}
 .qr-khoi .ct b{display:block;font-size:10pt;color:var(--do);line-height:1.15}
 .qr-khoi .ct ul{margin:1.5mm 0 0 3.5mm}
 .qr-khoi .ct li{font-size:7.6pt;line-height:1.35}
-.hl{margin-top:3mm;text-align:center;font-size:8pt;color:var(--phu)}
+.hl{margin-top:2.5mm;text-align:center;font-size:8pt;color:var(--phu)}
+.uu{margin-top:2.5mm;border:.35mm dashed #C98A00;background:#FFF6DA;border-radius:2.5mm;padding:2mm 3mm;font-size:7.8pt;line-height:1.38;color:#5A3D00}
+.uu b{display:block;font-size:8.6pt;color:#7A5300;margin-bottom:.4mm}
+.ns .uu{background:#fff;border-color:#fff;margin-top:3.5mm}
 .hl b{color:var(--chu);font-size:9.5pt}
 
 /* ---- Cẩm nang ---- */
@@ -181,6 +184,7 @@ b{font-weight:800}
       </div>
     </div>
     <div class="hl js-hl"></div>
+    <div class="uu"><b>🎁 Ưu đãi khách tờ rơi</b><span class="js-uu"></span></div>
   </div>
 
   <!-- Bìa -->
@@ -250,18 +254,19 @@ b{font-weight:800}
       <div><span>✨</span><p><b>Bột chà ron GROUTEX:</b> 15 màu, chống nứt, chống nấm mốc.</p></div>
     </div>
     <div class="tho"><b>Dành cho thầu thợ, kiến trúc sư</b>
-      <p>Gạch chuẩn kích thước, phẳng đều, ít cong vênh nên thi công nhanh, ít hao hụt. Gửi diện tích hoặc bản vẽ để nhận báo giá công trình và chiết khấu theo số lượng.</p>
+      <p>Gạch chuẩn kích thước, phẳng đều, ít cong vênh nên thi công nhanh, ít hao hụt. Quét mã, bấm "Nhắn đại lý" gửi diện tích hoặc bản vẽ cho cửa hàng gần công trình để nhận báo giá và chiết khấu theo số lượng.</p>
     </div>
   </div>
 
   <!-- Chọn theo ngân sách -->
   <div class="pn ns">
-    <h2><small>Tư vấn miễn phí trên điện thoại</small>Chọn gạch theo đúng số tiền bạn có</h2>
+    <h2><small>Xem giá trên điện thoại · mua tại đại lý</small>Chọn gạch theo đúng số tiền bạn có</h2>
     <div class="b"><div class="so">1</div><div><b>Quét mã QR bên dưới</b><p>Không cần cài ứng dụng, không cần đăng ký.</p></div></div>
     <div class="b"><div class="so">2</div><div><b>Chọn phòng hoặc mái nhà, nhập diện tích</b><p>Phòng khách, phòng ngủ, bếp, nhà vệ sinh, sân, ban công, mái ngói.</p></div></div>
     <div class="b"><div class="so">3</div><div><b>Xem mẫu hợp ngân sách</b><p>Có hình ảnh, giá niêm yết, tổng tiền dự kiến và số bao keo, bột chà ron cần mua.</p></div></div>
     <div class="muc"><span>Tiết kiệm</span><span>Phổ thông</span><span>Cao cấp</span></div>
-    <div class="b"><div class="so">4</div><div><b>Chọn đại lý gần công trình</b><p>Xem mẫu thật, nhận báo giá chính xác và chiết khấu theo công trình.</p></div></div>
+    <div class="b"><div class="so">4</div><div><b>Bấm "Nhắn đại lý" gần công trình</b><p>Cửa hàng có sẵn mẫu thật tư vấn, báo giá chính xác và chiết khấu theo công trình.</p></div></div>
+    <div class="uu"><b>🎁 Ưu đãi khách tờ rơi</b><span class="js-uu"></span></div>
     <div class="qr-khoi" style="margin-top:auto">
       <div class="qr js-qr"></div>
       <div class="ct"><b>Quét để bắt đầu</b><p>Giá luôn cập nhật mới nhất trên điện thoại của bạn.</p><p style="margin-top:1.2mm"><b style="display:inline;font-size:8.6pt;color:#0068FF" class="js-zl"></b></p></div>
@@ -292,9 +297,9 @@ b{font-weight:800}
     document.getElementById('link-qr').textContent=link;
     set('js-qr', qrSvg(link));
     var dz=d?(d.cuaHang[0].sdt||''):'';
-    set('js-hl', d&&dz ? '💬 Zalo / 📞 tư vấn &amp; báo giá: <b>'+esc(dinhDangSdt(dz))+'</b> ('+esc(d.ten)+')' : '💬 Quét mã → <b>nhắn Zalo đại lý gần nhà</b>, được tư vấn &amp; báo giá tận nơi');
+    set('js-hl', d&&dz ? '💬 Zalo / 📞 tư vấn &amp; báo giá: <b>'+esc(dinhDangSdt(dz))+'</b>' : '💬 Quét mã → <b>nhắn Zalo đại lý gần nhà</b>, được tư vấn &amp; báo giá tận nơi');
     var uu=uuDaiCua(d), coUu=true;
-    if(uu) set('js-hl', document.querySelector('.js-hl').innerHTML+'<br><b style="color:#7A5300">🎁 Ưu đãi khách tờ rơi: '+esc(uu)+'</b>');
+    set('js-uu', esc(uu)+'. Nhắn Zalo cửa hàng qua mã QR để được áp dụng.');
     
     set('js-zl', d&&dz ? '💬 Zalo '+esc(d.ten)+': '+esc(dinhDangSdt(dz)) : '💬 Quét mã → nhắn Zalo đại lý gần nhà');
     if(d){
