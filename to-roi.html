@@ -150,7 +150,7 @@ h2 small{color:var(--do);font-weight:700;letter-spacing:1pt}
 .bia .anh{flex:1;clip-path:none;background:none;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1.5fr 1fr;gap:1.6mm;padding:0 8mm;position:static}
 .bia .anh div{background:#F1EEE9 center/cover no-repeat;border-radius:2mm;position:relative;overflow:hidden}
 .bia .anh .g1{grid-column:1/-1;background-position:50% 30%}
-.bia .anh .g2{background-color:#fff;background-size:150%;background-position:55% 38%}
+.bia .anh .g2{background-color:#fff;background-size:165%;background-position:58% 30%}
 .bia .anh .g3{background-color:#fff;background-size:contain;background-position:50% 50%;border:.25mm solid var(--vien)}
 .bia .anh span{position:absolute;left:2mm;bottom:2mm;background:#fff;color:var(--chu);font-size:6.8pt;font-weight:700;padding:.4mm 2mm;border-radius:1mm;letter-spacing:.4pt;box-shadow:0 0 0 .2mm var(--vien)}
 .bia .chu{color:var(--chu);margin-top:0;padding:5mm 8mm 0}
@@ -209,6 +209,12 @@ h2 small{color:var(--do);font-weight:700;letter-spacing:1pt}
 .ns .dl-cuoi b{color:var(--do)}
 
 
+/* Tem Nano kháng khuẩn thật (đang dán trên mẫu gạch tại đại lý) */
+.tem{display:block;height:auto;object-fit:contain}
+.bia .tren .tem{margin-left:auto;width:21mm}
+.nano-dau .tem{flex:0 0 19mm;width:19mm}
+.tim-tem{display:flex;align-items:center;gap:2mm;margin-top:2.5mm;font-size:7.8pt;line-height:1.35;color:var(--chu);background:var(--nen);border-radius:1.5mm;padding:1.8mm 2.5mm}
+.tim-tem b{color:var(--do2)}
 /* ===== MÀU THEO LOGO ĐỒNG TÂM: đỏ tươi #E81A21 + đỏ đậm #8C1206 ===== */
 :root{--do:#E81A21;--do2:#8C1206}
 .moi{border-color:var(--do2);color:var(--do2)}
@@ -275,7 +281,7 @@ h2 small{color:var(--do);font-weight:700;letter-spacing:1pt}
     <div class="tren">
       <img src="logo-dongtam.png" alt="">
       <div class="ten">Dongtam<small>Vì cuộc sống tươi đẹp</small></div>
-      <div class="khien"><b>NANO</b><span>KHÁNG<br>KHUẨN</span></div>
+      <img class="tem" src="anh/tem-nano.png" alt="Tem Nano kháng khuẩn">
     </div>
     <div class="anh"><div class="g1" style="background-image:url(anh/catania-be.jpg)"><span>GẠCH · CATANIA 80x80</span></div><div class="g2" style="background-image:url(anh/bia-ngoi.jpg)"><span>NGÓI · TITAN</span></div><div class="g3" style="background-image:url(anh/bia-keo.jpg)"><span>KEO · GECKO</span></div></div>
     <div class="chu">
@@ -296,11 +302,12 @@ h2 small{color:var(--do);font-weight:700;letter-spacing:1pt}
   <!-- Nano -->
   <div class="pn nano">
     <div class="nano-dau">
-      <div class="khien"><b>NANO</b><span>KHÁNG<br>KHUẨN</span></div>
+      <img class="tem" src="anh/tem-nano.png" alt="Tem Nano kháng khuẩn">
       <h2><small>Công nghệ men mới</small>Men Nano kháng khuẩn bảo vệ cả gia đình</h2>
     </div>
     <div class="anh"><span>CATANIA 002 · 80x80 · Nano kháng khuẩn</span></div>
-    <p>Hạt Nano kháng khuẩn được trộn vào men và nung ở <b>1150–1200°C</b>. Tính năng kháng khuẩn nằm luôn trong lớp men, <b>không mài mòn, không bong tróc</b>.</p>
+    <div class="tim-tem"><span><b>Nhận biết tại đại lý:</b> mẫu gạch dán tem này là gạch men Nano kháng khuẩn Đồng Tâm.</span></div>
+    <p style="margin-top:2.5mm">Hạt Nano kháng khuẩn được trộn vào men và nung ở <b>1150–1200°C</b>. Tính năng kháng khuẩn nằm luôn trong lớp men, <b>không mài mòn, không bong tróc</b>.</p>
     <div class="thanh-kq">
       <div class="tk"><div class="nhan"><i>B. subtilis · bệnh đường ruột</i><b>96–99%</b></div><div class="ong"><span style="width:99%"></span></div></div>
       <div class="tk"><div class="nhan"><i>E. coli · tiêu chảy</i><b>75–95%</b></div><div class="ong"><span style="width:95%"></span></div></div>

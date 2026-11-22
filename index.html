@@ -367,6 +367,10 @@ body{background:var(--nen)}
 .vt-dong .h.ph,.h.ph{background:#F4F2EE!important;color:var(--phu)}
 
 
+.nano img{width:22px;height:22px;object-fit:contain;margin:-3px 0}
+.tem-ct{display:flex;align-items:center;gap:10px;margin-top:10px;background:#F7F5F2;border-radius:10px;padding:8px 10px;font-size:12.5px;line-height:1.35;color:var(--chu)}
+.tem-ct img{flex:0 0 46px;width:46px;height:46px;object-fit:contain}
+.tem-ct b{display:block;color:var(--do2)}
 /* ===== MÀU THEO LOGO ĐỒNG TÂM: đỏ tươi #E81A21 (nút chính) + đỏ đậm #8C1206 (nút phụ, ô đang chọn) ===== */
 :root{--do:#E81A21;--do2:#8C1206;--do-nhat:#FDF3F2}
 .nut.chinh{background:var(--do2);border-color:var(--do2)}
@@ -387,6 +391,67 @@ body{background:var(--nen)}
 .td div.nay{color:var(--do2)}
 .cta{border-color:var(--do2)}
 .video a::before{background:var(--do2)}
+/* ===== WEB CÓ MÀU LOGO + CHỮ RÕ (tối giản nhưng tập trung) ===== */
+:root{--chu:#141414;--phu:#4A4542;--vien:#E7E1DB;--nen:#F7F4F1}
+body{font-size:15.5px}
+/* Đầu trang: 2 sắc đỏ của logo */
+.hd{background:linear-gradient(135deg,#E81A21 0%,#B8130F 55%,#8C1206 100%);color:#fff;border-bottom:none;padding:16px 0 58px}
+.logo{background:#fff;border-radius:10px;padding:5px 9px}
+.nano{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.4);color:#fff}
+.nano img{background:#fff;border-radius:50%;padding:1px}
+.hd h1{color:#fff;font-weight:800;font-size:clamp(25px,7.2vw,31px);letter-spacing:-.6px;margin-top:22px}
+.hd p{color:#fff;opacity:.92;font-weight:500}
+/* Lối tắt: thẻ trắng nổi trên nền đỏ */
+.loi-tat{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:-40px;border-bottom:none;padding:0;position:relative;z-index:2;overflow:visible}
+.loi-tat a{background:#fff;border:1px solid var(--vien);border-radius:14px;padding:12px 4px;text-align:center;font-size:12.5px;font-weight:700;color:#8C1206;white-space:normal;line-height:1.25;box-shadow:0 8px 20px rgba(140,18,6,.12)}
+.loi-tat a::before{content:"";display:block;width:8px;height:8px;border-radius:50%;background:#E81A21;margin:0 auto 6px}
+/* Tiêu đề, mô tả đậm và rõ hơn */
+.khoi{margin-top:40px}
+.khoi > h3{font-size:21px;font-weight:800;color:var(--chu)}
+.khoi > .mo-ta{color:var(--phu);font-weight:500}
+.mo-ta,.ghi-chu,.m2-goi,.sp .dt,.sp .du,.tang .gia,.vt .mo,.keo .t,.dl small,.ch-dc small{color:var(--phu)}
+/* Các bước trong thẻ trắng có viền */
+.buoc{background:#fff;border:1px solid var(--vien);border-radius:16px;padding:16px;margin-top:12px}
+.buoc-tieu{color:#E81A21;font-weight:800;letter-spacing:.6px;font-size:12.5px}
+.thap-nd,.vt,.luu,.tho{background:#fff;border:1px solid var(--vien);border-radius:16px;padding:16px}
+.dl{background:#fff;border:1px solid var(--vien);border-radius:16px;padding:4px 16px 16px}
+.ch:first-child{border-top:none}
+/* Giá đỏ nổi bật, tên mẫu đậm */
+.sp .gia,.keo .g,.dong-ngoi button .g,.tong-ngoi .r,.gia-lon{color:#E81A21}
+.sp .ma{font-weight:800;font-size:13px}
+.sp .anh .cl{background:#8C1206;color:#fff}
+.sp .anh .kk{background:#fff;color:#8C1206}
+.sp .xem span{border-color:#8C1206;color:#8C1206;font-weight:700}
+.kq-dau h4{font-size:17px}
+/* Tháp nhu cầu: 4 sắc đỏ của logo */
+.thap button{color:#fff!important;border:none!important;font-weight:700}
+.thap button[data-t="3"]{background:#F36A6E!important}
+.thap button[data-t="2"]{background:#E81A21!important}
+.thap button[data-t="1"]{background:#B8130F!important}
+.thap button[data-t="0"]{background:#8C1206!important}
+.thap button.on{box-shadow:0 0 0 3px #fff,0 0 0 5px #141414!important}
+.thap-nd h4{color:#8C1206}
+/* Khối thầu thợ: đỏ đậm logo */
+.tho{background:linear-gradient(135deg,#8C1206,#5E0C04);color:#fff;border:none}
+.tho ul{color:#fff;opacity:.9}
+.tho .nut{background:#fff;color:#8C1206;border-color:#fff}
+/* Mục hướng dẫn: thẻ trắng */
+.kt{background:#fff;border:1px solid var(--vien)!important;border-radius:14px;margin-top:10px}
+.kt summary{padding:14px 16px;font-weight:700}
+.kt .nd{padding:0 16px 16px}
+.kt summary::after{color:#E81A21}
+.so-sanh .x{background:#FDF0EF}
+.so-sanh .v{background:#F1F6F2}
+.bang .pt{color:#8C1206}
+/* Ưu đãi + banner công trình có màu */
+.uu-dai{background:#FDF0EF;color:#8C1206;font-weight:600}
+.ct-banner{background:#FDF0EF;border-color:#E8B4B2}
+.ct-banner b{color:#8C1206}
+/* Khung chi tiết */
+.tam h4{color:#E81A21;font-weight:800}
+.tem-ct{background:#FDF0EF}
+.du-tinh{background:#FDF0EF}
+.du-tinh .kq b{color:#E81A21}
 </style>
 </head>
 <body>
@@ -395,7 +460,7 @@ body{background:var(--nen)}
   <div class="wrap">
     <div class="hd-top">
       <div class="logo"><img src="logo-dongtam.png" alt=""><span style="color:#D7141A;font-weight:900;font-size:17px;margin-left:6px;letter-spacing:-.3px">Dongtam</span></div>
-      <div class="nano">Men Nano kháng khuẩn</div>
+      <div class="nano"><img src="anh/tem-nano-web.png" alt="">Men Nano kháng khuẩn</div>
     </div>
     <h1>Gạch, ngói Đồng Tâm<br>đẹp, bền, đúng số tiền bạn có</h1>
     <p>Xem mẫu, giá niêm yết, thông số và vật tư đi kèm. Lưu mẫu ưng ý rồi mang tới đại lý gần công trình để xem mẫu thật.</p>
@@ -415,7 +480,7 @@ body{background:var(--nen)}
   <!-- Mẫu chủ lực, bán chạy -->
   <section class="khoi an" id="chu-luc">
     <h3>Mẫu chủ lực, được chọn nhiều</h3>
-    <p class="mo-ta">Những mẫu đẹp, bán tốt nhất. Mẫu có nhãn xanh đang trưng bày sẵn tại đại lý.</p>
+    <p class="mo-ta">Những mẫu đẹp, bán tốt nhất. Mẫu có dải đỏ "Có mẫu tại … đại lý" đang trưng bày sẵn tại cửa hàng.</p>
     <div class="noi-bat" id="ds-chu-luc"></div>
   </section>
 
@@ -619,7 +684,7 @@ function baoNhanh(t){ var el=$('toast'); el.textContent=t; el.classList.add('hie
 // ===== THÁP NHU CẦU (đáy: an toàn → đỉnh: phong cách) =====
 var THAP=[
   {ic:'', ten:'An toàn cho cả nhà', nd:
-    '<h4>Nền móng: an toàn cho người ở</h4><ul>'
+    '<h4>Nền móng: an toàn cho người ở</h4>'+'<div class="tem-ct" style="margin:0 0 10px"><img src="anh/tem-nano-web.png" alt=""><span><b>Tìm tem này trên mẫu tại đại lý</b>Mẫu dán tem là gạch men Nano kháng khuẩn.</span></div>'+'<ul>'
     +'<li><b>Chống trơn trượt đúng chỗ:</b> phòng khách, phòng ngủ cần chuẩn R9; bếp, nhà tắm, hành lang cần R10; sân, ban công, thành hồ bơi cần R11. Nơi ướt nên chọn gạch <b>men mờ chống trượt</b>.</li>'
     +'<li><b>Men Nano bạc kháng khuẩn:</b> hạt Nano nung cùng lớp men ở 1.150–1.200°C nên không bong theo thời gian. Kết quả thử sau 24 giờ (Viện Pasteur TP.HCM, chuẩn VILAS):'
     +'<div class="bang"><span class="vk">B. subtilis</span><span><span class="pt">96–99%</span> · bệnh đường ruột</span><span class="vk">E. coli</span><span><span class="pt">75–95%</span> · tiêu chảy</span><span class="vk">S. typhi</span><span><span class="pt">57–70%</span> · thương hàn</span></div></li>'
@@ -1234,6 +1299,7 @@ function ctGach(s){
     +'<div class="tam-nd"><div class="nhan-hang">'+badges+'</div>'
     +'<h2>'+esc(tenMau(s.ma))+'</h2><div class="dt">'+esc(s.kc.replace('x',' x '))+' mm · '+(s.x==='porcelain'?'Porcelain':'Ceramic')+(nhanMen(s)?' · '+nhanMen(s):'')+'</div>'
     +'<div class="gia-lon">'+tien(s.le)+' <small>đ/m² · giá lẻ niêm yết, đã gồm VAT</small></div>'
+    +(s.tn==='KHÁNG_KHUẨN'?'<div class="tem-ct"><img src="anh/tem-nano-web.png" alt=""><span><b>Có tem Nano kháng khuẩn</b>Tại đại lý, mẫu này dán tem như hình. Diệt đến 99% vi khuẩn bám trên mặt men.</span></div>':'')
     +'<div class="du-tinh">Diện tích của bạn <input id="ct-m2" type="number" inputmode="decimal" min="1" value="'+m2+'"> m²<div class="kq" id="ct-kq"></div></div>'
     +htmlCoMau(s.sap)
     +'<h4>Vì sao đáng chọn</h4>'+htmlViSao(viSaoSP(s))
