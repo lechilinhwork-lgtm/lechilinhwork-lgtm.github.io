@@ -104,6 +104,13 @@ a{color:inherit;text-decoration:none}
 .toast.hien{opacity:1}
 .ghim{font-size:12px;color:var(--phu);text-align:center;margin-top:14px}
 .ghim button{text-decoration:underline;color:var(--phu);font-size:12px}
+.bang-dl{width:100%;border-collapse:collapse;font-size:13px;margin:4px 0 12px}
+.bang-dl th{font-size:11px;color:var(--phu);font-weight:700;text-align:right;padding:4px 0;border-bottom:1px solid var(--vien)}
+.bang-dl th:first-child,.bang-dl td:first-child{text-align:left}
+.bang-dl td{padding:7px 0;border-bottom:1px solid var(--vien);text-align:right;font-weight:700}
+.bang-dl td:first-child{font-weight:600}
+.tk-tieu{font-size:12px;font-weight:800;color:var(--phu);text-transform:uppercase;letter-spacing:.3px;margin-top:4px;display:flex}
+.tk-tieu button{margin-left:auto;font-size:12px;color:var(--do);text-transform:none;letter-spacing:0;text-decoration:underline}
 .nhom-tieu{font-size:12px;font-weight:800;color:var(--phu);text-transform:uppercase;letter-spacing:.4px;margin:14px 0 6px;padding-top:12px;border-top:1px dashed var(--vien)}
 .hai-nut{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .qr-lop{position:fixed;inset:0;background:rgba(20,10,10,.75);z-index:40;display:none;align-items:center;justify-content:center;padding:16px}
@@ -181,6 +188,7 @@ a{color:inherit;text-decoration:none}
   <section class="the lich-su">
     <div class="tieu">Đã chào <span id="ls-so"></span></div>
     <div class="tk" id="tk"></div>
+    <div id="tk-dl"></div>
     <div id="ls"></div>
     <button class="nut phu" id="excel">⬇️ Tải Excel danh sách</button>
   </section>
@@ -565,6 +573,27 @@ function veLichSu(){
     ghi(doc().filter(function(p){return (p.lan||p.id)!==b.dataset.xoa;})); veLichSu();
   }; });
 }
+// ===== Hiệu quả theo đại lý (30 ngày): công trình anh giao + khách nhắn Zalo đại lý qua trang tờ rơi =====
+function taiThongKe(){
+  var p=pin(false), el=$('tk-dl');
+  if(!CT_API||!p){ el.innerHTML=''; return; }
+  el.innerHTML='<div class="tk-tieu">Hiệu quả 30 ngày theo đại lý</div><div class="trong">Đang tải…</div>';
+  var cb='_tk'+Date.now(), s=document.createElement('script');
+  window[cb]=function(r){
+    delete window[cb]; s.remove();
+    if(!r||!r.ok||!r.ds){ el.innerHTML=''; return; }   // Apps Script bản cũ chưa có thống kê
+    var ds=r.ds, tong=ds.reduce(function(a,x){ return {ct:a.ct+x.ct, khach:a.khach+x.khach}; },{ct:0,khach:0});
+    el.innerHTML='<div class="tk-tieu">Hiệu quả 30 ngày theo đại lý<button id="tk-lai">Tải lại</button></div>'
+      +(ds.length?'<table class="bang-dl"><tr><th>Đại lý</th><th>Công trình giao</th><th>Khách nhắn</th></tr>'
+        +ds.map(function(x){ return '<tr><td>'+esc(x.ten)+'</td><td>'+x.ct+'</td><td>'+x.khach+'</td></tr>'; }).join('')
+        +'<tr><td><b>Tổng</b></td><td>'+tong.ct+'</td><td>'+tong.khach+'</td></tr></table>'
+        :'<div class="trong">Chưa có dữ liệu 30 ngày qua.</div>');
+    var b=$('tk-lai'); if(b) b.onclick=taiThongKe;
+  };
+  s.onerror=function(){ el.innerHTML=''; };
+  s.src=CT_API+'?action=thongke&ngay=30&pin='+encodeURIComponent(p)+'&callback='+cb;
+  document.head.appendChild(s);
+}
 $('excel').onclick=function(){
   var ds=doc(); if(!ds.length){ bao('Chưa có dữ liệu'); return; }
   var cot=['Mã công trình','Ngày giờ','Lần','Đại lý','Cửa hàng','Cách (km)','Giai đoạn','Cần','Ghi chú','Tên khách','SĐT khách','Số ảnh','Bản đồ','Hồ sơ','Đã gửi Zalo'];
@@ -579,7 +608,7 @@ $('excel').onclick=function(){
   document.body.appendChild(a); a.click(); a.remove();
 };
 
-veChips(); veAnh(); veDaiLy(); veLichSu(); layViTri();
+veChips(); veAnh(); veDaiLy(); veLichSu(); layViTri(); taiThongKe();
 })();
 </script>
 </body>

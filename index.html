@@ -276,6 +276,7 @@ section[id]{scroll-margin-top:12px}
 .thanh .nut{height:46px;font-size:14px}
 .an{display:none!important}
 .nut.zl{background:#0068FF;color:#fff;border-color:#0068FF}
+.uu-dai{margin-top:8px;font-size:12.5px;font-weight:700;color:#7A5300;background:#FFF1CC;border-radius:10px;padding:6px 10px}
 .ct-banner{display:flex;gap:10px;align-items:center;background:#fff;border:1.5px solid var(--do);border-radius:16px;padding:12px 14px;margin-top:14px}
 .ct-banner .i{flex:0 0 40px;height:40px;border-radius:12px;background:var(--do-nhat);display:flex;align-items:center;justify-content:center;font-size:20px}
 .ct-banner b{display:block;font-size:14.5px}
@@ -592,6 +593,7 @@ function htmlCuaHang(ch, coTen, dl, ghiChu){
   return '<div class="ch">'
     +(coTen?'<div class="dl-ten">'+esc(dl.ten)+(DL&&dl.ma===DL.ma?'<span class="gt">Đại lý giới thiệu bạn</span>':'')+(ghiChu?'<span class="co-mau-dl">'+esc(ghiChu)+'</span>':'')+'</div>':'')
     +'<div class="ch-dc"><span>📍</span><div>'+esc(ch.diaChi)+kc+'</div></div>'
+    +(uuDaiCua(dl)?'<div class="uu-dai">🎁 Ưu đãi khách tờ rơi: '+esc(uuDaiCua(dl))+'</div>':'')
     +'<div class="nut-hang">'
       +'<a class="nut chinh" href="tel:'+esc(s)+'">📞 Gọi</a>'
       +'<a class="nut zalo" href="https://zalo.me/'+esc(s)+'" data-dl="'+esc(dl?dl.ma:'')+'" data-ch="'+(dl?dl.cuaHang.indexOf(ch):0)+'">Zalo</a>'
@@ -657,6 +659,21 @@ function capNhatThanh(){
 // Khách luôn được dẫn về đại lý (tư vấn, báo giá, bán hàng do đại lý làm). Zalo không cho điền sẵn tin qua link,
 // nên trang chép tin vào bộ nhớ rồi mở Zalo của cửa hàng: khách chỉ việc dán + gửi.
 function chepTin(t){ if(navigator.clipboard&&window.isSecureContext) return navigator.clipboard.writeText(t).catch(function(){}); var a=document.createElement('textarea'); a.value=t; document.body.appendChild(a); a.select(); try{document.execCommand('copy');}catch(e){} a.remove(); return Promise.resolve(); }
+// Mã tờ rơi của khách (cố định trên máy khách) để đại lý ghi nhận khách do tờ rơi Đồng Tâm dẫn tới
+function maToRoi(){
+  var m=''; try{ m=localStorage.getItem('tg_ma')||''; }catch(e){}
+  if(!/^DT-[A-Z0-9]{4}$/.test(m)){ var k='ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; m='DT-'; for(var i=0;i<4;i++) m+=k.charAt(Math.floor(Math.random()*k.length)); try{ localStorage.setItem('tg_ma',m); }catch(e){} }
+  return m;
+}
+// Ghi 1 lượt khách nhắn đại lý vào Sheet "Hồ sơ công trình" (tab LuotNhan) để anh Linh đo hiệu quả — không chặn việc mở Zalo
+function ghiNhan(d, ch, nguon, mau){
+  if(!CT_API) return;
+  try{
+    var q={action:'nhan', dl:d.ma, ten:d.ten, ch:ch?ch.diaChi:'', ma:maToRoi(), ct:CT_INFO?CT_INFO.id:'', ng:nguon||'', mau:mau||''};
+    var u=CT_API+'?'+Object.keys(q).map(function(k){ return k+'='+encodeURIComponent(q[k]); }).join('&');
+    (new Image()).src=u;
+  }catch(e){}
+}
 function ganNhat(ds){ var tot=null, k=1e9; (ds||DAI_LY.map(function(d){return {d:d,ch:-1};})).forEach(function(x){ (x.ch>=0?[x.d.cuaHang[x.ch]]:x.d.cuaHang).forEach(function(c){ var m=kmCach(viTriKhach.lat,viTriKhach.lng,c.lat,c.lng); if(m<k){k=m; tot={d:x.d,c:c};} }); }); return tot; }
 function zaloDaiLy(mau, them, d, ch, coMau){
   if(!d){
@@ -676,11 +693,14 @@ function zaloDaiLy(mau, them, d, ch, coMau){
     if(luu.length) dong.push('Em quan tâm các mẫu: '+luu.map(tenNgan).join('; ')+'.');
   }
   if(them) dong.push(them);
+  var ma=maToRoi(), uu=uuDaiCua(d);
+  dong.push('Mã tờ rơi: '+ma+(uu?' (ưu đãi khách tờ rơi: '+uu+')':''));
   dong.push('Nhờ cửa hàng tư vấn, báo giá giúp em ạ.');
   var sdt=String(ch.sdt||d.cuaHang[0].sdt||'').replace(/[^0-9]/g,'');
   if(!sdt){ $('dai-ly').scrollIntoView({behavior:'smooth'}); return; }
+  ghiNhan(d, ch, mau?'Hỏi mẫu':them?'Thầu thợ':'Nhắn đại lý', mau||(typeof LUU!=='undefined'?LUU.filter(function(id){return THEO_MA[id];}).slice(0,8).map(tenNgan).join('; '):''));
   chepTin(dong.join(String.fromCharCode(10))).then(function(){
-    baoNhanh('Đã chép tin cho '+d.ten+'. Trong Zalo bấm giữ ô chat → Dán → Gửi');
+    baoNhanh('Đã chép tin (mã '+ma+') cho '+d.ten+'. Trong Zalo bấm giữ ô chat → Dán → Gửi');
     setTimeout(function(){ location.href='https://zalo.me/'+sdt; },900);
   });
 }

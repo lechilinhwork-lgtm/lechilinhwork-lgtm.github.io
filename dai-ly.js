@@ -74,6 +74,15 @@ var DAI_LY = [
     mau:[ {ten:'CÔNG TY TNHH THƯƠNG MẠI VÀ DỊCH VỤ XÂY DỰNG SAIGON SUCCESS'} ]}
 ];
 
+// ===== ƯU ĐÃI KHÁCH TỜ RƠI (mỗi đại lý tự quyết, anh Linh ghi lại sau khi thống nhất) =====
+// Khách nhắn Zalo qua trang sẽ kèm "Mã tờ rơi" + nội dung ưu đãi → đại lý biết khách do Đồng Tâm dẫn tới.
+// Để trống ('') = đại lý chưa có ưu đãi, trang chỉ gửi mã tờ rơi. Ví dụ:
+//   '101293': 'Tặng 1 bao keo GECKO FLOOR cho đơn gạch từ 30 m²',
+var UU_DAI = {
+  // '101290': '',
+};
+function uuDaiCua(d){ return d && UU_DAI[d.ma] ? String(UU_DAI[d.ma]).trim() : ''; }
+
 function timDaiLy(ma){
   ma = String(ma||'').trim();
   for(var i=0;i<DAI_LY.length;i++) if(DAI_LY[i].ma===ma) return DAI_LY[i];
