@@ -157,12 +157,11 @@ function ve(r){
     h+='<section class="the dl"><div class="tieu">Đại lý Đồng Tâm phụ trách</div><b>'+esc(d.ten)+'</b><small>📍 '+esc(ch.diaChi)+'</small>'
       +'<div class="hang"><a class="nut chinh" href="tel:'+sdt+'">📞 Gọi</a><a class="nut zalo" target="_blank" rel="noopener" href="https://zalo.me/'+sdt+'">Zalo</a><a class="nut" target="_blank" rel="noopener" href="'+linkChiDuong(ch)+'">Chỉ đường</a></div>'
       +'<p style="font-size:13px;color:var(--phu);margin-top:10px">Có sẵn mẫu thật trưng bày. Ghé xem, nhận báo giá và chiết khấu theo công trình.</p></section>';
-    $('t-goi').href='tel:'+sdt; $('t-goi').textContent='📞 Gọi '+d.ten;
+    $('t-goi').href='https://zalo.me/'+sdt; $('t-goi').target='_blank'; $('t-goi').textContent='💬 Zalo '+d.ten;
     $('t-xem').href='./?ct='+encodeURIComponent(r.id);
-  } else { $('t-goi').href='tel:'+HOTLINE_HO_TRO; $('t-goi').textContent='📞 Gọi tư vấn'; }
+  } else { $('t-goi').href='./#dai-ly'; $('t-goi').textContent='📍 Đại lý gần bạn'; }
   h+='<a class="cta" href="'+$('t-xem').getAttribute('href')+'"><span><b>Chọn gạch, ngói cho công trình này</b><small>Xem mẫu, giá niêm yết, tính số thùng theo diện tích</small></span><span class="mui">›</span></a>';
-  h+='<a class="nut" style="margin-top:12px;color:#0068FF;border-color:#CFE0FF;background:#F3F7FF" target="_blank" rel="noopener" href="https://zalo.me/'+ZALO_TU_VAN+'">💬 Zalo tư vấn: '+TEN_TU_VAN+' · '+dinhDangSdt(ZALO_TU_VAN)+'</a>';
-  h+='<div class="chan">Gạch Đồng Tâm · Vì cuộc sống tươi đẹp</div>';
+  h+='<div class="chan">Gạch Đồng Tâm · Vì cuộc sống tươi đẹp<br>Tư vấn, báo giá và giao hàng do đại lý Đồng Tâm phụ trách thực hiện.</div>';
   $('nd').innerHTML=h;
   $('thanh').classList.remove('an');
   Array.prototype.forEach.call(document.querySelectorAll('[data-i]'),function(b){ b.onclick=function(){ moAnh(+b.dataset.i); }; });

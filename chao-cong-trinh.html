@@ -173,7 +173,7 @@ a{color:inherit;text-decoration:none}
       <button class="nut phu" id="qr-cn" style="margin-top:0">📱 QR chủ nhà quét</button>
       <button class="nut phu" id="gui-cn" style="margin-top:0">↗ Gửi chủ nhà</button>
     </div>
-    <p class="goi-y">Chủ nhà quét mã là vào trang chọn gạch gắn đúng công trình, bấm "Zalo tư vấn" là nhắn thẳng cho anh. Ảnh gửi chủ nhà không có tên, SĐT khách.</p>
+    <p class="goi-y">Chủ nhà quét mã là vào trang chọn gạch gắn đúng công trình, mọi nút liên hệ dẫn về đại lý phụ trách. Ảnh gửi chủ nhà không có tên, SĐT khách.</p>
     <button class="nut phu an" id="xong">✓ Xong, chào công trình tiếp theo</button>
   </section>
 
@@ -420,8 +420,8 @@ function dongChuNha(){
   var x=dlChon(); if(!x) return [];
   var s=x.c.sdt||x.d.cuaHang[0].sdt||HOTLINE_HO_TRO;
   var d=[{t:'CÔNG TRÌNH NHÀ MÌNH'+(phieu.gd?' · '+phieu.gd:'')+' · '+homNay(), mau:'#FFFFFF', dam:1},
-         {t:'Đại lý Đồng Tâm gần nhà: '+x.d.ten+' · '+dinhDangSdt(s), mau:'#F3E2B3', dam:1},
-         {t:'Tư vấn, báo giá: '+TEN_TU_VAN+' · Zalo '+dinhDangSdt(ZALO_TU_VAN), mau:'#A9A9A9'}];
+         {t:'Xem mẫu thật, tư vấn, báo giá: '+x.d.ten+' · Zalo '+dinhDangSdt(s), mau:'#F3E2B3', dam:1},
+         {t:'Địa chỉ: '+x.c.diaChi, mau:'#A9A9A9'}];
   d.push({t:'Chọn gạch theo ngân sách: '+linkKhach().replace('https://',''), mau:'#A9A9A9'});
   return d;
 }
@@ -473,8 +473,8 @@ function tinChuNha(){
   var d=['Chào '+(ten||'anh/chị')+', em là '+TEN_TU_VAN.replace(/^anh /,'')+' – Gạch Đồng Tâm.'];
   if(CT_API&&phieu.daLuu) d.push('Hồ sơ công trình nhà mình (ảnh, tiến độ): '+linkHS(phieu.id));
   d.push('Xem mẫu gạch, ngói hợp ngân sách: '+linkKhach());
-  d.push('Đại lý Đồng Tâm gần nhà có sẵn mẫu thật: '+x.d.ten+', '+x.c.diaChi+' – '+dinhDangSdt(s)+'.');
-  d.push('Cần tư vấn, báo giá anh/chị Zalo em '+dinhDangSdt(ZALO_TU_VAN)+' nhé.');
+  d.push('Đại lý Đồng Tâm gần nhà có sẵn mẫu thật: '+x.d.ten+', '+x.c.diaChi+'.');
+  d.push('Anh/chị nhắn Zalo hoặc gọi cửa hàng '+dinhDangSdt(s)+' để được tư vấn, báo giá và chiết khấu theo công trình nhé.');
   return d.join('\n');
 }
 $('gui-cn').onclick=function(){

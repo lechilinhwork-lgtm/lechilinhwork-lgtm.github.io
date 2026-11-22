@@ -453,17 +453,17 @@ section[id]{scroll-margin-top:12px}
     <ul>
       <li>Xương Porcelain chuẩn kích thước, phẳng đều, ít cong vênh. Thi công nhanh, ít hao hụt.</li>
       <li>Keo GECKO không cần ngâm gạch, có 20–30 phút để chỉnh gạch.</li>
-      <li>Gửi diện tích hoặc bản vẽ để nhận <b>báo giá công trình</b> và chiết khấu theo số lượng.</li>
+      <li>Gửi diện tích hoặc bản vẽ cho đại lý gần công trình để nhận <b>báo giá công trình</b> và chiết khấu theo số lượng.</li>
     </ul>
-    <a class="nut" id="tho-zalo" target="_blank" rel="noopener">💬 Gửi bản vẽ qua Zalo</a>
+    <a class="nut" id="tho-zalo" href="#dai-ly">💬 Gửi bản vẽ cho đại lý gần công trình</a>
   </section>
 
-  <div class="chan">Gạch Đồng Tâm · Vì cuộc sống tươi đẹp<br>Tư vấn: <a id="chan-sdt" style="font-weight:700;color:var(--chu)"></a><br>Giá chỉ để tham khảo. Đại lý báo giá chính xác và chiết khấu theo công trình.</div>
+  <div class="chan">Gạch Đồng Tâm · Vì cuộc sống tươi đẹp<br>Tư vấn, báo giá và giao hàng do đại lý Đồng Tâm gần bạn thực hiện.<br>Giá chỉ để tham khảo. Đại lý báo giá chính xác và chiết khấu theo công trình.</div>
 </main>
 
 <nav class="thanh"><div class="in">
   <a class="nut chinh" href="#dai-ly">📍 Đại lý gần bạn</a>
-  <a class="nut zl" id="thanh-goi" href="#">💬 Zalo tư vấn</a>
+  <a class="nut zl" id="thanh-goi" href="#dai-ly">💬 Nhắn đại lý</a>
 </div></nav>
 
 <!-- Bảng chi tiết sản phẩm -->
@@ -591,10 +591,10 @@ function htmlCuaHang(ch, coTen, dl, ghiChu){
   var kc=viTriKhach?'<small>Cách bạn khoảng '+kmCach(viTriKhach.lat,viTriKhach.lng,ch.lat,ch.lng).toFixed(1).replace('.',',')+' km</small>':'';
   return '<div class="ch">'
     +(coTen?'<div class="dl-ten">'+esc(dl.ten)+(DL&&dl.ma===DL.ma?'<span class="gt">Đại lý giới thiệu bạn</span>':'')+(ghiChu?'<span class="co-mau-dl">'+esc(ghiChu)+'</span>':'')+'</div>':'')
-    +'<div class="ch-dc"><span>📍</span><div>'+esc(ch.diaChi)+kc+(ch.sdt?'':'<small>Gọi hotline hỗ trợ, nhân viên sẽ kết nối đại lý</small>')+'</div></div>'
+    +'<div class="ch-dc"><span>📍</span><div>'+esc(ch.diaChi)+kc+'</div></div>'
     +'<div class="nut-hang">'
       +'<a class="nut chinh" href="tel:'+esc(s)+'">📞 Gọi</a>'
-      +'<a class="nut zalo" href="https://zalo.me/'+esc(s)+'" target="_blank" rel="noopener">Zalo</a>'
+      +'<a class="nut zalo" href="https://zalo.me/'+esc(s)+'" data-dl="'+esc(dl?dl.ma:'')+'" data-ch="'+(dl?dl.cuaHang.indexOf(ch):0)+'">Zalo</a>'
       +'<a class="nut" href="'+esc(linkChiDuong(ch))+'" target="_blank" rel="noopener">Chỉ đường</a>'
     +'</div></div>';
 }
@@ -646,26 +646,42 @@ function layViTri(){
   },function(){ b.textContent='Chưa lấy được vị trí, chọn theo khu vực bên dưới'; },{enableHighAccuracy:false,timeout:9000,maximumAge:600000});
 }
 function capNhatThanh(){
-  $('thanh-goi').onclick=function(e){ e.preventDefault(); zaloTuVan(); };
-  $('tho-zalo').onclick=function(e){ e.preventDefault(); zaloTuVan('', 'Em là thầu/kiến trúc sư, cần báo giá công trình. Em gửi diện tích/bản vẽ sau tin này.'); };
-  $('tho-zalo').href='https://zalo.me/'+ZALO_TU_VAN;
-  var cs=$('chan-sdt'); cs.href='tel:'+HOTLINE_HO_TRO; cs.textContent=dinhDangSdt(HOTLINE_HO_TRO);
+  var t=$('thanh-goi'); t.textContent = DL ? '💬 Zalo '+DL.ten : '💬 Nhắn đại lý';
+  t.onclick=function(e){ e.preventDefault(); zaloDaiLy(); };
+  $('tho-zalo').onclick=function(e){ e.preventDefault(); zaloDaiLy('', 'Em là thầu/kiến trúc sư, cần báo giá công trình. Em gửi diện tích/bản vẽ sau tin này.'); };
+  Array.prototype.forEach.call(document.querySelectorAll('a.nut.zalo[data-dl]'),function(a){ a.onclick=function(e){
+    var d=timDaiLy(a.dataset.dl); if(!d) return; e.preventDefault(); zaloDaiLy('', '', d, d.cuaHang[+a.dataset.ch]||d.cuaHang[0]);
+  }; });
 }
-// ===== ZALO TƯ VẤN (anh Linh) =====
-// Zalo không cho điền sẵn tin qua link, nên trang chép tin vào bộ nhớ rồi mở Zalo: khách chỉ việc dán + gửi.
+// ===== NHẮN ZALO ĐẠI LÝ =====
+// Khách luôn được dẫn về đại lý (tư vấn, báo giá, bán hàng do đại lý làm). Zalo không cho điền sẵn tin qua link,
+// nên trang chép tin vào bộ nhớ rồi mở Zalo của cửa hàng: khách chỉ việc dán + gửi.
 function chepTin(t){ if(navigator.clipboard&&window.isSecureContext) return navigator.clipboard.writeText(t).catch(function(){}); var a=document.createElement('textarea'); a.value=t; document.body.appendChild(a); a.select(); try{document.execCommand('copy');}catch(e){} a.remove(); return Promise.resolve(); }
-function zaloTuVan(mau, them){
-  var dong=['Chào '+TEN_TU_VAN+', em xem tờ rơi gạch Đồng Tâm'+(CT_INFO?' (công trình mã '+CT_INFO.id+')':'')+'.'];
+function ganNhat(ds){ var tot=null, k=1e9; (ds||DAI_LY.map(function(d){return {d:d,ch:-1};})).forEach(function(x){ (x.ch>=0?[x.d.cuaHang[x.ch]]:x.d.cuaHang).forEach(function(c){ var m=kmCach(viTriKhach.lat,viTriKhach.lng,c.lat,c.lng); if(m<k){k=m; tot={d:x.d,c:c};} }); }); return tot; }
+function zaloDaiLy(mau, them, d, ch, coMau){
+  if(!d){
+    if(DL){ d=DL; ch=null; if(CT_INFO) ch=DL.cuaHang.filter(function(c){return c.diaChi===CT_INFO.ch;})[0]; ch=ch||DL.cuaHang[0]; }
+    else if(viTriKhach){ var g=ganNhat(coMau); d=g.d; ch=g.c; }
+    else if(navigator.geolocation){
+      baoNhanh('Đang tìm cửa hàng gần bạn…');
+      navigator.geolocation.getCurrentPosition(function(p){ viTriKhach={lat:p.coords.latitude,lng:p.coords.longitude}; veDaiLy(); zaloDaiLy(mau,them,null,null,coMau); },
+        function(){ baoNhanh('Chọn cửa hàng gần bạn rồi bấm Zalo'); $('dai-ly').scrollIntoView({behavior:'smooth'}); },{enableHighAccuracy:false,timeout:9000,maximumAge:600000});
+      return;
+    } else { baoNhanh('Chọn cửa hàng gần bạn rồi bấm Zalo'); $('dai-ly').scrollIntoView({behavior:'smooth'}); return; }
+  }
+  var dong=['Chào cửa hàng '+d.ten+', em xem tờ rơi gạch Đồng Tâm'+(CT_INFO?' (mã công trình '+CT_INFO.id+')':'')+'.'];
   if(mau){ dong.push('Em hỏi về mẫu: '+mau+'.'); }
   else {
     var luu=(typeof LUU!=='undefined'?LUU:[]).filter(function(id){ return THEO_MA[id]; }).slice(0,8);
     if(luu.length) dong.push('Em quan tâm các mẫu: '+luu.map(tenNgan).join('; ')+'.');
   }
   if(them) dong.push(them);
-  dong.push('Nhờ anh tư vấn giúp em ạ.');
+  dong.push('Nhờ cửa hàng tư vấn, báo giá giúp em ạ.');
+  var sdt=String(ch.sdt||d.cuaHang[0].sdt||'').replace(/[^0-9]/g,'');
+  if(!sdt){ $('dai-ly').scrollIntoView({behavior:'smooth'}); return; }
   chepTin(dong.join(String.fromCharCode(10))).then(function(){
-    baoNhanh('Đã chép tin. Trong Zalo bấm giữ ô chat → Dán → Gửi');
-    setTimeout(function(){ location.href='https://zalo.me/'+ZALO_TU_VAN; },900);
+    baoNhanh('Đã chép tin cho '+d.ten+'. Trong Zalo bấm giữ ô chat → Dán → Gửi');
+    setTimeout(function(){ location.href='https://zalo.me/'+sdt; },900);
   });
 }
 // ===== KHÁCH QUÉT QR CÔNG TRÌNH (?ct=<mã>) =====
@@ -1188,7 +1204,7 @@ function moChiTiet(id, tuLink){
   var ac=$('anh-cuon'), dem=$('dem-anh');
   if(ac && dem) ac.addEventListener('scroll',function(){ dem.textContent=(Math.round(ac.scrollLeft/ac.clientWidth)+1)+'/'+ac.children.length; },{passive:true});
   var gl=c.querySelector('.gia-lon');
-  if(gl){ gl.insertAdjacentHTML('afterend','<button class="hoi-zalo" id="hoi-zalo">💬 Hỏi '+TEN_TU_VAN+' về mẫu này qua Zalo</button>'); $('hoi-zalo').onclick=function(){ zaloTuVan(tenNgan(id)); }; }
+  if(gl){ gl.insertAdjacentHTML('afterend','<button class="hoi-zalo" id="hoi-zalo">💬 Hỏi giá mẫu này qua Zalo đại lý</button>'); $('hoi-zalo').onclick=function(){ zaloDaiLy(tenNgan(id),'',null,null,CO_MAU[id]); }; }
   capNutLuu();
   $('phu-lop').classList.add('mo'); $('tam').classList.add('mo'); document.body.classList.add('khoa');
   if(tuLink){ moQuaLink=true; return; }
