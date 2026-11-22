@@ -442,6 +442,7 @@ section[id]{scroll-margin-top:12px}
   <section class="khoi" id="dai-ly">
     <h3>📍 Xem mẫu thật tại đại lý gần công trình</h3>
     <p class="mo-ta" id="dl-mo-ta"></p>
+    <div class="uu-dai" id="uu-chung"></div>
     <button class="nut chinh tim-gan" id="tim-gan">📍 Tìm đại lý gần tôi</button>
     <div class="khu" id="ds-khu"></div>
     <div class="dl" id="ds-dl"></div>
@@ -593,7 +594,7 @@ function htmlCuaHang(ch, coTen, dl, ghiChu){
   return '<div class="ch">'
     +(coTen?'<div class="dl-ten">'+esc(dl.ten)+(DL&&dl.ma===DL.ma?'<span class="gt">Đại lý giới thiệu bạn</span>':'')+(ghiChu?'<span class="co-mau-dl">'+esc(ghiChu)+'</span>':'')+'</div>':'')
     +'<div class="ch-dc"><span>📍</span><div>'+esc(ch.diaChi)+kc+'</div></div>'
-    +(uuDaiCua(dl)?'<div class="uu-dai">🎁 Ưu đãi khách tờ rơi: '+esc(uuDaiCua(dl))+'</div>':'')
+    +(dl&&UU_DAI[dl.ma]&&String(UU_DAI[dl.ma]).trim()?'<div class="uu-dai">🎁 Ưu đãi riêng: '+esc(String(UU_DAI[dl.ma]).trim())+'</div>':'')
     +'<div class="nut-hang">'
       +'<a class="nut chinh" href="tel:'+esc(s)+'">📞 Gọi</a>'
       +'<a class="nut zalo" href="https://zalo.me/'+esc(s)+'" data-dl="'+esc(dl?dl.ma:'')+'" data-ch="'+(dl?dl.cuaHang.indexOf(ch):0)+'">Zalo</a>'
@@ -725,6 +726,7 @@ var CT_INFO=null;
   s.src=CT_API+'?action=xem&id='+encodeURIComponent(ma)+'&callback='+cb; s.onerror=function(){};
   document.head.appendChild(s);
 })();
+$('uu-chung').textContent='🎁 Khách nhắn Zalo qua trang này: '+UU_DAI_CHUNG.charAt(0).toLowerCase()+UU_DAI_CHUNG.slice(1)+'.';
 $('tim-gan').onclick=layViTri;
 $('map-tat-ca').href=LINK_MAP_TAT_CA;
 

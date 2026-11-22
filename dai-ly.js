@@ -81,7 +81,9 @@ var DAI_LY = [
 var UU_DAI = {
   // '101290': '',
 };
-function uuDaiCua(d){ return d && UU_DAI[d.ma] ? String(UU_DAI[d.ma]).trim() : ''; }
+// Câu chung cho mọi đại lý (dịch vụ đại lý vốn làm, không tốn tiền). Đại lý nào có ưu đãi riêng thì ghi vào UU_DAI ở trên.
+var UU_DAI_CHUNG = 'Tính số lượng, phối mẫu miễn phí và giữ hàng cùng lô màu cho cả công trình';
+function uuDaiCua(d){ return d && UU_DAI[d.ma] && String(UU_DAI[d.ma]).trim() ? String(UU_DAI[d.ma]).trim() : UU_DAI_CHUNG; }
 
 function timDaiLy(ma){
   ma = String(ma||'').trim();

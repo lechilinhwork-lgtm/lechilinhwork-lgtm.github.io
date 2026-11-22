@@ -293,9 +293,9 @@ b{font-weight:800}
     set('js-qr', qrSvg(link));
     var dz=d?(d.cuaHang[0].sdt||''):'';
     set('js-hl', d&&dz ? '💬 Zalo / 📞 tư vấn &amp; báo giá: <b>'+esc(dinhDangSdt(dz))+'</b> ('+esc(d.ten)+')' : '💬 Quét mã → <b>nhắn Zalo đại lý gần nhà</b>, được tư vấn &amp; báo giá tận nơi');
-    var uu=d?uuDaiCua(d):'', coUu=Object.keys(UU_DAI).some(function(k){return String(UU_DAI[k]).trim();});
+    var uu=uuDaiCua(d), coUu=true;
     if(uu) set('js-hl', document.querySelector('.js-hl').innerHTML+'<br><b style="color:#7A5300">🎁 Ưu đãi khách tờ rơi: '+esc(uu)+'</b>');
-    else if(!d && coUu) set('js-hl', document.querySelector('.js-hl').innerHTML+'<br><b style="color:#7A5300">🎁 Nhắn qua mã QR để nhận ưu đãi riêng của đại lý</b>');
+    
     set('js-zl', d&&dz ? '💬 Zalo '+esc(d.ten)+': '+esc(dinhDangSdt(dz)) : '💬 Quét mã → nhắn Zalo đại lý gần nhà');
     if(d){
       set('js-dl-ten', esc(d.ten));
