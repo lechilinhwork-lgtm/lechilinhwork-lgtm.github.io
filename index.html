@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Gạch, ngói, keo Đồng Tâm theo ngân sách</title>
 <meta name="description" content="Chọn gạch ốp lát, ngói tráng men, keo dán gạch Đồng Tâm phù hợp số tiền bỏ ra, xem mẫu thật tại đại lý gần công trình.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://lechilinhwork-lgtm.github.io/anh/catania-be.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:title" content="Gạch, ngói, keo Đồng Tâm theo ngân sách">
 <meta property="og:description" content="Xem mẫu, giá niêm yết, thông số và đại lý gần công trình có sẵn mẫu thật.">
 <meta name="theme-color" content="#D7141A">
@@ -878,20 +881,27 @@ function zaloDaiLy(mau, them, d, ch, coMau){
 var CT_API='https://script.google.com/macros/s/AKfycbzJuuVpMZgf2_Hdckq7zuHhf_BHtSeIjBZREvsek9TiggfoPUnA2vYM9SfiX--7yaJ-ug/exec';
 var CT_INFO=null;
 (function(){
-  var ma=(qs.get('ct')||'').trim(); if(!ma||!CT_API) return;
-  var cb='_ctk'+Date.now(), s=document.createElement('script');
-  window[cb]=function(r){
-    delete window[cb]; s.remove(); if(!r||!r.ok) return;
+  var ma=(qs.get('ct')||'').trim(); if(!ma) return;
+  var GDL=['Đang xây thô','Cất nóc','Tô tường','Sắp lát nền','Hoàn thiện'];
+  function tuLink(){   // thông tin nằm ngay trong link: ?ct=<mã>&gd=&dl=<đại lý>.<cửa hàng>
+    var dl=(qs.get('dl')||'').split('.'), d=timDaiLy(dl[0]), g=qs.get('gd');
+    return {ok:true,id:ma,gd:(g!=null&&GDL[+g])?GDL[+g]:'',dl:d?d.ma:'',ch:d&&d.cuaHang[+dl[1]]?d.cuaHang[+dl[1]].diaChi:''};
+  }
+  function hien(r){
     CT_INFO=r;
     var d=timDaiLy(r.dl); if(d && !DL) DL=d;
     var ch=d?(d.cuaHang.filter(function(c){return c.diaChi===r.ch;})[0]||d.cuaHang[0]):null;
     var el=$('ct-banner');
     el.innerHTML='<span class="i"></span><span><b>Công trình của anh/chị · mã '+esc(r.id)+'</b><small>'
       +(r.gd?'Đang ở giai đoạn: '+esc(r.gd)+'. ':'')+(d?'Đại lý gần nhất: <b style="display:inline;font-size:12.5px">'+esc(d.ten)+'</b>'+(ch?' ('+esc(ch.diaChi.split(',')[0])+')':'')+'. ':'')
-      +'<a href="ct.html?id='+encodeURIComponent(r.id)+'">Xem ảnh, tiến độ</a></small></span>';
+      +'<a href="ct.html'+location.search.replace(/^\?ct=/,'?id=')+'">Xem tiến độ, hình ảnh</a></small></span>';
     el.classList.remove('an');
-    veDaiLy();
-  };
+    if(typeof LUU!=='undefined'&&LUU) veDaiLy();   // lần đầu (đồng bộ) trang chưa dựng xong: cuối script sẽ tự vẽ danh sách đại lý
+  }
+  hien(tuLink());
+  if(!CT_API) return;
+  var cb='_ctk'+Date.now(), s=document.createElement('script');
+  window[cb]=function(r){ delete window[cb]; s.remove(); if(r&&r.ok) hien(r); };
   s.src=CT_API+'?action=xem&id='+encodeURIComponent(ma)+'&callback='+cb; s.onerror=function(){};
   document.head.appendChild(s);
 })();

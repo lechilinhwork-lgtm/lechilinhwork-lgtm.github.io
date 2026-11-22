@@ -221,6 +221,17 @@ function soKm(n){ return n<1 ? Math.round(n*1000)+' m' : n.toFixed(1).replace('.
 var hen; function bao(t){ var e=$('toast'); e.textContent=t; e.classList.add('hien'); clearTimeout(hen); hen=setTimeout(function(){e.classList.remove('hien');},2600); }
 function ngay(t){ var d=new Date(t); return d.toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit'})+' '+d.toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'}); }
 function linkHS(id){ return TRANG_KHACH+'ct.html?id='+id; }
+// Link tự mang thông tin công trình (giai đoạn, nhu cầu, đại lý, vị trí) nên mở ra là thấy ngay, kể cả khi chưa lưu ảnh lên hồ sơ
+function qCT(){
+  var p=['id='+phieu.id];
+  if(phieu.gd) p.push('gd='+GD.indexOf(phieu.gd));
+  if(phieu.can.length) p.push('can='+phieu.can.map(function(x){return CAN.indexOf(x);}).join(''));
+  if(phieu.dl) p.push('dl='+phieu.dl+'.'+phieu.ch);
+  if(viTri) p.push('vt='+viTri.lat.toFixed(5)+','+viTri.lng.toFixed(5));
+  p.push('n='+Math.floor(Date.now()/1000).toString(36));
+  return p.join('&');
+}
+function linkCT(){ return TRANG_KHACH+'ct.html?'+qCT(); }
 function pin(hoi){
   var p=''; try{ p=localStorage.getItem('ct_pin')||''; }catch(e){}
   if(!p && hoi){ p=(prompt('Nhập mã PIN lưu hồ sơ công trình (anh Linh giữ):')||'').trim(); if(p) try{ localStorage.setItem('ct_pin',p); }catch(e){} }
@@ -359,18 +370,18 @@ function soanTin(){
   var x=dlChon(); if(!x) return '';
   var kc = viTri ? km(viTri.lat,viTri.lng,x.c.lat,x.c.lng) : null;
   var ten=$('k-ten').value.trim(), sdt=$('k-sdt').value.trim(), gc=$('ghi-chu').value.trim();
-  var coHS = CT_API && phieu.daLuu;
+  var coHS = true;
   var dong=[(phieu.gheLai?'🔄 CẬP NHẬT CÔNG TRÌNH GẦN ':'🏗️ CÔNG TRÌNH MỚI GẦN ')+x.d.ten.toUpperCase()+(kc!=null?' (cách cửa hàng ~'+soKm(kc)+')':'')];
   if(phieu.gd) dong.push('• Giai đoạn: '+phieu.gd);
   if(phieu.can.length) dong.push('• Cần: '+phieu.can.join(', '));
   if(gc) dong.push('• Ghi chú: '+gc);
   if(ten||sdt) dong.push('• Khách: '+[ten,sdt].filter(Boolean).join(' – '));
   if(viTri) dong.push('• Vị trí: https://maps.google.com/?q='+viTri.lat.toFixed(6)+','+viTri.lng.toFixed(6));
-  if(coHS) dong.push('• Ảnh & tiến độ công trình: '+linkHS(phieu.id));
+  dong.push('• Hồ sơ công trình (giai đoạn, nhu cầu, vị trí'+(CT_API&&phieu.daLuu?', ảnh':'')+'): '+linkCT());
   dong.push('');
   dong.push(phieu.gheLai
     ? 'Em Linh (Đồng Tâm) vừa ghé lại công trình, đã cập nhật ảnh và tiến độ trong hồ sơ. Nhờ anh/chị theo sát giúp em ạ. Mã: '+phieu.id
-    : 'Em Linh (Đồng Tâm) vừa phát tờ rơi tại đây. Khách quét QR sẽ thấy cửa hàng anh/chị'+(coHS?'':' ('+TRANG_KHACH+')')+'. Nhờ anh/chị ghé chào hoặc gọi khách giúp em ạ. Mã: '+phieu.id);
+    : 'Em Linh (Đồng Tâm) vừa phát tờ rơi tại đây. Khách quét QR sẽ thấy cửa hàng anh/chị. Nhờ anh/chị ghé chào hoặc gọi khách giúp em ạ. Mã: '+phieu.id);
   return dong.join('\n');
 }
 function veNut(){
@@ -400,7 +411,7 @@ $('luu-hs').onclick=function(){
       if(!r||!r.ok){ throw new Error(r&&r.loi||'Lỗi lưu'); }
       phieu.daLuu=true; luuTrenMay(false,true);
       $('tt').className='trang-thai ok'; $('tt').textContent='✓ Đã lưu hồ sơ'+(r.anh?' ('+r.anh+' ảnh)':'')+'. Giờ gửi Zalo cho đại lý.';
-      $('link-hs').innerHTML='Link hồ sơ: <a href="'+linkHS(phieu.id)+'" target="_blank" rel="noopener">'+linkHS(phieu.id)+'</a>'; $('link-hs').classList.add('hien');
+      $('link-hs').innerHTML='Link hồ sơ: <a href="'+linkCT()+'" target="_blank" rel="noopener">'+linkHS(phieu.id)+'</a>'; $('link-hs').classList.add('hien');
       veNut();
     })
     .catch(function(e){
@@ -460,7 +471,7 @@ function anhCoDai(loai){
     return new File([ganDai(a.cv,dong)], phieu.id+'_'+(loai==='cn'?'chu-nha':'dai-ly')+'_'+(i+1)+'.jpg', {type:'image/jpeg'});
   });
 }
-function linkKhach(){ return CT_API&&phieu.daLuu ? TRANG_KHACH+'?ct='+phieu.id : TRANG_KHACH+'?dl='+phieu.dl; }
+function linkKhach(){ return TRANG_KHACH+'?ct='+qCT().replace(/^id=/,''); }
 
 // ===== Gửi Zalo đại lý =====
 $('gui').onclick=function(){
@@ -479,7 +490,7 @@ function tinChuNha(){
   var x=dlChon(); if(!x) return '';
   var s=x.c.sdt||x.d.cuaHang[0].sdt||HOTLINE_HO_TRO, ten=$('k-ten').value.trim();
   var d=['Chào '+(ten||'anh/chị')+', em là '+TEN_TU_VAN.replace(/^anh /,'')+' – Gạch Đồng Tâm.'];
-  if(CT_API&&phieu.daLuu) d.push('Hồ sơ công trình nhà mình (ảnh, tiến độ): '+linkHS(phieu.id));
+  d.push('Hồ sơ công trình nhà mình (tiến độ'+(CT_API&&phieu.daLuu?', ảnh':'')+'): '+linkCT());
   d.push('Xem mẫu gạch, ngói hợp ngân sách: '+linkKhach());
   d.push('Đại lý Đồng Tâm gần nhà có sẵn mẫu thật: '+x.d.ten+', '+x.c.diaChi+'.');
   d.push('Anh/chị nhắn Zalo hoặc gọi cửa hàng '+dinhDangSdt(s)+' để được tư vấn, báo giá và chiết khấu theo công trình nhé.');

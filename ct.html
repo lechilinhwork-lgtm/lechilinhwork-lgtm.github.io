@@ -5,7 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <title>Hồ sơ công trình · Đồng Tâm</title>
-<meta property="og:title" content="Hồ sơ công trình · Gạch Đồng Tâm">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://lechilinhwork-lgtm.github.io/anh/catania-be.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:title" content="Hồ sơ công trình · Gạch, ngói, keo Đồng Tâm">
 <meta property="og:description" content="Tiến độ thi công, hình ảnh công trình và đại lý Đồng Tâm phụ trách.">
 <meta name="theme-color" content="#D7141A">
 <link rel="icon" href="logo-dongtam.png">
@@ -151,13 +154,26 @@ function loi(t){ $('nd').innerHTML='<div class="the trong">'+t+'<br><br><a class
 
 var id=(new URLSearchParams(location.search).get('id')||'').trim();
 if(!id){ loi('Link hồ sơ chưa đúng.'); return; }
-if(!CT_API){ loi('Hồ sơ công trình đang được cài đặt.'); return; }
+// Thông tin nằm ngay trong link (gd, can, dl, vt, n): hiện ngay, kể cả khi hồ sơ trên mạng chưa lưu hoặc mạng chậm
+function tuLink(){
+  var q=new URLSearchParams(location.search), gd=q.get('gd'), can=q.get('can')||'', dl=(q.get('dl')||'').split('.'), vt=(q.get('vt')||'').split(','), n=parseInt(q.get('n')||'',36);
+  var CANL=['Gạch','Ngói','Keo & chà ron'], d=timDaiLy(dl[0]), cht=d&&d.cuaHang[+dl[1]]?d.cuaHang[+dl[1]]:(d?d.cuaHang[0]:null);
+  var r={ok:true,id:id,tao:n?n*1000:Date.now(),capNhat:n?n*1000:Date.now(),lat:+vt[0]||null,lng:+vt[1]||null,
+    gd:(gd!=null&&GD[+gd])?GD[+gd]:'', can:can.split('').map(function(i){return CANL[+i];}).filter(Boolean).join(', '),
+    dl:d?d.ma:'', dlTen:d?d.ten:'', ch:cht?cht.diaChi:'', ghiChu:'', lan:[], tuLink:true};
+  return (r.gd||r.can||r.dl||r.lat)?r:null;
+}
+var r0=tuLink(), daVe=false;
+function ketQua(r){ daVe=true; ve(r); }
+function khongCo(t){ if(daVe) return; if(r0) ketQua(r0); else loi(t); }
+if(!CT_API){ khongCo('Hồ sơ công trình đang được cài đặt.'); return; }
+if(r0) ketQua(r0);
 
 var cb='_ct'+Date.now(), s=document.createElement('script'), xong=false;
-window[cb]=function(r){ xong=true; delete window[cb]; s.remove(); if(r&&r.ok) ve(r); else loi('Không tìm thấy hồ sơ công trình '+esc(id)+'.'); };
+window[cb]=function(r){ xong=true; delete window[cb]; s.remove(); if(r&&r.ok) ketQua(r); else khongCo('Không tìm thấy hồ sơ công trình '+esc(id)+'.'); };
 s.src=CT_API+'?action=xem&id='+encodeURIComponent(id)+'&callback='+cb;
-s.onerror=function(){ loi('Chưa tải được hồ sơ. Kiểm tra mạng rồi tải lại trang.'); };
-setTimeout(function(){ if(!xong) loi('Mạng chậm, chưa tải được hồ sơ. Thử tải lại trang.'); },25000);
+s.onerror=function(){ khongCo('Chưa tải được hồ sơ. Kiểm tra mạng rồi tải lại trang.'); };
+setTimeout(function(){ if(!xong) khongCo('Mạng chậm, chưa tải được hồ sơ. Thử tải lại trang.'); },25000);
 document.head.appendChild(s);
 
 var TAT_CA=[];   // mọi ảnh để xem to + vuốt
@@ -167,7 +183,7 @@ function ve(r){
   var iGd=GD.indexOf(r.gd);
   $('ma').textContent='Mã '+r.id;
   $('tieu-de').textContent = d ? 'Công trình gần '+d.ten : 'Hồ sơ công trình';
-  $('phu-de').textContent = 'Cập nhật '+ngay(r.capNhat)+' · '+r.lan.length+' lần ghé'+(r.gd?' · '+r.gd:'');
+  $('phu-de').textContent = 'Cập nhật '+ngay(r.capNhat)+(r.lan.length?' · '+r.lan.length+' lần ghé':'')+(r.gd?' · '+r.gd:'');
   document.title='Công trình '+r.id+' · Đồng Tâm';
 
   var h='';
@@ -189,6 +205,7 @@ function ve(r){
     });
     h+='</section>';
   }
+  if(!co.length) h+='<section class="the"><div class="tieu">Hình ảnh tại công trình</div><div class="td-ghi">Hình ảnh công trình sẽ được cập nhật tại đây khi có lần ghé mới.</div></section>';
   // Nhu cầu
   if(r.can) h+='<section class="the"><div class="tieu">Vật liệu cần</div><div class="chips">'+r.can.replace(/Keo, chà ron/g,'Keo & chà ron').split(',').map(function(x){return '<span>'+esc(x.trim())+'</span>';}).join('')+'</div></section>';
   // Vị trí
