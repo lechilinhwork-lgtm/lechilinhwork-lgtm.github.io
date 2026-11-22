@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Chào công trình</title>
+<meta name="theme-color" content="#D7141A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Chào CT">
+<link rel="icon" href="logo-dongtam.png">
+<link rel="apple-touch-icon" href="logo-dongtam.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--do:#D7141A;--do2:#A80F14;--do-nhat:#FDECEC;--chu:#1F1A1A;--phu:#5F5757;--vien:#ECE5E5;--nen:#F7F4F2;--xanh:#0E8A5F;--xanh-nhat:#E5F5EE;--zalo:#0068FF}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:var(--nen);color:var(--chu);font-size:15px;line-height:1.45;padding-bottom:30px}
+button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:520px;margin:0 auto;padding:0 16px}
+.hd{background:linear-gradient(135deg,var(--do),var(--do2));color:#fff;padding:14px 0 16px}
+.hd .wrap{display:flex;align-items:center;gap:10px}
+.hd img{height:30px;background:#fff;border-radius:8px;padding:3px}
+.hd h1{font-size:19px;font-weight:900;line-height:1.15}
+.hd small{display:block;font-size:12.5px;font-weight:500;opacity:.9}
+.hd .dem{margin-left:auto;text-align:right;font-size:12px;opacity:.95}
+.hd .dem b{display:block;font-size:20px;line-height:1}
+.the{background:#fff;border:1px solid var(--vien);border-radius:16px;padding:14px;margin-top:12px}
+.tieu{font-size:12.5px;font-weight:800;color:var(--do);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.tieu span{margin-left:auto;text-transform:none;letter-spacing:0;font-weight:600;color:var(--phu)}
+.chup{width:100%;height:150px;border:2px dashed #E8B4B6;border-radius:14px;background:var(--do-nhat) center/cover no-repeat;color:var(--do2);font-weight:800;font-size:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;position:relative;overflow:hidden}
+.chup .ic{font-size:34px}
+.chup.co-anh{border-style:solid;border-color:var(--vien);color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.6)}
+.chup.co-anh .ic,.chup.co-anh .chu{display:none}
+.chup .doi{display:none;position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.55);font-size:12px;padding:3px 10px;border-radius:999px}
+.chup.co-anh .doi{display:block}
+.vitri{margin-top:8px;font-size:12.5px;color:var(--phu);display:flex;align-items:center;gap:6px}
+.vitri.ok{color:var(--xanh);font-weight:600}
+.vitri button{margin-left:auto;font-size:12.5px;font-weight:700;color:var(--do);text-decoration:underline}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{border:1.5px solid var(--vien);background:#fff;border-radius:999px;padding:9px 14px;font-weight:700;font-size:14px}
+.chips button.on{border-color:var(--do);background:var(--do-nhat);color:var(--do2)}
+.mo-them{margin-top:10px;font-size:13px;font-weight:700;color:var(--phu);text-decoration:underline}
+.khach{display:none;gap:8px;margin-top:10px}
+.khach.hien{display:grid;grid-template-columns:1fr 1fr}
+.khach input{height:42px;border:1.5px solid var(--vien);border-radius:10px;padding:0 10px;font:inherit;font-size:14px;min-width:0}
+.khach input:focus{outline:none;border-color:var(--do)}
+.dls{display:grid;gap:8px}
+.dls button{display:flex;align-items:center;gap:10px;border:1.5px solid var(--vien);border-radius:12px;padding:10px 12px;background:#fff;text-align:left}
+.dls button.on{border-color:var(--do);background:var(--do-nhat)}
+.dls .t{flex:1;min-width:0}
+.dls b{display:block;font-size:14.5px}
+.dls small{color:var(--phu);font-size:12px}
+.dls .km{font-weight:800;font-size:14px;white-space:nowrap}
+.dls .chon{width:20px;height:20px;border-radius:50%;border:2px solid var(--vien);flex:0 0 20px}
+.dls button.on .chon{border:6px solid var(--do)}
+.khac{margin-top:8px}
+.khac select{width:100%;height:42px;border:1.5px solid var(--vien);border-radius:10px;padding:0 8px;font:inherit;font-size:14px;background:#fff}
+.goi-y{font-size:12.5px;color:var(--phu);margin-top:6px}
+.nut{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:52px;border-radius:14px;font-weight:800;font-size:16px}
+.nut.chinh{background:var(--zalo);color:#fff}
+.nut.phu{border:1.5px solid var(--vien);background:#fff;height:46px;font-size:14.5px;margin-top:8px}
+.nut:disabled{opacity:.45}
+.xem-tin{margin-top:10px;background:var(--nen);border-radius:12px;padding:10px 12px;font-size:12.5px;white-space:pre-wrap;color:#3B3434;max-height:0;overflow:hidden;transition:max-height .2s;padding-top:0;padding-bottom:0}
+.xem-tin.hien{max-height:400px;padding-top:10px;padding-bottom:10px}
+.lich-su .dong{display:flex;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--vien)}
+.lich-su .dong:first-of-type{border-top:none}
+.lich-su .a{flex:0 0 54px;height:54px;border-radius:10px;background:#EEE center/cover no-repeat}
+.lich-su .t{flex:1;min-width:0;font-size:13px;line-height:1.35}
+.lich-su .t b{font-size:14px}
+.lich-su .t small{color:var(--phu)}
+.lich-su .da{font-size:11px;font-weight:700;color:var(--xanh);background:var(--xanh-nhat);padding:1px 7px;border-radius:999px}
+.lich-su .chua{font-size:11px;font-weight:700;color:#8A4B00;background:#FFF1CC;padding:1px 7px;border-radius:999px}
+.lich-su .hd2{display:flex;gap:6px}
+.lich-su .hd2 a,.lich-su .hd2 button{width:34px;height:34px;border-radius:10px;border:1.5px solid var(--vien);display:flex;align-items:center;justify-content:center;font-size:15px;background:#fff}
+.tk{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.tk div{background:var(--nen);border-radius:12px;padding:8px;text-align:center;font-size:11.5px;color:var(--phu)}
+.tk b{display:block;font-size:20px;color:var(--chu)}
+.trong{color:var(--phu);font-size:13.5px;text-align:center;padding:12px 0}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:rgba(30,20,20,.92);color:#fff;font-size:13.5px;font-weight:600;padding:9px 16px;border-radius:999px;z-index:20;opacity:0;transition:opacity .2s;pointer-events:none;max-width:92vw;text-align:center}
+.toast.hien{opacity:1}
+.ghim{font-size:12px;color:var(--phu);text-align:center;margin-top:14px}
+</style>
+</head>
+<body>
+<header class="hd"><div class="wrap">
+  <img src="logo-dongtam.png" alt="">
+  <div><h1>Chào công trình</h1><small>Chụp · chọn · gửi đại lý gần nhất</small></div>
+  <div class="dem"><b id="dem-hom-nay">0</b>hôm nay</div>
+</div></header>
+
+<main class="wrap">
+  <!-- 1. Ảnh + vị trí -->
+  <section class="the">
+    <div class="tieu">1 · Công trình</div>
+    <label class="chup" id="chup">
+      <span class="ic">📷</span><span class="chu">Chụp công trình</span><span class="doi">Chụp lại</span>
+      <input type="file" accept="image/*" capture="environment" id="anh" hidden>
+    </label>
+    <div class="vitri" id="vitri">📍 Đang lấy vị trí…<button id="lay-lai" hidden>Lấy lại</button></div>
+  </section>
+
+  <!-- 2. Chọn nhanh -->
+  <section class="the">
+    <div class="tieu">2 · Giai đoạn</div>
+    <div class="chips" id="gd"></div>
+    <div class="tieu" style="margin-top:14px">Cần gì <span>chọn nhiều</span></div>
+    <div class="chips" id="can"></div>
+    <button class="mo-them" id="mo-khach">+ Có tên, SĐT khách</button>
+    <div class="khach" id="khach">
+      <input id="k-ten" placeholder="Tên (vd anh Tuấn)" autocomplete="off">
+      <input id="k-sdt" placeholder="SĐT" inputmode="tel" autocomplete="off">
+    </div>
+  </section>
+
+  <!-- 3. Đại lý -->
+  <section class="the">
+    <div class="tieu">3 · Giao cho đại lý</div>
+    <div class="dls" id="dls"><div class="trong">Chờ vị trí để tìm đại lý gần nhất…</div></div>
+    <div class="khac"><select id="dl-khac"><option value="">Chọn đại lý khác…</option></select></div>
+  </section>
+
+  <!-- Gửi -->
+  <section class="the">
+    <button class="nut chinh" id="gui">Gửi Zalo kèm ảnh</button>
+    <button class="nut phu" id="mo-zalo">💬 Mở Zalo đại lý (tin đã chép sẵn)</button>
+    <button class="mo-them" id="xem">Xem trước tin nhắn</button>
+    <div class="xem-tin" id="tin"></div>
+    <p class="goi-y">"Gửi Zalo kèm ảnh": chọn Zalo rồi chọn đúng đại lý. Nếu điện thoại không hỗ trợ, dùng nút "Mở Zalo đại lý" rồi dán tin.</p>
+  </section>
+
+  <!-- Lịch sử -->
+  <section class="the lich-su">
+    <div class="tieu">Đã chào <span id="ls-so"></span></div>
+    <div class="tk" id="tk"></div>
+    <div id="ls"></div>
+    <button class="nut phu" id="excel">⬇️ Tải Excel danh sách</button>
+  </section>
+  <p class="ghim">Mẹo: mở trang này trên điện thoại → menu trình duyệt → "Thêm vào màn hình chính" để mở nhanh như ứng dụng. Dữ liệu lưu trên chính điện thoại này.</p>
+</main>
+<div class="toast" id="toast"></div>
+
+<script src="dai-ly.js"></script>
+<script>
+(function(){
+'use strict';
+var TRANG_KHACH='https://lechilinhwork-lgtm.github.io/';
+var KHOA='ct_ds_v1';
+var GD=['Đang xây thô','Cất nóc','Tô tường','Sắp lát nền','Hoàn thiện'];
+var CAN=['Gạch','Ngói','Keo, chà ron'];
+
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+function km(a,b,c,d){ var R=6371,r=Math.PI/180,x=(c-a)*r,y=(d-b)*r; var h=Math.sin(x/2)*Math.sin(x/2)+Math.cos(a*r)*Math.cos(c*r)*Math.sin(y/2)*Math.sin(y/2); return 2*R*Math.asin(Math.sqrt(h)); }
+function soKm(n){ return n<1 ? Math.round(n*1000)+' m' : n.toFixed(1).replace('.',',')+' km'; }
+var hen; function bao(t){ var e=$('toast'); e.textContent=t; e.classList.add('hien'); clearTimeout(hen); hen=setTimeout(function(){e.classList.remove('hien');},2400); }
+function ngay(t){ var d=new Date(t); return d.toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit'})+' '+d.toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'}); }
+
+// ===== Trạng thái phiếu đang làm =====
+var phieu, anhFile=null, viTri=null;
+function moi(){ phieu={id:'CT'+Date.now().toString(36).toUpperCase(), gd:'', can:[], dl:'', ch:0, img:''}; anhFile=null; }
+moi();
+
+// ===== Ảnh: nén còn ~900px để lưu trên máy và gửi nhanh =====
+$('anh').addEventListener('change',function(){
+  var f=this.files&&this.files[0]; if(!f) return;
+  var r=new FileReader();
+  r.onload=function(){
+    var img=new Image();
+    img.onload=function(){
+      var w=img.width,h=img.height,m=900,k=Math.min(1,m/Math.max(w,h));
+      var cv=document.createElement('canvas'); cv.width=Math.round(w*k); cv.height=Math.round(h*k);
+      cv.getContext('2d').drawImage(img,0,0,cv.width,cv.height);
+      cv.toBlob(function(b){ anhFile=new File([b],phieu.id+'.jpg',{type:'image/jpeg'}); },'image/jpeg',0.8);   // ảnh nét để gửi đại lý
+      var c=$('chup'); c.style.backgroundImage='url('+cv.toDataURL('image/jpeg',0.7)+')'; c.classList.add('co-anh');
+      // ảnh nhỏ ~240px để lưu trong danh sách trên máy (không làm đầy bộ nhớ)
+      var t=document.createElement('canvas'), q=240/Math.max(cv.width,cv.height); t.width=Math.round(cv.width*q); t.height=Math.round(cv.height*q);
+      t.getContext('2d').drawImage(cv,0,0,t.width,t.height); phieu.img=t.toDataURL('image/jpeg',0.6);
+      layViTri();
+    };
+    img.src=r.result;
+  };
+  r.readAsDataURL(f);
+});
+
+// ===== Vị trí =====
+function layViTri(){
+  var v=$('vitri');
+  if(!navigator.geolocation){ v.innerHTML='📍 Điện thoại không hỗ trợ định vị. Chọn đại lý bên dưới.'; return; }
+  v.className='vitri'; v.firstChild.textContent='📍 Đang lấy vị trí… ';
+  navigator.geolocation.getCurrentPosition(function(p){
+    viTri={lat:p.coords.latitude,lng:p.coords.longitude,acc:Math.round(p.coords.accuracy)};
+    v.className='vitri ok'; v.firstChild.textContent='📍 Đã lấy vị trí (sai số ~'+viTri.acc+' m) ';
+    $('lay-lai').hidden=false; veDaiLy(true);
+  },function(){
+    v.className='vitri'; v.firstChild.textContent='📍 Chưa lấy được vị trí, bật GPS hoặc chọn đại lý bên dưới. ';
+    $('lay-lai').hidden=false;
+  },{enableHighAccuracy:true,timeout:15000,maximumAge:60000});
+}
+$('lay-lai').onclick=layViTri;
+
+// ===== Chọn nhanh =====
+function veChips(){
+  $('gd').innerHTML=GD.map(function(g){ return '<button class="'+(phieu.gd===g?'on':'')+'">'+g+'</button>'; }).join('');
+  $('can').innerHTML=CAN.map(function(g){ return '<button class="'+(phieu.can.indexOf(g)>=0?'on':'')+'">'+g+'</button>'; }).join('');
+  Array.prototype.forEach.call($('gd').children,function(b,i){ b.onclick=function(){ phieu.gd=phieu.gd===GD[i]?'':GD[i]; veChips(); veTin(); }; });
+  Array.prototype.forEach.call($('can').children,function(b,i){ b.onclick=function(){ var k=phieu.can.indexOf(CAN[i]); if(k>=0) phieu.can.splice(k,1); else phieu.can.push(CAN[i]); veChips(); veTin(); }; });
+}
+$('mo-khach').onclick=function(){ $('khach').classList.toggle('hien'); if($('khach').classList.contains('hien')) $('k-ten').focus(); };
+['k-ten','k-sdt'].forEach(function(id){ $(id).addEventListener('input',veTin); });
+
+// ===== Đại lý gần nhất =====
+var GAN=[];
+function tatCaCH(){ var t=[]; DAI_LY.forEach(function(d){ d.cuaHang.forEach(function(c,i){ t.push({d:d,c:c,i:i}); }); }); return t; }
+function veDaiLy(tuChon){
+  if(viTri){
+    GAN=tatCaCH().map(function(x){ x.km=km(viTri.lat,viTri.lng,x.c.lat,x.c.lng); return x; }).sort(function(a,b){return a.km-b.km;});
+    // mỗi đại lý chỉ lấy cửa hàng gần nhất
+    var da={}; GAN=GAN.filter(function(x){ if(da[x.d.ma]) return false; da[x.d.ma]=1; return true; }).slice(0,3);
+    if(tuChon || !phieu.dl){ phieu.dl=GAN[0].d.ma; phieu.ch=GAN[0].i; }
+  }
+  var el=$('dls');
+  if(!GAN.length && !phieu.dl){ el.innerHTML='<div class="trong">Chờ vị trí để tìm đại lý gần nhất…</div>'; veTin(); return; }
+  var ds=GAN.slice();
+  if(phieu.dl && !ds.some(function(x){return x.d.ma===phieu.dl;})){ var d=timDaiLy(phieu.dl); ds.unshift({d:d,c:d.cuaHang[phieu.ch]||d.cuaHang[0],i:phieu.ch,km:null}); }
+  el.innerHTML=ds.map(function(x){
+    return '<button data-ma="'+x.d.ma+'" data-ch="'+x.i+'" class="'+(x.d.ma===phieu.dl?'on':'')+'"><span class="chon"></span><span class="t"><b>'+esc(x.d.ten)+'</b><small>'+esc(x.c.diaChi)+'</small></span>'
+      +(x.km!=null?'<span class="km">'+soKm(x.km)+'</span>':'')+'</button>';
+  }).join('');
+  Array.prototype.forEach.call(el.children,function(b){ b.onclick=function(){ phieu.dl=b.dataset.ma; phieu.ch=+b.dataset.ch; $('dl-khac').value=''; veDaiLy(); }; });
+  veTin();
+}
+$('dl-khac').innerHTML='<option value="">Chọn đại lý khác…</option>'+DAI_LY.map(function(d){ return '<option value="'+d.ma+'">'+esc(d.ten)+' · '+esc(d.cuaHang[0].diaChi.split(',').slice(-2,-1)[0]||'')+'</option>'; }).join('');
+$('dl-khac').onchange=function(){ if(!this.value) return; phieu.dl=this.value; phieu.ch=0; veDaiLy(); };
+
+// ===== Tin nhắn =====
+function dlChon(){ var d=timDaiLy(phieu.dl); return d?{d:d,c:d.cuaHang[phieu.ch]||d.cuaHang[0]}:null; }
+function soanTin(){
+  var x=dlChon(); if(!x) return '';
+  var kc = viTri ? km(viTri.lat,viTri.lng,x.c.lat,x.c.lng) : null;
+  var ten=$('k-ten').value.trim(), sdt=$('k-sdt').value.trim();
+  var dong=['🏗️ CÔNG TRÌNH MỚI GẦN '+x.d.ten.toUpperCase()+(kc!=null?' (cách cửa hàng ~'+soKm(kc)+')':'')];
+  if(phieu.gd) dong.push('• Giai đoạn: '+phieu.gd);
+  if(phieu.can.length) dong.push('• Cần: '+phieu.can.join(', '));
+  if(ten||sdt) dong.push('• Khách: '+[ten,sdt].filter(Boolean).join(' – '));
+  if(viTri) dong.push('• Vị trí: https://maps.google.com/?q='+viTri.lat.toFixed(6)+','+viTri.lng.toFixed(6));
+  dong.push('');
+  dong.push('Em Linh (Đồng Tâm) vừa phát tờ rơi tại đây. Khách quét QR sẽ thấy cửa hàng anh/chị ('+TRANG_KHACH+'). Nhờ anh/chị ghé chào hoặc gọi khách giúp em ạ. Mã: '+phieu.id);
+  return dong.join('\n');
+}
+function veTin(){ $('tin').textContent=soanTin()||'Chọn đại lý để soạn tin.'; var co=!!phieu.dl; $('gui').disabled=!co; $('mo-zalo').disabled=!co; }
+$('xem').onclick=function(){ $('tin').classList.toggle('hien'); this.textContent=$('tin').classList.contains('hien')?'Ẩn tin nhắn':'Xem trước tin nhắn'; };
+
+function chep(t){ if(navigator.clipboard) return navigator.clipboard.writeText(t).catch(function(){}); var a=document.createElement('textarea'); a.value=t; document.body.appendChild(a); a.select(); try{document.execCommand('copy');}catch(e){} a.remove(); return Promise.resolve(); }
+
+// ===== Gửi =====
+$('gui').onclick=function(){
+  var tin=soanTin(); if(!tin) return;
+  var data={text:tin};
+  if(anhFile && navigator.canShare && navigator.canShare({files:[anhFile]})) data.files=[anhFile];
+  if(navigator.share){
+    chep(tin);   // phòng khi Zalo chỉ nhận ảnh, không nhận chữ: tin đã nằm sẵn để dán
+    navigator.share(data).then(function(){ luu(true); }).catch(function(e){ if(e && e.name!=='AbortError') moZalo(); });
+  } else moZalo();
+};
+function moZalo(){
+  var x=dlChon(); if(!x) return;
+  chep(soanTin()).then(function(){
+    bao('Đã chép tin. Trong Zalo bấm giữ ô chat → Dán'+(phieu.img?', rồi gửi kèm ảnh':''));
+    luu(true);
+    setTimeout(function(){ location.href='https://zalo.me/'+String(x.c.sdt||x.d.cuaHang[0].sdt||HOTLINE_HO_TRO).replace(/\D/g,''); },700);
+  });
+}
+$('mo-zalo').onclick=moZalo;
+
+// ===== Lưu & lịch sử (trên điện thoại này) =====
+function doc(){ try{ return JSON.parse(localStorage.getItem(KHOA)||'[]')||[]; }catch(e){ return []; } }
+function ghi(ds){
+  // giữ ảnh cho 60 phiếu gần nhất để không đầy bộ nhớ
+  ds.forEach(function(p,i){ if(i>=60) p.img=''; });
+  try{ localStorage.setItem(KHOA,JSON.stringify(ds)); }
+  catch(e){ ds.forEach(function(p,i){ if(i>=20) p.img=''; }); try{ localStorage.setItem(KHOA,JSON.stringify(ds)); }catch(e2){ bao('Bộ nhớ đầy: hãy tải Excel rồi xoá bớt'); } }
+}
+function luu(daGui){
+  var x=dlChon(); if(!x) return;
+  var ds=doc(), cu=ds.filter(function(p){return p.id===phieu.id;})[0];
+  var p=cu||{id:phieu.id,t:Date.now()};
+  p.gd=phieu.gd; p.can=phieu.can.slice(); p.dl=x.d.ma; p.dlTen=x.d.ten; p.ch=x.c.diaChi;
+  p.lat=viTri?viTri.lat:null; p.lng=viTri?viTri.lng:null; p.km=viTri?+km(viTri.lat,viTri.lng,x.c.lat,x.c.lng).toFixed(2):null;
+  p.ten=$('k-ten').value.trim(); p.sdt=$('k-sdt').value.trim(); p.img=phieu.img||p.img||''; p.gui=daGui||p.gui||false;
+  if(!cu) ds.unshift(p);
+  ghi(ds); veLichSu();
+  // phiếu đã gửi → sẵn sàng cho công trình tiếp theo
+  setTimeout(lamMoi,1200);
+}
+function lamMoi(){
+  moi(); var c=$('chup'); c.style.backgroundImage=''; c.classList.remove('co-anh'); $('anh').value='';
+  $('k-ten').value=''; $('k-sdt').value=''; $('khach').classList.remove('hien');
+  veChips(); veDaiLy(true);
+}
+function veLichSu(){
+  var ds=doc(), now=new Date(), d0=new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime();
+  var tuan=d0-((now.getDay()+6)%7)*864e5;
+  var homNay=ds.filter(function(p){return p.t>=d0;}).length, trongTuan=ds.filter(function(p){return p.t>=tuan;}).length;
+  $('dem-hom-nay').textContent=homNay;
+  var dlTuan={}; ds.filter(function(p){return p.t>=tuan;}).forEach(function(p){ dlTuan[p.dl]=1; });
+  $('tk').innerHTML='<div><b>'+homNay+'</b>hôm nay</div><div><b>'+trongTuan+'</b>tuần này</div><div><b>'+Object.keys(dlTuan).length+'</b>đại lý nhận</div>';
+  $('ls-so').textContent=ds.length?ds.length+' công trình':'';
+  $('ls').innerHTML=ds.length ? ds.slice(0,30).map(function(p){
+    var map=p.lat!=null?'https://maps.google.com/?q='+p.lat+','+p.lng:'';
+    return '<div class="dong"><span class="a" style="background-image:url(\''+(p.img||'')+'\')"></span>'
+      +'<span class="t"><b>'+esc(p.dlTen)+'</b> '+(p.gui?'<span class="da">Đã gửi</span>':'<span class="chua">Chưa gửi</span>')+'<br>'
+      +'<small>'+ngay(p.t)+(p.gd?' · '+esc(p.gd):'')+(p.can&&p.can.length?' · '+esc(p.can.join(', ')):'')+(p.km!=null?' · cách '+soKm(p.km):'')+'</small></span>'
+      +'<span class="hd2">'+(map?'<a href="'+map+'" target="_blank" rel="noopener" title="Bản đồ">🗺️</a>':'')
+      +'<button data-xoa="'+p.id+'" title="Xoá">🗑️</button></span></div>';
+  }).join('') : '<div class="trong">Chưa có công trình nào. Chụp công trình đầu tiên ở trên nhé.</div>';
+  Array.prototype.forEach.call(document.querySelectorAll('[data-xoa]'),function(b){ b.onclick=function(){
+    if(!confirm('Xoá công trình này khỏi danh sách?')) return;
+    ghi(doc().filter(function(p){return p.id!==b.dataset.xoa;})); veLichSu();
+  }; });
+}
+$('excel').onclick=function(){
+  var ds=doc(); if(!ds.length){ bao('Chưa có dữ liệu'); return; }
+  var cot=['Mã','Ngày giờ','Đại lý','Cửa hàng','Cách (km)','Giai đoạn','Cần','Tên khách','SĐT khách','Vĩ độ','Kinh độ','Bản đồ','Đã gửi'];
+  var q=function(v){ v=String(v==null?'':v); return /[",\n;]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; };
+  var dong=[cot.join(',')].concat(ds.map(function(p){
+    return [p.id, ngay(p.t), p.dlTen, p.ch, p.km==null?'':String(p.km).replace('.',','), p.gd, (p.can||[]).join(' + '), p.ten, p.sdt?"'"+p.sdt:'', p.lat, p.lng,
+      p.lat!=null?'https://maps.google.com/?q='+p.lat+','+p.lng:'', p.gui?'Có':'Chưa'].map(q).join(',');
+  }));
+  var blob=new Blob(['﻿'+dong.join('\r\n')],{type:'text/csv;charset=utf-8'});
+  var a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  var d=new Date(); a.download='Chao-cong-trinh_'+d.getFullYear()+('0'+(d.getMonth()+1)).slice(-2)+('0'+d.getDate()).slice(-2)+'.csv';
+  document.body.appendChild(a); a.click(); a.remove();
+};
+
+veChips(); veDaiLy(); veLichSu(); layViTri();
+})();
+</script>
+</body>
+</html>
