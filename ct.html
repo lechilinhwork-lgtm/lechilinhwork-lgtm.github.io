@@ -74,6 +74,27 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .xem .tr,.xem .ph{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:64px;color:#fff;font-size:30px;background:rgba(255,255,255,.08)}
 .xem .tr{left:0;border-radius:0 12px 12px 0}.xem .ph{right:0;border-radius:12px 0 0 12px}
 .xem .so{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);color:#fff;font-size:13px;opacity:.8}
+/* ===== TỐI GIẢN (Minimalist) ===== */
+:root{--nen:#FAFAF8;--vien:#E9E6E1;--chu:#161616;--phu:#6E6A66;--do:#C8102E;--do2:#9E0B22;--do-nhat:#F7F3F1;--xanh:#2F6B4F;--xanh-nhat:#F1F4F1}
+.hd{background:#fff;color:var(--chu);border-bottom:1px solid var(--vien);padding:18px 0 26px}
+.logo{background:none;padding:0}
+.ma{background:none;border:1px solid var(--vien);color:var(--phu)}
+.hd h1{font-weight:700;letter-spacing:-.6px;font-size:25px;margin-top:24px}
+.hd p{color:var(--phu);opacity:1}
+.the{border:none;border-top:1px solid var(--vien);border-radius:0;background:none;padding:20px 0 0;margin-top:22px}
+.tieu{color:var(--phu);font-size:11.5px;font-weight:600;letter-spacing:1.2px}
+.td div.qua::before,.td div.nay::before{background:var(--chu)}
+.td div.nay{color:var(--chu)}
+.td div.nay::before{box-shadow:none}
+.lan-dau .gd{background:#F4F2EE;color:var(--chu);font-weight:600}
+.chips span{background:#fff;border:1px solid var(--vien);color:var(--chu);font-weight:500}
+.nut{border:1px solid var(--vien);border-radius:10px;font-weight:600}
+.nut.chinh{background:var(--do);border-color:var(--do)}
+.nut.zalo{background:#fff;border-color:var(--vien);color:var(--chu)}
+.cta{background:#fff;color:var(--chu);border:1px solid var(--chu);border-radius:12px}
+.cta small{color:var(--phu);opacity:1}
+.thanh{border-top:1px solid var(--vien)}
+
 </style>
 </head>
 <body>
@@ -86,8 +107,8 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 <main class="wrap" id="nd"><div class="the trong"><div class="xoay"></div>Đang tải hồ sơ…</div></main>
 
 <nav class="thanh an" id="thanh"><div class="in">
-  <a class="nut chinh" id="t-goi">📞 Gọi đại lý</a>
-  <a class="nut" id="t-xem" href="./">🧱 Xem mẫu gạch</a>
+  <a class="nut chinh" id="t-goi">Gọi đại lý</a>
+  <a class="nut" id="t-xem" href="./">Xem mẫu gạch</a>
 </div></nav>
 
 <div class="xem" id="xem"><img id="xem-anh" alt=""><button class="dong" id="xem-dong" aria-label="Đóng">✕</button><button class="tr" id="xem-tr" aria-label="Ảnh trước">‹</button><button class="ph" id="xem-ph" aria-label="Ảnh sau">›</button><span class="so" id="xem-so"></span></div>
@@ -150,16 +171,16 @@ function ve(r){
   // Nhu cầu
   if(r.can) h+='<section class="the"><div class="tieu">Vật liệu cần</div><div class="chips">'+r.can.replace(/Keo, chà ron/g,'Keo & chà ron').split(',').map(function(x){return '<span>'+esc(x.trim())+'</span>';}).join('')+'</div></section>';
   // Vị trí
-  if(r.lat&&r.lng) h+='<section class="the"><div class="tieu">Vị trí công trình</div><a class="nut" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+r.lat+','+r.lng+'">🗺️ Mở trên Google Maps</a></section>';
+  if(r.lat&&r.lng) h+='<section class="the"><div class="tieu">Vị trí công trình</div><a class="nut" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+r.lat+','+r.lng+'">Mở trên Google Maps</a></section>';
   // Đại lý phụ trách
   if(d&&ch){
     var sdt=ch.sdt||HOTLINE_HO_TRO;
-    h+='<section class="the dl"><div class="tieu">Đại lý Đồng Tâm phụ trách</div><b>'+esc(d.ten)+'</b><small>📍 '+esc(ch.diaChi)+'</small>'
-      +'<div class="hang"><a class="nut chinh" href="tel:'+sdt+'">📞 Gọi</a><a class="nut zalo" target="_blank" rel="noopener" href="https://zalo.me/'+sdt+'">Zalo</a><a class="nut" target="_blank" rel="noopener" href="'+linkChiDuong(ch)+'">Chỉ đường</a></div>'
+    h+='<section class="the dl"><div class="tieu">Đại lý Đồng Tâm phụ trách</div><b>'+esc(d.ten)+'</b><small>'+esc(ch.diaChi)+'</small>'
+      +'<div class="hang"><a class="nut chinh" href="tel:'+sdt+'">Gọi</a><a class="nut zalo" target="_blank" rel="noopener" href="https://zalo.me/'+sdt+'">Zalo</a><a class="nut" target="_blank" rel="noopener" href="'+linkChiDuong(ch)+'">Chỉ đường</a></div>'
       +'<p style="font-size:13px;color:var(--phu);margin-top:10px">Có sẵn mẫu thật trưng bày. Ghé xem, nhận báo giá và chiết khấu theo công trình.</p></section>';
-    $('t-goi').href='https://zalo.me/'+sdt; $('t-goi').target='_blank'; $('t-goi').textContent='💬 Zalo '+d.ten;
+    $('t-goi').href='https://zalo.me/'+sdt; $('t-goi').target='_blank'; $('t-goi').textContent='Zalo '+d.ten;
     $('t-xem').href='./?ct='+encodeURIComponent(r.id);
-  } else { $('t-goi').href='./#dai-ly'; $('t-goi').textContent='📍 Đại lý gần bạn'; }
+  } else { $('t-goi').href='./#dai-ly'; $('t-goi').textContent='Đại lý gần bạn'; }
   h+='<a class="cta" href="'+$('t-xem').getAttribute('href')+'"><span><b>Chọn gạch, ngói cho công trình này</b><small>Xem mẫu, giá niêm yết, tính số thùng theo diện tích</small></span><span class="mui">›</span></a>';
   h+='<div class="chan">Gạch Đồng Tâm · Vì cuộc sống tươi đẹp<br>Tư vấn, báo giá và giao hàng do đại lý Đồng Tâm phụ trách thực hiện.</div>';
   $('nd').innerHTML=h;

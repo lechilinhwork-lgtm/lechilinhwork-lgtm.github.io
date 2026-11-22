@@ -140,6 +140,74 @@ b{font-weight:800}
 .dk button{font:inherit;font-weight:700;padding:7px 14px;border-radius:6px;border:none;background:#D7141A;color:#fff;cursor:pointer}
 .dk .gc{font-size:12px;opacity:.75;flex-basis:100%}
 @media print{ html,body{background:#fff} .dk{display:none} .trang{margin:0;box-shadow:none;page-break-after:always;break-after:page} }
+/* ===== TỐI GIẢN (Minimalist): nền trắng, chữ đen, 1 màu nhấn đỏ ===== */
+:root{--do:#C8102E;--do2:#9E0B22;--chu:#161616;--phu:#6E6A66;--nen:#F5F3EF;--vien:#E4E0DA}
+h2{color:var(--chu);font-weight:800;letter-spacing:-.3pt}
+h2 small{color:var(--do);font-weight:700;letter-spacing:1pt}
+/* Bìa: ảnh ghép Gạch · Ngói · Keo */
+.bia{background:#fff}
+.bia .tren{padding:7mm 8mm 4mm}
+.bia .anh{flex:1;clip-path:none;background:none;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1.5fr 1fr;gap:1.6mm;padding:0 8mm;position:static}
+.bia .anh div{background:#F1EEE9 center/cover no-repeat;border-radius:2mm;position:relative;overflow:hidden}
+.bia .anh .g1{grid-column:1/-1;background-position:50% 30%}
+.bia .anh .g2{background-color:#fff;background-size:150%;background-position:55% 38%}
+.bia .anh .g3{background-color:#fff;background-size:contain;background-position:50% 50%;border:.25mm solid var(--vien)}
+.bia .anh span{position:absolute;left:2mm;bottom:2mm;background:#fff;color:var(--chu);font-size:6.8pt;font-weight:700;padding:.4mm 2mm;border-radius:1mm;letter-spacing:.4pt;box-shadow:0 0 0 .2mm var(--vien)}
+.bia .chu{color:var(--chu);margin-top:0;padding:5mm 8mm 0}
+.bia .chu .nho{color:var(--do);opacity:1;font-size:7.4pt;letter-spacing:1.2pt}
+.bia h1{font-size:17pt;font-weight:800;letter-spacing:-.4pt;line-height:1.12;margin-top:1.8mm}
+.bia ul{margin-top:3mm}
+.bia li{font-weight:500;font-size:8.4pt;color:var(--phu)}
+.bia li::before{background:var(--do);box-shadow:none;flex:0 0 1.5mm;height:1.5mm}
+.bia .day{background:none;color:var(--chu);border-top:.25mm solid var(--vien);margin:4mm 8mm 0;padding:3mm 0 6mm}
+.bia .day b{color:var(--do)}
+/* Mặt sau: đại lý + QR */
+.sau{background:#fff}
+.moi{background:none;color:var(--chu);border:.3mm solid var(--chu);border-radius:1.5mm;font-size:9.6pt;letter-spacing:.3pt}
+.dl-ten b{color:var(--chu)}
+.chs .c{border-color:var(--vien);border-radius:1.5mm}
+.chs .c b{color:var(--chu)!important}
+.qr-khoi{border:.3mm solid var(--chu);border-radius:2mm}
+.qr-khoi .ct b{color:var(--chu)}
+.uu{background:#fff;border:.3mm solid var(--vien);color:var(--phu);border-radius:1.5mm}
+.uu b{color:var(--do)}
+/* Cẩm nang */
+.cn .r{grid-template-columns:1fr}
+.cn .ic{display:none}
+.cn .r b{color:var(--chu)}
+.meo{background:var(--nen);color:var(--chu)}
+.meo b{color:var(--do)}
+.cn .anh-ke span{font-weight:600}
+/* Nano */
+.nano .anh{background-image:url(anh/catania-2.jpg)!important;background-position:50% 10%!important}
+.tk .ong{background:var(--nen)}
+.tk .ong span{background:var(--chu)}
+.tk .nhan b{color:var(--chu)}
+.kem{border:.3mm solid var(--vien);background:#fff;border-radius:1.5mm}
+/* Vì sao */
+.ss .o{background:var(--nen);border-radius:1.5mm}
+.ss .o b{color:var(--chu)}
+.tn span::before{background:var(--chu)}
+.bo{border:.3mm solid var(--vien);background:#fff;border-radius:1.5mm}
+.bo > b{color:var(--chu)}
+.bo div{grid-template-columns:1fr}
+.bo span{display:none}
+.tho{background:var(--nen);color:var(--chu)}
+.tho b{color:var(--do)}
+.tho p{opacity:1;color:var(--phu)}
+/* Chọn theo ngân sách: bỏ nền đỏ */
+.ns{background:#fff;color:var(--chu);border-left:.25mm solid var(--vien)}
+.ns h2{color:var(--chu)}
+.ns h2 small{color:var(--do)}
+.ns .so{background:none;border:.35mm solid var(--chu);color:var(--chu);font-size:10pt}
+.ns .b b{color:var(--chu)}
+.ns .b p{opacity:1;color:var(--phu)}
+.muc span{background:none;border:.25mm solid var(--vien);color:var(--chu);font-weight:700}
+.ns .qr-khoi{border-color:var(--chu)}
+.ns .uu{background:var(--nen);border-color:var(--nen);margin-top:3mm}
+.ns .dl-cuoi{color:var(--phu);opacity:1}
+.ns .dl-cuoi b{color:var(--do)}
+
 </style>
 </head>
 <body>
@@ -148,7 +216,7 @@ b{font-weight:800}
   <b>Tờ rơi đại lý</b>
   <label>Đại lý: <select id="chon-dl"></select></label>
   <label>Link QR gốc: <input id="goc"></label>
-  <button onclick="window.print()">🖨️ In / Lưu PDF</button>
+  <button onclick="window.print()">In / Lưu PDF</button>
   <span class="gc">In: khổ A4, hướng ngang, lề "Không", bật "Đồ hoạ nền", in 2 mặt lật theo cạnh ngắn. Link QR: <span id="link-qr"></span></span>
 </div>
 
@@ -157,11 +225,11 @@ b{font-weight:800}
   <!-- Cẩm nang (vạt gấp trong) -->
   <div class="pn cn">
     <h2><small>Cẩm nang cho chủ nhà</small>Chọn đúng gạch cho từng không gian</h2>
-    <div class="r"><div class="ic">🛋️</div><div><b>Phòng khách</b><p>Porcelain khổ lớn 60x60, 80x80, 60x120. Ít đường ron, nhìn rộng và sang.</p></div></div>
-    <div class="r"><div class="ic">🛏️</div><div><b>Phòng ngủ</b><p>Gạch vân gỗ hoặc men mờ tông ấm. Mát chân, ấm cúng, dễ lau.</p></div></div>
-    <div class="r"><div class="ic">🍳</div><div><b>Bếp</b><p>Bề mặt mờ mịn hoặc bóng, dễ lau dầu mỡ. Tường bếp nên dùng men kháng khuẩn.</p></div></div>
-    <div class="r"><div class="ic">🚿</div><div><b>Nhà vệ sinh</b><p>Nền men mờ chống trơn 30x30, 30x60. Tường 30x60, 40x80 cùng tông với nền.</p></div></div>
-    <div class="r"><div class="ic">🌿</div><div><b>Sân, ban công, sân thượng</b><p>Porcelain mờ nhám chống trượt, chịu nắng mưa, không thấm.</p></div></div>
+    <div class="r"><div class="ic"></div><div><b>Phòng khách</b><p>Porcelain khổ lớn 60x60, 80x80, 60x120. Ít đường ron, nhìn rộng và sang.</p></div></div>
+    <div class="r"><div class="ic"></div><div><b>Phòng ngủ</b><p>Gạch vân gỗ hoặc men mờ tông ấm. Mát chân, ấm cúng, dễ lau.</p></div></div>
+    <div class="r"><div class="ic"></div><div><b>Bếp</b><p>Bề mặt mờ mịn hoặc bóng, dễ lau dầu mỡ. Tường bếp nên dùng men kháng khuẩn.</p></div></div>
+    <div class="r"><div class="ic"></div><div><b>Nhà vệ sinh</b><p>Nền men mờ chống trơn 30x30, 30x60. Tường 30x60, 40x80 cùng tông với nền.</p></div></div>
+    <div class="r"><div class="ic"></div><div><b>Sân, ban công, sân thượng</b><p>Porcelain mờ nhám chống trượt, chịu nắng mưa, không thấm.</p></div></div>
     <div class="meo"><b>Mẹo mua gạch không tốn tiền oan</b>
       <ul>
         <li>Mua dư khoảng 5% để phòng hao hụt và tránh lệch lô màu.</li>
@@ -185,7 +253,7 @@ b{font-weight:800}
       </div>
     </div>
     <div class="hl js-hl"></div>
-    <div class="uu"><b>🎁 Ưu đãi khách tờ rơi</b><span class="js-uu"></span></div>
+    <div class="uu"><b>Ưu đãi khách tờ rơi</b><span class="js-uu"></span></div>
   </div>
 
   <!-- Bìa -->
@@ -195,17 +263,17 @@ b{font-weight:800}
       <div class="ten">Dongtam<small>Vì cuộc sống tươi đẹp</small></div>
       <div class="khien"><b>NANO</b><span>KHÁNG<br>KHUẨN</span></div>
     </div>
-    <div class="anh"></div>
+    <div class="anh"><div class="g1" style="background-image:url(anh/catania-be.jpg)"><span>GẠCH · CATANIA 80x80</span></div><div class="g2" style="background-image:url(anh/bia-ngoi.jpg)"><span>NGÓI · TITAN</span></div><div class="g3" style="background-image:url(anh/bia-keo.jpg)"><span>KEO · GECKO</span></div></div>
     <div class="chu">
       <div class="nho">Gạch ốp lát · Ngói · Keo dán gạch</div>
-      <h1>GIẢI PHÁP GẠCH, NGÓI CAO CẤP CHO NGÔI NHÀ CỦA BẠN</h1>
+      <h1>Trọn bộ gạch, ngói, keo cho ngôi nhà của bạn</h1>
       <ul>
         <li>Xương Porcelain chịu lực, phẳng đều</li>
         <li>Men Nano kháng khuẩn đến 99%</li>
         <li>Chống thấm, chống trầy xước</li>
       </ul>
     </div>
-    <div class="day">📍 Mẫu thật có sẵn tại <b class="js-dl-ten">—</b></div>
+    <div class="day">Mẫu thật có sẵn tại <b class="js-dl-ten">—</b></div>
   </div>
 </section>
 
@@ -217,7 +285,7 @@ b{font-weight:800}
       <div class="khien"><b>NANO</b><span>KHÁNG<br>KHUẨN</span></div>
       <h2><small>Công nghệ men mới</small>Men Nano kháng khuẩn bảo vệ cả gia đình</h2>
     </div>
-    <div class="anh"><span>CATANIA 001 · 80x80 · Nano kháng khuẩn</span></div>
+    <div class="anh"><span>CATANIA 002 · 80x80 · Nano kháng khuẩn</span></div>
     <p>Hạt Nano kháng khuẩn được trộn vào men và nung ở <b>1150–1200°C</b>. Tính năng kháng khuẩn nằm luôn trong lớp men, <b>không mài mòn, không bong tróc</b>.</p>
     <div class="thanh-kq">
       <div class="tk"><div class="nhan"><i>B. subtilis · bệnh đường ruột</i><b>96–99%</b></div><div class="ong"><span style="width:99%"></span></div></div>
@@ -250,9 +318,9 @@ b{font-weight:800}
     </div>
     <div class="kt"><b>Kích thước:</b> 100x100, 60x120, 80x80, 60x60, 40x80, 30x60, 30x30, gạch thanh vân gỗ 20x120, 15x60…</div>
     <div class="bo"><b>Trọn bộ vật liệu Đồng Tâm cho ngôi nhà</b>
-      <div><span>🏠</span><p><b>Ngói tráng men TITAN, ALPHA:</b> nhiều màu, 2 lớp men, bền màu đến 50 năm, chống rêu mốc.</p></div>
-      <div><span>🧴</span><p><b>Keo dán gạch GECKO:</b> thay hồ dầu, gạch bám chắc, không bộp.</p></div>
-      <div><span>✨</span><p><b>Bột chà ron GROUTEX:</b> 15 màu, chống nứt, chống nấm mốc.</p></div>
+      <div><span></span><p><b>Ngói tráng men TITAN, ALPHA:</b> nhiều màu, 2 lớp men, bền màu đến 50 năm, chống rêu mốc.</p></div>
+      <div><span></span><p><b>Keo dán gạch GECKO:</b> thay hồ dầu, gạch bám chắc, không bộp.</p></div>
+      <div><span></span><p><b>Bột chà ron GROUTEX:</b> 15 màu, chống nứt, chống nấm mốc.</p></div>
     </div>
     <div class="tho"><b>Dành cho thầu thợ, kiến trúc sư</b>
       <p>Gạch chuẩn kích thước, phẳng đều, ít cong vênh nên thi công nhanh, ít hao hụt. Quét mã, bấm "Nhắn đại lý" gửi diện tích hoặc bản vẽ cho cửa hàng gần công trình để nhận báo giá và chiết khấu theo số lượng.</p>
@@ -267,10 +335,10 @@ b{font-weight:800}
     <div class="b"><div class="so">3</div><div><b>Xem mẫu hợp ngân sách</b><p>Có hình ảnh, giá niêm yết, tổng tiền dự kiến và số bao keo, bột chà ron cần mua.</p></div></div>
     <div class="muc"><span>Tiết kiệm</span><span>Phổ thông</span><span>Cao cấp</span></div>
     <div class="b"><div class="so">4</div><div><b>Bấm "Nhắn đại lý" gần công trình</b><p>Cửa hàng có sẵn mẫu thật tư vấn, báo giá chính xác và chiết khấu theo công trình.</p></div></div>
-    <div class="uu"><b>🎁 Ưu đãi khách tờ rơi</b><span class="js-uu"></span></div>
+    <div class="uu"><b>Ưu đãi khách tờ rơi</b><span class="js-uu"></span></div>
     <div class="qr-khoi" style="margin-top:auto">
       <div class="qr js-qr"></div>
-      <div class="ct"><b>Quét để bắt đầu</b><p>Giá luôn cập nhật mới nhất trên điện thoại của bạn.</p><p style="margin-top:1.2mm"><b style="display:inline;font-size:8.6pt;color:#0068FF" class="js-zl"></b></p></div>
+      <div class="ct"><b>Quét để bắt đầu</b><p>Giá luôn cập nhật mới nhất trên điện thoại của bạn.</p><p style="margin-top:1.2mm"><b style="display:inline;font-size:8.6pt;color:var(--do)" class="js-zl"></b></p></div>
     </div>
     <div class="dl-cuoi">Mẫu thật có sẵn tại <b class="js-dl-ten">—</b><br><span class="js-dl-dc"></span></div>
   </div>
@@ -298,17 +366,17 @@ b{font-weight:800}
     document.getElementById('link-qr').textContent=link;
     set('js-qr', qrSvg(link));
     var dz=d?(d.cuaHang[0].sdt||''):'';
-    set('js-hl', d&&dz ? '💬 Zalo / 📞 tư vấn &amp; báo giá: <b>'+esc(dinhDangSdt(dz))+'</b>' : '💬 Quét mã → <b>nhắn Zalo đại lý gần nhà</b>, được tư vấn &amp; báo giá tận nơi');
+    set('js-hl', d&&dz ? 'Zalo / tư vấn &amp; báo giá: <b>'+esc(dinhDangSdt(dz))+'</b>' : 'Quét mã → <b>nhắn Zalo đại lý gần nhà</b>, được tư vấn &amp; báo giá tận nơi');
     var uu=uuDaiCua(d), coUu=true;
     set('js-uu', esc(uu)+'. Nhắn Zalo cửa hàng qua mã QR để được áp dụng.');
     
-    set('js-zl', d&&dz ? '💬 Zalo '+esc(d.ten)+': '+esc(dinhDangSdt(dz)) : '💬 Quét mã → nhắn Zalo đại lý gần nhà');
+    set('js-zl', d&&dz ? 'Zalo '+esc(d.ten)+': '+esc(dinhDangSdt(dz)) : 'Quét mã → nhắn Zalo đại lý gần nhà');
     if(d){
       set('js-dl-ten', esc(d.ten));
       set('js-dl-day', esc(d.tenDay));
       var chs=d.cuaHang.slice(0,3);
       set('js-chs', chs.map(function(c){
-        return '<div class="c">📍 '+esc(c.diaChi)+'<br>📞 <b>'+esc(dinhDangSdt(c.sdt||HOTLINE_HO_TRO))+'</b>'+(c.sdt?'':' <i style="font-size:7pt">(hotline hỗ trợ)</i>')+'</div>';
+        return '<div class="c">'+esc(c.diaChi)+'<br><b>'+esc(dinhDangSdt(c.sdt||HOTLINE_HO_TRO))+'</b>'+(c.sdt?'':' <i style="font-size:7pt">(hotline hỗ trợ)</i>')+'</div>';
       }).join(''));
       var c0=d.cuaHang[0];
       set('js-dl-dc', esc(c0.diaChi)+' · '+esc(dinhDangSdt(c0.sdt||HOTLINE_HO_TRO)));
@@ -321,7 +389,7 @@ b{font-weight:800}
         if(!khu[k]){ khu[k]=[]; thuTu.push(k); }
         if(khu[k].indexOf(dl.ten)<0) khu[k].push(dl.ten);
       }); });
-      set('js-chs', thuTu.map(function(k){ return '<div class="c"><b style="font-size:8.4pt;color:var(--do2)">📍 '+esc(k)+'</b><br>'+khu[k].map(esc).join(' · ')+'</div>'; }).join(''));
+      set('js-chs', thuTu.map(function(k){ return '<div class="c"><b style="font-size:8.4pt;color:var(--do2)">'+esc(k)+'</b><br>'+khu[k].map(esc).join(' · ')+'</div>'; }).join(''));
       set('js-dl-dc', 'Quét mã để xem đại lý gần nhất');
     }
     document.title='To roi A4 - '+(d?d.ten:'Chung');

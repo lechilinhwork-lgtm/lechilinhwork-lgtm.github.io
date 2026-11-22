@@ -160,7 +160,7 @@ section[id]{scroll-margin-top:12px}
 .bh td:last-child{text-align:right;font-weight:800;white-space:nowrap}
 .video{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
 .video a{display:flex;align-items:center;gap:8px;border:1.5px solid var(--vien);border-radius:12px;padding:9px 10px;font-size:12.5px;font-weight:700;line-height:1.25}
-.video a::before{content:"▶";flex:0 0 26px;height:26px;border-radius:50%;background:var(--do);color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center}
+.video a::before{content:"";flex:0 0 26px;height:26px;border-radius:50%;background:var(--do);color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center}
 
 .tho{background:linear-gradient(135deg,#2B2323,#4A3A3A);color:#fff;border-radius:16px;padding:16px;margin-top:22px}
 .tho h3{font-size:17px;font-weight:800}
@@ -283,6 +283,89 @@ section[id]{scroll-margin-top:12px}
 .ct-banner small{display:block;color:var(--phu);font-size:12.5px;line-height:1.35}
 .ct-banner a{color:var(--do);font-weight:700;text-decoration:underline}
 .hoi-zalo{display:flex;align-items:center;gap:6px;margin-top:8px;font-size:13.5px;font-weight:700;color:#0068FF;background:#F3F7FF;border:1.5px solid #CFE0FF;border-radius:10px;padding:8px 12px}
+/* ===== TỐI GIẢN (Minimalist): nền trắng, chữ đậm nhạt rõ ràng, 1 màu nhấn đỏ cho nút chính ===== */
+:root{--nen:#FAFAF8;--vien:#E9E6E1;--chu:#161616;--phu:#6E6A66;--do:#C8102E;--do2:#9E0B22;--do-nhat:#F7F3F1;--xanh:#2F6B4F;--xanh-nhat:#F1F4F1}
+body{background:var(--nen)}
+.hd{background:#fff;color:var(--chu);padding:18px 0 30px;border-bottom:1px solid var(--vien)}
+.hd::after{display:none}
+.logo{background:none;padding:0}
+.nano{background:none;border:1px solid var(--vien);color:var(--phu);font-weight:600;letter-spacing:0}
+.hd h1{font-weight:700;letter-spacing:-.8px;font-size:clamp(25px,7.4vw,31px);line-height:1.15;margin-top:30px}
+.hd p{color:var(--phu);opacity:1;font-size:14.5px;margin-top:12px}
+.loi-tat{margin-top:0;display:flex;gap:22px;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--vien);padding:14px 0}
+.loi-tat a{background:none;border:none;box-shadow:none;padding:0;font-weight:600;font-size:13.5px;color:var(--chu);white-space:nowrap}
+.loi-tat a .ic{display:none}
+.khoi{margin-top:48px}
+.khoi > h3{font-size:21px;font-weight:700;letter-spacing:-.4px}
+.khoi > .mo-ta{margin-top:6px}
+.buoc{background:none;border:none;border-top:1px solid var(--vien);border-radius:0;padding:18px 0 0;margin-top:20px}
+.buoc-tieu{color:var(--phu);font-size:11.5px;font-weight:600;letter-spacing:1.2px}
+.phong button{min-height:46px;border:1px solid var(--vien);border-radius:10px;font-weight:500}
+.phong button .ic{display:none}
+.phong button.on,.tang button.on,.dong-ngoi button.on,.khu button.on{border-color:var(--chu);background:#fff;color:var(--chu);box-shadow:inset 0 0 0 1px var(--chu)}
+.tang button{border:1px solid var(--vien);border-radius:10px}
+.tang .sao{display:none}
+.m2 input,.ns-tu input{border:1px solid var(--vien);border-radius:10px;font-weight:600}
+.m2 input:focus,.ns-tu input:focus{border-color:var(--chu)}
+.loc input{accent-color:var(--chu)}
+.nut{border:1px solid var(--vien);border-radius:10px;font-weight:600}
+.nut.chinh{background:var(--chu);border-color:var(--chu);color:#fff}
+.nut.zalo{background:#fff;border-color:var(--vien);color:var(--chu)}
+.nut.zl{background:var(--do);border-color:var(--do);color:#fff}
+.sp,.keo button,.mau-ngoi button,.dong-ngoi button{border:1px solid var(--vien);border-radius:12px;box-shadow:none}
+.sp .anh .kk,.sp .anh .cl{background:rgba(255,255,255,.94);color:var(--chu);font-size:10px;font-weight:600;border-radius:4px;padding:2px 6px}
+.sp .anh .co-mau{background:rgba(22,22,22,.78);font-weight:600}
+.sp .gia,.keo .g,.dong-ngoi button .g,.tong-ngoi .r,.gia-lon{color:var(--chu)}
+.sp .xem span{border:1px solid var(--vien);color:var(--chu);border-radius:8px}
+.kq-dau h4{font-weight:700}
+.thap{gap:6px}
+.thap button{background:#fff!important;color:var(--chu);border:1px solid var(--vien);font-weight:600;border-radius:10px}
+.thap button.on{background:var(--chu)!important;color:#fff;border-color:var(--chu);box-shadow:none}
+.thap-nd{background:none;border:none;padding:18px 0 0}
+.thap-nd h4{font-weight:700}
+.so-sanh .x,.so-sanh .v{background:#F4F2EE}
+.bang .pt{color:var(--chu)}
+.kt{background:none;border:none;border-top:1px solid var(--vien);border-radius:0;margin-top:0}
+.kt:last-of-type{border-bottom:1px solid var(--vien)}
+.kt summary{padding:15px 0;font-weight:600}
+.kt summary::after{color:var(--chu);font-weight:400}
+.kt .nd{padding:0 0 16px}
+.vt{background:#fff;border:1px solid var(--vien);border-radius:12px}
+.vt h4{color:var(--chu);font-weight:700}
+.vt-dong{border-color:var(--vien)}
+.tong-ngoi{border:1px solid var(--chu);border-radius:12px}
+.luu{background:#fff;border:1px solid var(--vien);border-radius:12px}
+.uu-dai{background:#F7F3EA;color:#5E4B1F;font-weight:500;border-radius:8px}
+.dl{background:none;border:none;padding:0}
+.ch{border-top:1px solid var(--vien);padding-top:16px;margin-top:16px}
+.dl-ten{font-weight:700}
+.dl-ten .gt,.co-mau-dl{background:#F1F4F1;color:var(--xanh);font-weight:600}
+.khu button{border:1px solid var(--vien)}
+.ct-banner{border:1px solid var(--chu);border-radius:12px}
+.ct-banner .i{display:none}
+.ct-banner a{color:var(--chu)}
+.tho{background:#fff;color:var(--chu);border:1px solid var(--vien);border-radius:12px}
+.tho ul{opacity:1;color:var(--phu)}
+.tho .nut{background:var(--chu);color:#fff;border-color:var(--chu)}
+.thanh{background:rgba(255,255,255,.98);border-top:1px solid var(--vien)}
+.thanh .nut.chinh{background:#fff;color:var(--chu);border-color:var(--vien)}
+.noi-dung span{background:#fff;border:1px solid var(--vien);color:var(--chu);font-weight:500}
+.nhan-hang span{background:#F4F2EE;color:var(--phu);font-weight:600;border-radius:4px}
+.nhan-hang .kk{background:#F1F4F1;color:var(--xanh)}
+.nhan-hang .cl{background:#F7F3EA;color:#5E4B1F}
+.tam h4{color:var(--phu);font-size:11.5px;font-weight:600;letter-spacing:1.2px}
+.vi-sao .i{display:none}
+.vi-sao b{font-size:13.5px}
+.o-dau .d{background:#fff;border-color:var(--vien)}
+.o-dau .d a{border-color:var(--vien);color:var(--chu)}
+.hoi-zalo{background:#fff;border:1px solid var(--vien);color:var(--chu);font-weight:600}
+.canh{background:#F7F3EA;color:#5E4B1F}
+.du-tinh{background:#F4F2EE}
+.du-tinh .kq b{color:var(--chu)}
+.tam-chan .nut.da{background:#fff;border-color:var(--do);color:var(--do)}
+.video a::before{background:var(--chu)}
+.vt-dong .h.ph,.h.ph{background:#F4F2EE!important;color:var(--phu)}
+
 </style>
 </head>
 <body>
@@ -291,7 +374,7 @@ section[id]{scroll-margin-top:12px}
   <div class="wrap">
     <div class="hd-top">
       <div class="logo"><img src="logo-dongtam.png" alt=""><span style="color:#D7141A;font-weight:900;font-size:17px;margin-left:6px;letter-spacing:-.3px">Dongtam</span></div>
-      <div class="nano">🛡️ Men Nano kháng khuẩn</div>
+      <div class="nano">Men Nano kháng khuẩn</div>
     </div>
     <h1>Gạch, ngói Đồng Tâm<br>đẹp, bền, đúng số tiền bạn có</h1>
     <p>Xem mẫu, giá niêm yết, thông số và vật tư đi kèm. Lưu mẫu ưng ý rồi mang tới đại lý gần công trình để xem mẫu thật.</p>
@@ -300,24 +383,24 @@ section[id]{scroll-margin-top:12px}
 
 <main class="wrap">
   <nav class="loi-tat">
-    <a href="#chon"><span class="ic">🧱</span>Gạch ốp lát</a>
-    <a href="#ngoi"><span class="ic">🏠</span>Ngói lợp mái</a>
-    <a href="#keo"><span class="ic">🧴</span>Keo, chà ron</a>
-    <a href="#dai-ly"><span class="ic">📍</span>Đại lý gần bạn</a>
+    <a href="#chon"><span class="ic"></span>Gạch ốp lát</a>
+    <a href="#ngoi"><span class="ic"></span>Ngói lợp mái</a>
+    <a href="#keo"><span class="ic"></span>Keo, chà ron</a>
+    <a href="#dai-ly"><span class="ic"></span>Đại lý gần bạn</a>
   </nav>
 
   <div class="ct-banner an" id="ct-banner"></div>
 
   <!-- Mẫu chủ lực, bán chạy -->
   <section class="khoi an" id="chu-luc">
-    <h3>🔥 Mẫu chủ lực, được chọn nhiều</h3>
+    <h3>Mẫu chủ lực, được chọn nhiều</h3>
     <p class="mo-ta">Những mẫu đẹp, bán tốt nhất. Mẫu có nhãn xanh đang trưng bày sẵn tại đại lý.</p>
     <div class="noi-bat" id="ds-chu-luc"></div>
   </section>
 
   <!-- Tháp nhu cầu -->
   <section class="khoi" id="nhu-cau">
-    <h3>🏗️ Ngôi nhà bạn cần gì?</h3>
+    <h3>Ngôi nhà bạn cần gì?</h3>
     <p class="mo-ta">Chọn vật liệu như xây nhà: móng vững trước, đẹp sau. Chạm vào từng tầng để xem.</p>
     <div class="thap" id="thap"></div>
     <div class="thap-nd" id="thap-nd"></div>
@@ -325,7 +408,7 @@ section[id]{scroll-margin-top:12px}
 
   <!-- Chọn theo ngân sách -->
   <section class="khoi" id="chon">
-    <h3>🧮 Chọn gạch theo ngân sách</h3>
+    <h3>Chọn gạch theo ngân sách</h3>
     <p class="mo-ta">3 bước, khoảng 30 giây. Giá là giá bán lẻ niêm yết (đã gồm VAT).</p>
 
     <div class="buoc">
@@ -352,7 +435,7 @@ section[id]{scroll-margin-top:12px}
 
   <!-- Ngói lợp mái -->
   <section class="khoi" id="ngoi">
-    <h3>🏠 Ngói tráng men lợp mái</h3>
+    <h3>Ngói tráng men lợp mái</h3>
     <p class="mo-ta">2 lớp men phủ, nung trên 1.150°C theo công nghệ Italia. Bền màu đến 50 năm, đạt TCVN 9133:2011.</p>
     <div class="buoc">
       <div class="buoc-tieu">1 · Chọn dòng ngói theo kiểu nhà</div>
@@ -373,17 +456,17 @@ section[id]{scroll-margin-top:12px}
 
   <!-- Keo dán gạch & bột chà ron -->
   <section class="khoi" id="keo">
-    <h3>🧴 Keo dán gạch GECKO & bột chà ron GROUTEX</h3>
+    <h3>Keo dán gạch GECKO & bột chà ron GROUTEX</h3>
     <p class="mo-ta">Chọn keo theo khổ gạch, độ cao ốp và độ ẩm. Gạch càng lớn, ốp càng cao, khu càng ẩm thì chọn dòng keo càng mạnh.</p>
     <div class="keo" id="ds-keo"><div class="dang-tai"><div class="xoay"></div>Đang tải…</div></div>
   </section>
 
   <!-- Mua và thi công đúng cách -->
   <section class="khoi" id="huong-dan">
-    <h3>📘 Mua và thi công đúng cách</h3>
+    <h3>Mua và thi công đúng cách</h3>
     <p class="mo-ta">Vài điều nhỏ giúp nền nhà đẹp đều màu và giữ quyền bảo hành.</p>
     <details class="kt">
-      <summary>📦 Khi nhận hàng và trước khi lát</summary>
+      <summary>Khi nhận hàng và trước khi lát</summary>
       <div class="nd"><ul>
         <li>Mỗi phòng dùng gạch <b>cùng số lô</b> (in trên thùng) để không lệch màu.</li>
         <li>Mua dư khoảng 5% để bù gạch cắt, bể, và để sau này có gạch cùng lô thay thế.</li>
@@ -392,7 +475,7 @@ section[id]{scroll-margin-top:12px}
       </ul></div>
     </details>
     <details class="kt">
-      <summary>🧽 Giữ gạch luôn như mới</summary>
+      <summary>Giữ gạch luôn như mới</summary>
       <div class="nd"><ul>
         <li>Lau thường xuyên, đặt thảm chùi chân ở cửa ra vào.</li>
         <li>Chùi vết bẩn ngay khi mới dính.</li>
@@ -401,7 +484,7 @@ section[id]{scroll-margin-top:12px}
       </ul></div>
     </details>
     <details class="kt">
-      <summary>🛡️ Thời hạn bảo hành</summary>
+      <summary>Thời hạn bảo hành</summary>
       <div class="nd">
         <table class="bh">
           <tr><td>Gạch ốp tường</td><td>60 tháng</td></tr>
@@ -414,7 +497,7 @@ section[id]{scroll-margin-top:12px}
       </div>
     </details>
     <details class="kt">
-      <summary>🎬 Video hướng dẫn thi công</summary>
+      <summary>Video hướng dẫn thi công</summary>
       <div class="nd">
         <p>Gửi cho thợ xem trước khi thi công:</p>
         <div class="video">
@@ -434,38 +517,38 @@ section[id]{scroll-margin-top:12px}
     <div class="luu-ds" id="luu-ds"></div>
     <div class="nut-hang">
       <button class="nut" id="luu-gui">↗ Gửi người nhà</button>
-      <a class="nut chinh" href="#dai-ly">📍 Mang tới đại lý</a>
+      <a class="nut chinh" href="#dai-ly">Mang tới đại lý</a>
     </div>
   </section>
 
   <!-- Đại lý -->
   <section class="khoi" id="dai-ly">
-    <h3>📍 Xem mẫu thật tại đại lý gần công trình</h3>
+    <h3>Xem mẫu thật tại đại lý gần công trình</h3>
     <p class="mo-ta" id="dl-mo-ta"></p>
     <div class="uu-dai" id="uu-chung"></div>
-    <button class="nut chinh tim-gan" id="tim-gan">📍 Tìm đại lý gần tôi</button>
+    <button class="nut chinh tim-gan" id="tim-gan">Tìm đại lý gần tôi</button>
     <div class="khu" id="ds-khu"></div>
     <div class="dl" id="ds-dl"></div>
-    <a class="nut" style="margin-top:10px" id="map-tat-ca" target="_blank" rel="noopener">🗺️ Xem tất cả đại lý trên Google Maps</a>
+    <a class="nut" style="margin-top:10px" id="map-tat-ca" target="_blank" rel="noopener">Xem tất cả đại lý trên Google Maps</a>
   </section>
 
   <!-- Dành cho thầu thợ -->
   <section class="tho">
-    <h3>👷 Bạn là thầu thợ, kiến trúc sư?</h3>
+    <h3>Bạn là thầu thợ, kiến trúc sư?</h3>
     <ul>
       <li>Xương Porcelain chuẩn kích thước, phẳng đều, ít cong vênh. Thi công nhanh, ít hao hụt.</li>
       <li>Keo GECKO không cần ngâm gạch, có 20–30 phút để chỉnh gạch.</li>
       <li>Gửi diện tích hoặc bản vẽ cho đại lý gần công trình để nhận <b>báo giá công trình</b> và chiết khấu theo số lượng.</li>
     </ul>
-    <a class="nut" id="tho-zalo" href="#dai-ly">💬 Gửi bản vẽ cho đại lý gần công trình</a>
+    <a class="nut" id="tho-zalo" href="#dai-ly">Gửi bản vẽ cho đại lý gần công trình</a>
   </section>
 
   <div class="chan">Gạch Đồng Tâm · Vì cuộc sống tươi đẹp<br>Tư vấn, báo giá và giao hàng do đại lý Đồng Tâm gần bạn thực hiện.<br>Giá chỉ để tham khảo. Đại lý báo giá chính xác và chiết khấu theo công trình.</div>
 </main>
 
 <nav class="thanh"><div class="in">
-  <a class="nut chinh" href="#dai-ly">📍 Đại lý gần bạn</a>
-  <a class="nut zl" id="thanh-goi" href="#dai-ly">💬 Nhắn đại lý</a>
+  <a class="nut chinh" href="#dai-ly">Đại lý gần bạn</a>
+  <a class="nut zl" id="thanh-goi" href="#dai-ly">Nhắn đại lý</a>
 </div></nav>
 
 <!-- Bảng chi tiết sản phẩm -->
@@ -476,7 +559,7 @@ section[id]{scroll-margin-top:12px}
   <div class="tam-chan">
     <button class="nut" id="tam-luu">♡ Lưu</button>
     <button class="nut" id="tam-gui">↗ Gửi</button>
-    <button class="nut chinh" id="tam-dl">📍 Xem mẫu thật</button>
+    <button class="nut chinh" id="tam-dl">Xem mẫu thật</button>
   </div>
 </div>
 <div class="toast" id="toast"></div>
@@ -514,15 +597,15 @@ function baoNhanh(t){ var el=$('toast'); el.textContent=t; el.classList.add('hie
 
 // ===== THÁP NHU CẦU (đáy: an toàn → đỉnh: phong cách) =====
 var THAP=[
-  {ic:'🛡️', ten:'An toàn cho cả nhà', nd:
-    '<h4>🛡️ Nền móng: an toàn cho người ở</h4><ul>'
+  {ic:'', ten:'An toàn cho cả nhà', nd:
+    '<h4>Nền móng: an toàn cho người ở</h4><ul>'
     +'<li><b>Chống trơn trượt đúng chỗ:</b> phòng khách, phòng ngủ cần chuẩn R9; bếp, nhà tắm, hành lang cần R10; sân, ban công, thành hồ bơi cần R11. Nơi ướt nên chọn gạch <b>men mờ chống trượt</b>.</li>'
     +'<li><b>Men Nano bạc kháng khuẩn:</b> hạt Nano nung cùng lớp men ở 1.150–1.200°C nên không bong theo thời gian. Kết quả thử sau 24 giờ (Viện Pasteur TP.HCM, chuẩn VILAS):'
     +'<div class="bang"><span class="vk">B. subtilis</span><span><span class="pt">96–99%</span> · bệnh đường ruột</span><span class="vk">E. coli</span><span><span class="pt">75–95%</span> · tiêu chảy</span><span class="vk">S. typhi</span><span><span class="pt">57–70%</span> · thương hàn</span></div></li>'
     +'<li><b>Gạch ốp tường không tuột rơi:</b> keo GECKO có độ trượt ≤ 0,5 mm, giữ chắc gạch ốp cao.</li>'
     +'<li><b>Mái an toàn:</b> ngói ALPHA chịu nhiệt cao, không cháy.</li></ul>'},
-  {ic:'💪', ten:'Bền, khỏi sửa đi sửa lại', nd:
-    '<h4>💪 Bền lâu: làm một lần, ở nhiều năm</h4><ul>'
+  {ic:'', ten:'Bền, khỏi sửa đi sửa lại', nd:
+    '<h4>Bền lâu: làm một lần, ở nhiều năm</h4><ul>'
     +'<li><b>Porcelain</b> (xương đá) hút nước ≤ 0,5%: cứng, chịu lực, không thấm. Hợp lát nền, sân, ban công. <b>Ceramic ốp tường</b> hút nước trên 10% nên bám vữa tốt, chỉ dùng ốp tường.</li>'
     +'<li>Bảo hành gạch lát nền <b>36 tháng</b>, gạch ốp tường <b>60 tháng</b>, ngói bền màu <b>50 năm</b>.</li>'
     +'<li>Ngói có lực uốn gãy trên 100 N/cm, chịu được mưa lớn, mưa đá.</li></ul>'
@@ -530,14 +613,14 @@ var THAP=[
     +'<div class="v">Dùng keo GECKO đúng loại<b>chênh không nhiều</b>Gạch bám chắc, không bộp, không phải làm lại.</div></div>'
     +'<div class="so-sanh"><div class="x">Ngói thường<b>phai sau 2–3 năm</b>Sơn lại 15–25 triệu mỗi lần, lặp lại nhiều lần.</div>'
     +'<div class="v">Ngói Đồng Tâm<b>bền màu 50 năm</b>2 lớp men phủ, men chống tia UV.</div></div>'},
-  {ic:'🏡', ten:'Tổ ấm dễ chịu', nd:
-    '<h4>🏡 Tổ ấm: sạch, mát, yên tĩnh</h4><ul>'
+  {ic:'', ten:'Tổ ấm dễ chịu', nd:
+    '<h4>Tổ ấm: sạch, mát, yên tĩnh</h4><ul>'
     +'<li><b>Dễ lau chùi:</b> bề mặt men chống bám bẩn, vết bẩn thường chỉ cần lau bằng khăn ẩm.</li>'
     +'<li><b>Mát nhà:</b> ngói tráng men hạn chế hấp thu nhiệt, đỡ phải chạy điều hòa liên tục.</li>'
     +'<li><b>Yên tĩnh:</b> ngói ALPHA giảm tiếng ồn khi mưa gió. Khe hở 0,6 mm và 2 gờ chống tràn giúp mái không dột cả khi mưa tạt.</li>'
     +'<li><b>Cả nhà cùng chọn:</b> bấm ♡ để lưu mẫu, rồi gửi danh sách cho người thân cùng xem trước khi ra đại lý.</li></ul>'},
-  {ic:'✨', ten:'Đẹp, đúng gu', nd:
-    '<h4>✨ Đỉnh tháp: đẹp theo phong cách riêng</h4><ul>'
+  {ic:'', ten:'Đẹp, đúng gu', nd:
+    '<h4>Đỉnh tháp: đẹp theo phong cách riêng</h4><ul>'
     +'<li><b>Vân đá, vân gỗ, xi măng, vân cát, hoa văn</b>: đủ phong cách từ cổ điển tới hiện đại.</li>'
     +'<li><b>Men mờ</b> sang, ít lộ vết bẩn và trầy. <b>Men bóng</b> sáng, phản chiếu ánh sáng, phòng trông rộng hơn.</li>'
     +'<li><b>Khổ lớn 80x80, 100x100, 60x120</b>: ít đường ron, không gian liền mạch. Gạch nhiều mặt vân (nhiều face) lát lên không bị lặp hoa văn.</li>'
@@ -593,10 +676,10 @@ function htmlCuaHang(ch, coTen, dl, ghiChu){
   var kc=viTriKhach?'<small>Cách bạn khoảng '+kmCach(viTriKhach.lat,viTriKhach.lng,ch.lat,ch.lng).toFixed(1).replace('.',',')+' km</small>':'';
   return '<div class="ch">'
     +(coTen?'<div class="dl-ten">'+esc(dl.ten)+(DL&&dl.ma===DL.ma?'<span class="gt">Đại lý giới thiệu bạn</span>':'')+(ghiChu?'<span class="co-mau-dl">'+esc(ghiChu)+'</span>':'')+'</div>':'')
-    +'<div class="ch-dc"><span>📍</span><div>'+esc(ch.diaChi)+kc+'</div></div>'
-    +(dl&&UU_DAI[dl.ma]&&String(UU_DAI[dl.ma]).trim()?'<div class="uu-dai">🎁 Ưu đãi riêng: '+esc(String(UU_DAI[dl.ma]).trim())+'</div>':'')
+    +'<div class="ch-dc"><span></span><div>'+esc(ch.diaChi)+kc+'</div></div>'
+    +(dl&&UU_DAI[dl.ma]&&String(UU_DAI[dl.ma]).trim()?'<div class="uu-dai">Ưu đãi riêng: '+esc(String(UU_DAI[dl.ma]).trim())+'</div>':'')
     +'<div class="nut-hang">'
-      +'<a class="nut chinh" href="tel:'+esc(s)+'">📞 Gọi</a>'
+      +'<a class="nut chinh" href="tel:'+esc(s)+'">Gọi</a>'
       +'<a class="nut zalo" href="https://zalo.me/'+esc(s)+'" data-dl="'+esc(dl?dl.ma:'')+'" data-ch="'+(dl?dl.cuaHang.indexOf(ch):0)+'">Zalo</a>'
       +'<a class="nut" href="'+esc(linkChiDuong(ch))+'" target="_blank" rel="noopener">Chỉ đường</a>'
     +'</div></div>';
@@ -645,11 +728,11 @@ function layViTri(){
   b.textContent='Đang tìm vị trí…';
   navigator.geolocation.getCurrentPosition(function(p){
     viTriKhach={lat:p.coords.latitude,lng:p.coords.longitude};
-    khuChon=''; soDL=5; b.textContent='📍 Đã sắp xếp theo khoảng cách tới bạn'; veDaiLy();
+    khuChon=''; soDL=5; b.textContent='Đã sắp xếp theo khoảng cách tới bạn'; veDaiLy();
   },function(){ b.textContent='Chưa lấy được vị trí, chọn theo khu vực bên dưới'; },{enableHighAccuracy:false,timeout:9000,maximumAge:600000});
 }
 function capNhatThanh(){
-  var t=$('thanh-goi'); t.textContent = DL ? '💬 Zalo '+DL.ten : '💬 Nhắn đại lý';
+  var t=$('thanh-goi'); t.textContent = DL ? 'Zalo '+DL.ten : 'Nhắn đại lý';
   t.onclick=function(e){ e.preventDefault(); zaloDaiLy(); };
   $('tho-zalo').onclick=function(e){ e.preventDefault(); zaloDaiLy('', 'Em là thầu/kiến trúc sư, cần báo giá công trình. Em gửi diện tích/bản vẽ sau tin này.'); };
   Array.prototype.forEach.call(document.querySelectorAll('a.nut.zalo[data-dl]'),function(a){ a.onclick=function(e){
@@ -717,7 +800,7 @@ var CT_INFO=null;
     var d=timDaiLy(r.dl); if(d && !DL) DL=d;
     var ch=d?(d.cuaHang.filter(function(c){return c.diaChi===r.ch;})[0]||d.cuaHang[0]):null;
     var el=$('ct-banner');
-    el.innerHTML='<span class="i">🏗️</span><span><b>Công trình của anh/chị · mã '+esc(r.id)+'</b><small>'
+    el.innerHTML='<span class="i"></span><span><b>Công trình của anh/chị · mã '+esc(r.id)+'</b><small>'
       +(r.gd?'Đang ở giai đoạn: '+esc(r.gd)+'. ':'')+(d?'Đại lý gần nhất: <b style="display:inline;font-size:12.5px">'+esc(d.ten)+'</b>'+(ch?' ('+esc(ch.diaChi.split(',')[0])+')':'')+'. ':'')
       +'<a href="ct.html?id='+encodeURIComponent(r.id)+'">Xem ảnh, tiến độ</a></small></span>';
     el.classList.remove('an');
@@ -726,20 +809,20 @@ var CT_INFO=null;
   s.src=CT_API+'?action=xem&id='+encodeURIComponent(ma)+'&callback='+cb; s.onerror=function(){};
   document.head.appendChild(s);
 })();
-$('uu-chung').textContent='🎁 Khách nhắn Zalo qua trang này: '+UU_DAI_CHUNG.charAt(0).toLowerCase()+UU_DAI_CHUNG.slice(1)+'.';
+$('uu-chung').textContent='Khách nhắn Zalo qua trang này: '+UU_DAI_CHUNG.charAt(0).toLowerCase()+UU_DAI_CHUNG.slice(1)+'.';
 $('tim-gan').onclick=layViTri;
 $('map-tat-ca').href=LINK_MAP_TAT_CA;
 
 // ===== DỮ LIỆU =====
 var PHONG=[
-  {id:'khach', ten:'Phòng khách', ic:'🛋️', m2:30, kc:['600x600','800x800','600x1200','1000x1000'], xuong:'porcelain', cn:['LÁT_NỀN','ỐP_LÁT']},
-  {id:'ngu',   ten:'Phòng ngủ',   ic:'🛏️', m2:15, kc:['600x600','800x800','150x600','200x800','200x1200','600x1200'], xuong:'porcelain', cn:['LÁT_NỀN','ỐP_LÁT','GẠCH_GỖ']},
-  {id:'bep',   ten:'Nền bếp',     ic:'🍳', m2:12, kc:['600x600','800x800','300x600','400x800'], xuong:'porcelain', cn:['LÁT_NỀN','ỐP_LÁT']},
-  {id:'tuong', ten:'Tường bếp, WC', ic:'🧱', m2:25, kc:['300x600','400x800','250x400','300x450','250x600'], cn:['ỐP_TƯỜNG','ỐP_LÁT'], tuong:true},
-  {id:'wc',    ten:'Nền nhà vệ sinh', ic:'🚿', m2:5, kc:['300x300','400x400','300x600','250x250'], xuong:'porcelain', men:['MỜ'], cn:['LÁT_NỀN','ỐP_LÁT']},
-  {id:'san',   ten:'Sân, ban công', ic:'🌿', m2:20, kc:['300x300','400x400','600x600','300x600','400x800'], xuong:'porcelain', men:['MỜ'], cn:['LÁT_NỀN','ỐP_LÁT'], uuTien:['CHỐNG_TRƯỢT','SÂN_VƯỜN']}
+  {id:'khach', ten:'Phòng khách', ic:'', m2:30, kc:['600x600','800x800','600x1200','1000x1000'], xuong:'porcelain', cn:['LÁT_NỀN','ỐP_LÁT']},
+  {id:'ngu',   ten:'Phòng ngủ',   ic:'', m2:15, kc:['600x600','800x800','150x600','200x800','200x1200','600x1200'], xuong:'porcelain', cn:['LÁT_NỀN','ỐP_LÁT','GẠCH_GỖ']},
+  {id:'bep',   ten:'Nền bếp',     ic:'', m2:12, kc:['600x600','800x800','300x600','400x800'], xuong:'porcelain', cn:['LÁT_NỀN','ỐP_LÁT']},
+  {id:'tuong', ten:'Tường bếp, WC', ic:'', m2:25, kc:['300x600','400x800','250x400','300x450','250x600'], cn:['ỐP_TƯỜNG','ỐP_LÁT'], tuong:true},
+  {id:'wc',    ten:'Nền nhà vệ sinh', ic:'', m2:5, kc:['300x300','400x400','300x600','250x250'], xuong:'porcelain', men:['MỜ'], cn:['LÁT_NỀN','ỐP_LÁT']},
+  {id:'san',   ten:'Sân, ban công', ic:'', m2:20, kc:['300x300','400x400','600x600','300x600','400x800'], xuong:'porcelain', men:['MỜ'], cn:['LÁT_NỀN','ỐP_LÁT'], uuTien:['CHỐNG_TRƯỢT','SÂN_VƯỜN']}
 ];
-var TANG=[{ten:'Tiết kiệm',ic:'💰'},{ten:'Phổ thông',ic:'⭐'},{ten:'Cao cấp',ic:'💎'}];
+var TANG=[{ten:'Tiết kiệm',ic:''},{ten:'Phổ thông',ic:''},{ten:'Cao cấp',ic:''}];
 var SP=[], NGOI=[], KEO=[], THEO_MA={};
 var phong=PHONG[0], tang=1, soHien=6;
 
@@ -808,7 +891,7 @@ function htmlThe(s, luong){
     +(nhanCL(s)?'<span class="cl">'+nhanCL(s)+'</span>':'')
     +(s.tn==='KHÁNG_KHUẨN'?'<span class="kk">Kháng khuẩn</span>':'')+'</span>'
     +(daLuu(s.sap)?'<span class="tim">♥</span>':'')
-    +(n?'<span class="co-mau">📍 Có mẫu tại '+n+' đại lý</span>':'')+'</div>'
+    +(n?'<span class="co-mau">Có mẫu tại '+n+' đại lý</span>':'')+'</div>'
     +'<div class="tt"><div class="ma">'+esc(tenMau(s.ma))+'</div>'
     +'<div class="dt">'+esc(s.kc.replace('x',' x '))+' · '+(s.x==='porcelain'?'Porcelain':'Ceramic')+(nhanMen(s)?' · '+nhanMen(s):'')+'</div>'
     +'<div class="gia">'+tien(s.le)+'<small> đ/m²</small></div>'
@@ -1000,7 +1083,7 @@ function htmlVatTu(m2, kc, xuong, laTuong){
 function veVatTu(){
   var el=$('vat-tu'), m2=dienTich();
   if(!KEO.length || !m2){ el.innerHTML=''; return; }
-  el.innerHTML='<div class="vt"><h4>🧴 Vật tư đi kèm cho '+m2.toLocaleString('vi-VN')+' m²</h4>'
+  el.innerHTML='<div class="vt"><h4>Vật tư đi kèm cho '+m2.toLocaleString('vi-VN')+' m²</h4>'
     +'<div class="mo">Ước tính để bạn dự trù chi phí. Mở chi tiết từng mẫu gạch để xem đúng loại keo cho mẫu đó.</div>'
     +htmlVatTu(m2, phong.kc[0], phong.xuong, phong.tuong)+'</div>';
   ganMo(el);
@@ -1089,12 +1172,12 @@ function viSaoSP(s){
     : (s.men==='MỜ' && !laTuongSP(s)) ? 'Men mờ ít trơn, an toàn cho người già, trẻ nhỏ.'
     : laTuongSP(s) ? 'Bám dính tốt trên tường. Dán bằng keo GECKO để gạch không tuột rơi.'
     : 'Đạt chỉ tiêu kỹ thuật theo TCVN 13113:2020.';
-  r.push(['🛡️','An toàn',an]);
-  r.push(['💪','Bền', (s.x==='porcelain' ? 'Xương Porcelain hút nước ≤ 0,5%: cứng, chịu lực, không thấm.' : laTuongSP(s) ? 'Ceramic ốp tường nhẹ, bám vữa tốt.' : 'Ceramic lát nền, giá mềm, men đẹp.')
+  r.push(['','An toàn',an]);
+  r.push(['','Bền', (s.x==='porcelain' ? 'Xương Porcelain hút nước ≤ 0,5%: cứng, chịu lực, không thấm.' : laTuongSP(s) ? 'Ceramic ốp tường nhẹ, bám vữa tốt.' : 'Ceramic lát nền, giá mềm, men đẹp.')
     +' Bảo hành '+(laTuongSP(s)?'60':'36')+' tháng.']);
-  r.push(['🏡','Tổ ấm', s.men==='BÓNG' ? 'Men bóng sáng, phản chiếu ánh sáng, phòng trông rộng và sạch hơn. Dễ lau chùi.' : 'Men mờ ít lộ vết bẩn, dấu chân và vết trầy. Dễ lau chùi.']);
+  r.push(['','Tổ ấm', s.men==='BÓNG' ? 'Men bóng sáng, phản chiếu ánh sáng, phòng trông rộng và sạch hơn. Dễ lau chùi.' : 'Men mờ ít lộ vết bẩn, dấu chân và vết trầy. Dễ lau chùi.']);
   var dep=[]; if(s.hv) dep.push(nhanTT(s.hv)); if(s.mau) dep.push('tông '+nhanTT(s.mau).toLowerCase());
-  r.push(['✨','Phong cách', (dep.length?dep.join(', ')+'. ':'')+(dai>=800 ? 'Khổ lớn, ít đường ron, không gian liền mạch.' : dai<=300 ? 'Khổ nhỏ, dễ lát chỗ hẹp, dễ tạo dốc thoát nước.' : 'Khổ vừa, dễ phối nền và tường.')]);
+  r.push(['','Phong cách', (dep.length?dep.join(', ')+'. ':'')+(dai>=800 ? 'Khổ lớn, ít đường ron, không gian liền mạch.' : dai<=300 ? 'Khổ nhỏ, dễ lát chỗ hẹp, dễ tạo dốc thoát nước.' : 'Khổ vừa, dễ phối nền và tường.')]);
   return r;
 }
 function htmlAnh(ds, mauNen){
@@ -1114,7 +1197,7 @@ function htmlCoMau(sap){
   });
   if(viTriKhach) dong.sort(function(a,b){ return kmCach(viTriKhach.lat,viTriKhach.lng,a.ch.lat,a.ch.lng)-kmCach(viTriKhach.lat,viTriKhach.lng,b.ch.lat,b.ch.lng); });
   var them=dong.length-3;
-  return '<h4>📍 Có mẫu thật tại '+soDaiLyCoMau(sap)+' đại lý</h4><div class="o-dau">'+dong.slice(0,3).map(function(x){
+  return '<h4>Có mẫu thật tại '+soDaiLyCoMau(sap)+' đại lý</h4><div class="o-dau">'+dong.slice(0,3).map(function(x){
     return '<div class="d"><span class="t"><b>'+esc(x.d.ten)+'</b><small>'+esc(x.ch.diaChi)+'</small></span>'
       +'<a href="tel:'+esc(sdtCH(x.ch))+'">Gọi</a><a href="'+esc(linkChiDuong(x.ch))+'" target="_blank" rel="noopener">Chỉ đường</a></div>';
   }).join('')+'</div>'+(them>0?'<button class="nut them" style="margin-top:8px" onclick="document.getElementById(&quot;tam-dl&quot;).click()">Xem cả '+dong.length+' cửa hàng có mẫu này</button>':'');
@@ -1124,7 +1207,7 @@ function htmlTS(rows){ return '<table class="ts">'+rows.filter(function(r){retur
 
 function ctGach(s){
   var nd=noiDungSP(s), th=THUNG[s.kc], m2=dienTich()||10;
-  var badges=(s.tn==='KHÁNG_KHUẨN'?'<span class="kk">🛡️ Kháng khuẩn Nano</span>':'')+(s.tn==='CHỐNG_TRƯỢT'?'<span class="kk">Chống trượt</span>':'')+(nhanCL(s)?'<span class="cl">'+nhanCL(s)+'</span>':'')
+  var badges=(s.tn==='KHÁNG_KHUẨN'?'<span class="kk">Kháng khuẩn Nano</span>':'')+(s.tn==='CHỐNG_TRƯỢT'?'<span class="kk">Chống trượt</span>':'')+(nhanCL(s)?'<span class="cl">'+nhanCL(s)+'</span>':'')
     +'<span>'+(s.x==='porcelain'?'Porcelain':'Ceramic')+'</span>';
   return htmlAnh(s.imgs||[s.img])
     +'<div class="tam-nd"><div class="nhan-hang">'+badges+'</div>'
@@ -1166,10 +1249,10 @@ function ctNgoi(n){
     +'<div class="gia-lon">'+tien(n.le)+' <small>đ/viên · giá lẻ niêm yết, đã gồm VAT</small></div>'
     +'<div class="du-tinh">Diện tích mái <input id="ct-m2" type="number" inputmode="decimal" min="1" value="'+m2+'"> m²<div class="kq" id="ct-kq"></div></div>'
     +'<h4>Vì sao đáng chọn</h4>'+htmlViSao([
-      ['🛡️','An toàn', n.dong==='ALPHA'?'Vật liệu chịu nhiệt cao, không cháy. Chống muối, chống sương giá.':'Lực uốn gãy trên 100 N/cm, chịu được mưa lớn, mưa đá.'],
-      ['💪','Bền', '2 lớp men phủ độc quyền, bảo hành bền màu 50 năm. Không phải sơn lại mái như ngói thường (15–25 triệu mỗi lần).'],
-      ['🏡','Tổ ấm', n.dong==='ALPHA'?'Khe hở 0,6 mm và 2 gờ chống tràn: không dột cả khi mưa tạt. Giảm tiếng ồn mưa gió, mát nhà.':'Phụ kiện đồng bộ, khe hở chỉ 0,6 mm: mái kín, chống dột. Hạn chế hấp nhiệt, mát nhà.'],
-      ['✨','Phong cách', n.dong==='ALPHA'?'Mái phẳng hiện đại, tối giản với nhiều màu để chọn.':'Sóng lớn cổ điển, sang trọng cho nhà phố, biệt thự.']
+      ['','An toàn', n.dong==='ALPHA'?'Vật liệu chịu nhiệt cao, không cháy. Chống muối, chống sương giá.':'Lực uốn gãy trên 100 N/cm, chịu được mưa lớn, mưa đá.'],
+      ['','Bền', '2 lớp men phủ độc quyền, bảo hành bền màu 50 năm. Không phải sơn lại mái như ngói thường (15–25 triệu mỗi lần).'],
+      ['','Tổ ấm', n.dong==='ALPHA'?'Khe hở 0,6 mm và 2 gờ chống tràn: không dột cả khi mưa tạt. Giảm tiếng ồn mưa gió, mát nhà.':'Phụ kiện đồng bộ, khe hở chỉ 0,6 mm: mái kín, chống dột. Hạn chế hấp nhiệt, mát nhà.'],
+      ['','Phong cách', n.dong==='ALPHA'?'Mái phẳng hiện đại, tối giản với nhiều màu để chọn.':'Sóng lớn cổ điển, sang trọng cho nhà phố, biệt thự.']
     ])
     +'<h4>Thông số</h4>'+htmlTS(d.ts.concat([['Đóng gói', n.dg||'6 viên/thùng'],['Bảo hành','Bền màu 50 năm · không thấm dột 5 năm']]))
     +(n.dong==='ALPHA'?'<div class="canh">⚠️ Ngói ALPHA cần mái dốc tối thiểu 35°. Hỏi thợ độ dốc mái trước khi chọn.</div>':'')
@@ -1190,13 +1273,13 @@ function ctKeo(k){
     +'<h2>'+esc(i.ten)+'</h2><div class="dt">'+esc(i.dung)+'</div>'
     +'<div class="gia-lon">'+tien(k.le)+' <small>đ/bao · giá lẻ niêm yết, đã gồm VAT</small></div>'
     +'<h4>Vì sao đáng chọn</h4>'+htmlViSao(i.ron ? [
-      ['🛡️','Sạch khuẩn', 'Chống bám bẩn, rêu mốc ở đường ron, nơi vi khuẩn hay trú.'],
-      ['💪','Bền', 'Không nứt, bong tróc như ron xi măng. Chà rửa thoải mái.'],
-      ['✨','Đẹp', 'Đường ron đều màu, hợp mọi màu gạch.']
+      ['','Sạch khuẩn', 'Chống bám bẩn, rêu mốc ở đường ron, nơi vi khuẩn hay trú.'],
+      ['','Bền', 'Không nứt, bong tróc như ron xi măng. Chà rửa thoải mái.'],
+      ['','Đẹp', 'Đường ron đều màu, hợp mọi màu gạch.']
     ] : [
-      ['🛡️','An toàn', 'Gạch bám chắc, ốp cao không tuột rơi.'],
-      ['💪','Bền', 'Không bộp, không bong như hồ dầu. Đỡ chi phí đục nền làm lại.'],
-      ['🏡','Nhanh gọn', 'Không cần ngâm gạch, pha theo tỷ lệ in trên bao, dán được lên nền gạch cũ không cần đục.']
+      ['','An toàn', 'Gạch bám chắc, ốp cao không tuột rơi.'],
+      ['','Bền', 'Không bộp, không bong như hồ dầu. Đỡ chi phí đục nền làm lại.'],
+      ['','Nhanh gọn', 'Không cần ngâm gạch, pha theo tỷ lệ in trên bao, dán được lên nền gạch cũ không cần đục.']
     ])
     +'<h4>Thông số</h4>'+htmlTS(ts)
     +(i.ron?'':'<div class="canh">Mẹo cho thợ: pha đúng tỷ lệ nước, dùng bay răng cưa để keo phủ kín, vệ sinh và làm ẩm nền trước khi dán.</div>')
@@ -1226,7 +1309,7 @@ function moChiTiet(id, tuLink){
   var ac=$('anh-cuon'), dem=$('dem-anh');
   if(ac && dem) ac.addEventListener('scroll',function(){ dem.textContent=(Math.round(ac.scrollLeft/ac.clientWidth)+1)+'/'+ac.children.length; },{passive:true});
   var gl=c.querySelector('.gia-lon');
-  if(gl){ gl.insertAdjacentHTML('afterend','<button class="hoi-zalo" id="hoi-zalo">💬 Hỏi giá mẫu này qua Zalo đại lý</button>'); $('hoi-zalo').onclick=function(){ zaloDaiLy(tenNgan(id),'',null,null,CO_MAU[id]); }; }
+  if(gl){ gl.insertAdjacentHTML('afterend','<button class="hoi-zalo" id="hoi-zalo">Hỏi giá mẫu này qua Zalo đại lý</button>'); $('hoi-zalo').onclick=function(){ zaloDaiLy(tenNgan(id),'',null,null,CO_MAU[id]); }; }
   capNutLuu();
   $('phu-lop').classList.add('mo'); $('tam').classList.add('mo'); document.body.classList.add('khoa');
   if(tuLink){ moQuaLink=true; return; }
