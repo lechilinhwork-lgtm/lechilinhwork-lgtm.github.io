@@ -178,7 +178,7 @@ var TRANG_KHACH='https://lechilinhwork-lgtm.github.io/';
 var CT_API='https://script.google.com/macros/s/AKfycbzJuuVpMZgf2_Hdckq7zuHhf_BHtSeIjBZREvsek9TiggfoPUnA2vYM9SfiX--7yaJ-ug/exec';
 var KHOA='ct_ds_v1';
 var GD=['Đang xây thô','Cất nóc','Tô tường','Sắp lát nền','Hoàn thiện'];
-var CAN=['Gạch','Ngói','Keo, chà ron'];
+var CAN=['Gạch','Ngói','Keo & chà ron'];
 var TOI_DA_ANH=6;
 
 function $(id){ return document.getElementById(id); }
@@ -281,7 +281,7 @@ function veGhe(ds){
   $('ghe-lai').onclick=function(){
     phieu.gheLai=x; phieu.id=x.id; phieu.daLuu=false;
     if(x.dl){ phieu.dl=x.dl; var d=timDaiLy(x.dl); phieu.ch=0; if(d&&viTri){ var b=0,bk=1e9; d.cuaHang.forEach(function(c,i){ var k=km(viTri.lat,viTri.lng,c.lat,c.lng); if(k<bk){bk=k;b=i;} }); phieu.ch=b; } }
-    if(x.can) phieu.can=String(x.can).split(',').map(function(s){return s.trim();}).filter(function(s){return CAN.indexOf(s)>=0;});
+    if(x.can) phieu.can=String(x.can).replace(/Keo, chà ron/g,'Keo & chà ron').split(',').map(function(s){return s.trim();}).filter(function(s){return CAN.indexOf(s)>=0;});
     veGhe(GHE); veChips(); veDaiLy(); veNut();
   };
   $('ghe-bo').onclick=function(){ GHE=[]; $('ghe').innerHTML=''; };

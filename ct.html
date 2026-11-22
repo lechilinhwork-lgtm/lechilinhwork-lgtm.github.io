@@ -148,7 +148,7 @@ function ve(r){
     h+='</section>';
   }
   // Nhu cầu
-  if(r.can) h+='<section class="the"><div class="tieu">Vật liệu cần</div><div class="chips">'+r.can.split(',').map(function(x){return '<span>'+esc(x.trim())+'</span>';}).join('')+'</div></section>';
+  if(r.can) h+='<section class="the"><div class="tieu">Vật liệu cần</div><div class="chips">'+r.can.replace(/Keo, chà ron/g,'Keo & chà ron').split(',').map(function(x){return '<span>'+esc(x.trim())+'</span>';}).join('')+'</div></section>';
   // Vị trí
   if(r.lat&&r.lng) h+='<section class="the"><div class="tieu">Vị trí công trình</div><a class="nut" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+r.lat+','+r.lng+'">🗺️ Mở trên Google Maps</a></section>';
   // Đại lý phụ trách
