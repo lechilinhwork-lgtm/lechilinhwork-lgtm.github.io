@@ -34,7 +34,7 @@ section[id]{scroll-margin-top:12px}
 .logo{background:#fff;border-radius:10px;padding:5px 8px;display:flex;align-items:center}
 .logo img{height:26px;display:block}
 .nano{margin-left:auto;display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);padding:5px 10px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.2px}
-.hd h1{font-size:25px;line-height:1.18;font-weight:900;margin-top:18px;letter-spacing:-.3px}
+.hd h1{text-wrap:balance;font-size:clamp(21px,6.2vw,25px);line-height:1.18;font-weight:900;margin-top:18px;letter-spacing:-.3px}
 .hd p{margin-top:8px;font-size:14.5px;opacity:.92;max-width:430px}
 
 /* Đại lý */
@@ -56,7 +56,7 @@ section[id]{scroll-margin-top:12px}
 
 /* Khối nội dung */
 .khoi{margin-top:22px}
-.khoi > h3{font-size:18px;font-weight:800;display:flex;align-items:center;gap:8px}
+.khoi > h3{text-wrap:balance;font-size:18px;font-weight:800;display:flex;align-items:center;gap:8px}
 .khoi > .mo-ta{font-size:13.5px;color:var(--phu);margin-top:3px}
 .buoc{background:var(--the);border:1px solid var(--vien);border-radius:16px;padding:14px;margin-top:12px}
 .buoc-tieu{font-size:13px;font-weight:800;color:var(--do);text-transform:uppercase;letter-spacing:.4px;margin-bottom:10px}
@@ -78,7 +78,7 @@ section[id]{scroll-margin-top:12px}
 .tang .sao{flex:0 0 38px;height:38px;border-radius:10px;background:var(--nen);display:flex;align-items:center;justify-content:center;font-size:18px}
 .tang button.on .sao{background:#fff}
 .tang b{display:block;font-size:14.5px}
-.tang .gia{font-size:12.5px;color:var(--phu)}
+.tang .gia{font-size:12px;color:var(--phu);white-space:nowrap}
 .tang .tong{margin-left:auto;text-align:right;font-weight:800;font-size:14px;white-space:nowrap}
 .tang .tong small{display:block;font-weight:500;font-size:11px;color:var(--phu)}
 .ns-tu{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:13px;color:var(--phu)}
@@ -208,7 +208,9 @@ section[id]{scroll-margin-top:12px}
 .keo{display:grid;gap:8px;margin-top:12px}
 .keo button{display:flex;gap:10px;align-items:center;background:var(--the);border:1px solid var(--vien);border-radius:14px;padding:10px;text-align:left}
 .keo .h{flex:0 0 58px;height:58px;border-radius:10px;background:#EEE center/cover no-repeat}
-.keo .t{flex:1;min-width:0;font-size:12.5px;color:var(--phu);line-height:1.35}
+.h.ph i{position:absolute;inset:0;border-radius:inherit;background:center/cover no-repeat}
+.h.ph{position:relative;overflow:hidden;background:linear-gradient(135deg,#FDECEC,#F7D6D6)!important;color:var(--do2);font-size:9.5px;font-weight:900;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.1;letter-spacing:.3px}
+.keo .t{flex:1;min-width:0;font-size:12.5px;color:var(--phu);line-height:1.35;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .keo .t b{display:block;font-size:14px;color:var(--chu)}
 .keo .g{text-align:right;font-weight:800;color:var(--do);font-size:14px;white-space:nowrap}
 .keo .g small{display:block;font-size:11px;font-weight:600;color:var(--phu)}
@@ -447,7 +449,7 @@ section[id]{scroll-margin-top:12px}
     <a class="nut" id="tho-zalo" target="_blank" rel="noopener">💬 Gửi bản vẽ qua Zalo</a>
   </section>
 
-  <div class="chan">Gạch Đồng Tâm · Vì cuộc sống tươi đẹp<br>Giá chỉ để tham khảo. Đại lý báo giá chính xác và chiết khấu theo công trình.</div>
+  <div class="chan">Gạch Đồng Tâm · Vì cuộc sống tươi đẹp<br>Tư vấn: <a id="chan-sdt" style="font-weight:700;color:var(--chu)"></a><br>Giá chỉ để tham khảo. Đại lý báo giá chính xác và chiết khấu theo công trình.</div>
 </main>
 
 <nav class="thanh"><div class="in">
@@ -639,6 +641,7 @@ function capNhatThanh(){
   var goi=$('thanh-goi');
   goi.href='tel:'+s; goi.textContent = DL ? '📞 Gọi '+DL.ten : '📞 Gọi tư vấn';
   $('tho-zalo').href='https://zalo.me/'+s;
+  var cs=$('chan-sdt'); cs.href='tel:'+HOTLINE_HO_TRO; cs.textContent=dinhDangSdt(HOTLINE_HO_TRO);
 }
 $('tim-gan').onclick=layViTri;
 $('map-tat-ca').href=LINK_MAP_TAT_CA;
@@ -654,7 +657,7 @@ var PHONG=[
 ];
 var TANG=[{ten:'Tiết kiệm',ic:'💰'},{ten:'Phổ thông',ic:'⭐'},{ten:'Cao cấp',ic:'💎'}];
 var SP=[], NGOI=[], KEO=[], THEO_MA={};
-var phong=PHONG[0], tang=1, soHien=12;
+var phong=PHONG[0], tang=1, soHien=6;
 
 function anhNho(u){
   if(!u) return '';
@@ -794,7 +797,7 @@ function vePhong(){
     b.onclick=function(){
       phong=PHONG.filter(function(p){return p.id===b.dataset.id;})[0];
       $('m2').value=phong.m2;
-      soHien=12; vePhong(); veTatCa();
+      soHien=6; vePhong(); veTatCa();
     };
   });
 }
@@ -816,7 +819,7 @@ function veTatCa(){
       +'</button>';
   }).join('');
   Array.prototype.forEach.call(elT.querySelectorAll('button'),function(b){
-    b.onclick=function(){ tang=+b.dataset.i; $('ns').value=''; soHien=12; veTatCa(); };
+    b.onclick=function(){ tang=+b.dataset.i; $('ns').value=''; soHien=6; veTatCa(); };
   });
   veKetQua(ds,t,luong,ns);
   veVatTu();
@@ -850,9 +853,9 @@ function veKetQua(ds,t,luong,ns){
   }
   el.innerHTML='<div class="kq-dau"><h4>'+esc(tieuDe)+'</h4><span>'+loc.length+' mẫu</span></div>'
     +'<div class="luoi">'+loc.slice(0,soHien).map(function(s){ return htmlThe(s,luong); }).join('')+'</div>'
-    +(loc.length>soHien?'<button class="nut them" id="them">Xem thêm '+Math.min(12,loc.length-soHien)+' mẫu</button>':'')
+    +(loc.length>soHien?'<button class="nut them" id="them">Xem thêm '+Math.min(6,loc.length-soHien)+' mẫu</button>':'')
     +'<p class="ghi-chu">Giá bán lẻ niêm yết (đã gồm VAT), chỉ để tham khảo. Bấm ♡ trong chi tiết để lưu mẫu, rồi tới <a href="#dai-ly" style="color:var(--do);font-weight:700;text-decoration:underline">đại lý gần công trình</a> xem mẫu thật và nhận báo giá chính xác.</p>';
-  var b=$('them'); if(b) b.onclick=function(){ soHien+=12; veTatCa(); };
+  var b=$('them'); if(b) b.onclick=function(){ soHien+=6; veTatCa(); };
   ganMo(el);
 }
 function ganMo(el){ Array.prototype.forEach.call(el.querySelectorAll('[data-sp]'),function(b){ b.onclick=function(){ moChiTiet(b.dataset.sp); }; }); }
@@ -862,11 +865,16 @@ var KEO_INFO={
   '10006208':{ten:'GECKO FLOOR', loai:'Keo lát nền, thay hồ dầu', dung:'Lát nền, ốp tường nội thất cao tối đa 2 m. Gạch Porcelain tới 30x60, Ceramic tới 60x60.', m2Bao:6.9},
   '10006209':{ten:'GECKO WALL',  loai:'Keo bám dính cao', dung:'Ốp tường cao tới 5 m, gạch tới 80x80. Dán được gạch chồng lên gạch cũ.', m2Bao:4.6},
   '10006196':{ten:'GECKO PRO',   loai:'Keo gạch khổ lớn', dung:'Gạch tới 60x120, cao tới 5 m. Khu chịu áp lực nước, rung động, công trình lớn.', m2Bao:4.6},
-  '10006195':{ten:'GECKO SUPER', loai:'Keo khu ẩm ướt, gạch rất lớn', dung:'Gạch tới 120x120, ốp cao tới 8 m. Hồ bơi, spa, khu ẩm ướt.', m2Bao:4.6},
+  '10006195':{ten:'GECKO SUPER', loai:'Keo gạch rất lớn, khu ẩm ướt', dung:'Gạch tới 120x120, ốp cao tới 8 m. Hồ bơi, spa, khu ẩm ướt.', m2Bao:4.6},
   '10002953':{ten:'GROUTEX 1 kg', loai:'Bột chà ron', dung:'Ron từ 1–15 mm. Chống bám bẩn, rêu mốc, không nứt như ron xi măng.', kg:1, ron:true},
   '10002955':{ten:'GROUTEX 5 kg', loai:'Bột chà ron', dung:'Bao lớn cho công trình, tiết kiệm hơn bao 1 kg.', kg:5, ron:true}
 };
 var THU_TU_KEO=['10006208','10006209','10006196','10006195','10002953','10002955'];
+// Ô ảnh keo: chữ tên dòng keo nằm dưới, ảnh (nếu tải được) phủ lên trên
+function oKeo(k,i){
+  return '<span class="h ph">'+esc(i.ten.split(' ')[0])+'<br>'+esc(i.ten.split(' ').slice(1).join(' '))
+    +(k.img?'<i style="background-image:url(\''+esc(k.img)+'\')"></i>':'')+'</span>';
+}
 function keoTheoMa(ma){ return KEO.filter(function(k){return k.ma===ma;})[0]; }
 function canh(kc){ var m=String(kc).match(/(\d+)x(\d+)/i); return m?[+m[1],+m[2]]:[600,600]; }
 // Gạch càng lớn, ốp càng cao, khu càng ẩm → dòng keo mạnh hơn
@@ -888,7 +896,7 @@ function htmlVatTu(m2, kc, xuong, laTuong){
   var maKeo=keoChoGach(kc,xuong,laTuong), k=keoTheoMa(maKeo), info=KEO_INFO[maKeo], h='';
   if(k){
     var mb=m2MoiBao(maKeo,laTuong), bao=Math.ceil(m2/mb);
-    h+='<button class="vt-dong" data-sp="'+k.ma+'"><span class="h" style="background-image:url(\''+esc(k.img)+'\')"></span>'
+    h+='<button class="vt-dong" data-sp="'+k.ma+'">'+oKeo(k,info)
       +'<span class="t"><b>'+info.ten+'</b><small>'+esc(info.loai)+' · bao 25 kg ≈ '+String(mb).replace('.',',')+' m²</small></span>'
       +'<span class="s">'+bao+' bao<small>≈ '+tienGon(bao*k.le)+'</small></span></button>';
   }
@@ -899,7 +907,7 @@ function htmlVatTu(m2, kc, xuong, laTuong){
     if(r5 && n1*r1.le>r5.le){ n5++; n1=0; }
     var tienRon=n5*(r5?r5.le:0)+n1*r1.le;
     var mo=[n5?n5+' bao 5 kg':'', n1?n1+' bao 1 kg':''].filter(Boolean).join(' + ');
-    h+='<button class="vt-dong" data-sp="'+(n5?r5.ma:r1.ma)+'"><span class="h" style="background-image:url(\''+esc((n5?r5:r1).img)+'\')"></span>'
+    h+='<button class="vt-dong" data-sp="'+(n5?r5.ma:r1.ma)+'">'+oKeo(n5?r5:r1,{ten:'GROUTEX chà ron'})
       +'<span class="t"><b>Bột chà ron GROUTEX</b><small>Khoảng '+kg+' kg cho gạch '+esc(String(kc).replace('x',' x '))+', ron 2 mm</small></span>'
       +'<span class="s">'+mo+'<small>≈ '+tienGon(tienRon)+'</small></span></button>';
   }
@@ -917,7 +925,7 @@ function veKeo(){
   if(!KEO.length) return;
   $('ds-keo').innerHTML=THU_TU_KEO.map(function(ma){
     var k=keoTheoMa(ma), i=KEO_INFO[ma]; if(!k) return '';
-    return '<button data-sp="'+ma+'"><span class="h" style="background-image:url(\''+esc(k.img)+'\')"></span>'
+    return '<button data-sp="'+ma+'">'+oKeo(k,i)
       +'<span class="t"><b>'+i.ten+'</b>'+esc(i.loai)+' · '+esc(i.dung)+'</span>'
       +'<span class="g">'+tien(k.le)+'<small>đ/bao</small></span></button>';
   }).join('');
@@ -965,7 +973,7 @@ function veNgoi(){
   $('ds-mau').innerHTML=ds.map(function(n){
     var mau=mauNgoi(n);
     return '<button data-sp="'+esc(n.ma)+'"><div class="anh" style="background-image:url(\''+esc(n.img)+'\');background-color:'+mau[1]+'">'
-      +(mau[2]?'<span class="dh">Đặt trước</span>':'')+'<span class="o" style="background:'+mau[1]+'"></span></div>'
+      +(mau[2]?'<span class="dh">Đặt trước</span>':'')+(n.img?'<span class="o" style="background:'+mau[1]+'"></span>':'')+'</div>'
       +'<div class="tt"><b>'+esc(mau[0])+'</b>'+esc(n.code)+(daLuu(n.ma)?' <span style="color:var(--do)">♥</span>':'')+'</div></button>';
   }).join('');
   ganMo($('ds-mau'));
@@ -1021,10 +1029,11 @@ function htmlCoMau(sap){
     chs.forEach(function(ch){ dong.push({d:x.d, ch:ch}); });
   });
   if(viTriKhach) dong.sort(function(a,b){ return kmCach(viTriKhach.lat,viTriKhach.lng,a.ch.lat,a.ch.lng)-kmCach(viTriKhach.lat,viTriKhach.lng,b.ch.lat,b.ch.lng); });
-  return '<h4>📍 Có mẫu thật tại '+soDaiLyCoMau(sap)+' đại lý</h4><div class="o-dau">'+dong.map(function(x){
+  var them=dong.length-3;
+  return '<h4>📍 Có mẫu thật tại '+soDaiLyCoMau(sap)+' đại lý</h4><div class="o-dau">'+dong.slice(0,3).map(function(x){
     return '<div class="d"><span class="t"><b>'+esc(x.d.ten)+'</b><small>'+esc(x.ch.diaChi)+'</small></span>'
       +'<a href="tel:'+esc(sdtCH(x.ch))+'">Gọi</a><a href="'+esc(linkChiDuong(x.ch))+'" target="_blank" rel="noopener">Chỉ đường</a></div>';
-  }).join('')+'</div>';
+  }).join('')+'</div>'+(them>0?'<button class="nut them" style="margin-top:8px" onclick="document.getElementById(&quot;tam-dl&quot;).click()">Xem cả '+dong.length+' cửa hàng có mẫu này</button>':'');
 }
 function htmlViSao(r){ return '<div class="vi-sao">'+r.map(function(x){ return '<div><span class="i">'+x[0]+'</span><span><b>'+x[1]+'</b>'+esc(x[2])+'</span></div>'; }).join('')+'</div>'; }
 function htmlTS(rows){ return '<table class="ts">'+rows.filter(function(r){return r[1];}).map(function(r){ return '<tr><td>'+esc(r[0])+'</td><td>'+esc(r[1])+'</td></tr>'; }).join('')+'</table>'; }
@@ -1216,8 +1225,8 @@ function chiaSe(tieuDe, txt, url){
 // Sự kiện
 $('m2-mai').addEventListener('input',function(){ veNgoi(); });
 $('m2').addEventListener('input',function(){ veTatCa(); });
-$('ns').addEventListener('input',function(){ soHien=12; veTatCa(); });
-$('chi-kk').addEventListener('change',function(){ soHien=12; veTatCa(); });
+$('ns').addEventListener('input',function(){ soHien=6; veTatCa(); });
+$('chi-kk').addEventListener('change',function(){ soHien=6; veTatCa(); });
 
 taiMauDaiLy(); veThap(); veDaiLy(); vePhong(); veLuu(); taiDuLieu();
 })();
