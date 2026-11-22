@@ -175,7 +175,7 @@ a{color:inherit;text-decoration:none}
 'use strict';
 var TRANG_KHACH='https://lechilinhwork-lgtm.github.io/';
 // Link Web App "Hồ sơ công trình" (…/exec). Để trống = chỉ lưu trên điện thoại, tin nhắn dùng link trang chung.
-var CT_API='';
+var CT_API='https://script.google.com/macros/s/AKfycbzJuuVpMZgf2_Hdckq7zuHhf_BHtSeIjBZREvsek9TiggfoPUnA2vYM9SfiX--7yaJ-ug/exec';
 var KHOA='ct_ds_v1';
 var GD=['Đang xây thô','Cất nóc','Tô tường','Sắp lát nền','Hoàn thiện'];
 var CAN=['Gạch','Ngói','Keo, chà ron'];
@@ -346,9 +346,9 @@ function veNut(){
   $('luu-hs').disabled=!coDL || phieu.daLuu;
   $('luu-hs').textContent = phieu.daLuu ? '✓ Đã lưu hồ sơ' : (phieu.gheLai?'☁️ Cập nhật hồ sơ công trình':'☁️ Lưu hồ sơ công trình');
   // Có hồ sơ chung: lưu xong mới gửi (để tin có link hồ sơ). Chưa có: gửi luôn.
-  var choGui = coDL && (!canLuu || phieu.daLuu);
+  var choGui = coDL && (!canLuu || phieu.daLuu || phieu.luuLoi);
   $('gui').disabled=!choGui; $('mo-zalo').disabled=!choGui;
-  $('goi-y-gui').textContent = canLuu && !phieu.daLuu ? 'Bấm "Lưu hồ sơ" trước, tin Zalo sẽ có link xem ảnh và tiến độ công trình.' : '"Gửi Zalo kèm ảnh": chọn Zalo rồi chọn đúng đại lý. Nếu điện thoại không hỗ trợ, dùng "Mở Zalo đại lý" rồi dán tin.';
+  $('goi-y-gui').textContent = canLuu && !phieu.daLuu && !phieu.luuLoi ? 'Bấm "Lưu hồ sơ" trước, tin Zalo sẽ có link xem ảnh và tiến độ công trình.' : '"Gửi Zalo kèm ảnh": chọn Zalo rồi chọn đúng đại lý. Nếu điện thoại không hỗ trợ, dùng "Mở Zalo đại lý" rồi dán tin.';
   $('tin').textContent=soanTin()||'Chọn đại lý để soạn tin.';
 }
 $('xem').onclick=function(){ $('tin').classList.toggle('hien'); this.textContent=$('tin').classList.contains('hien')?'Ẩn tin nhắn':'Xem trước tin nhắn'; };
@@ -372,7 +372,8 @@ $('luu-hs').onclick=function(){
     })
     .catch(function(e){
       if(/PIN/.test(e.message)){ try{ localStorage.removeItem('ct_pin'); }catch(x){} }
-      $('tt').className='trang-thai loi'; $('tt').textContent='Chưa lưu được: '+e.message+'. Kiểm tra mạng rồi bấm lại.';
+      phieu.luuLoi=true;
+      $('tt').className='trang-thai loi'; $('tt').textContent='Chưa lưu được hồ sơ ('+e.message+'). Vẫn gửi Zalo được, tin dùng link trang chung. Có mạng thì bấm lưu lại.';
       veNut();
     });
 };
