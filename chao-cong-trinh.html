@@ -104,7 +104,17 @@ a{color:inherit;text-decoration:none}
 .toast.hien{opacity:1}
 .ghim{font-size:12px;color:var(--phu);text-align:center;margin-top:14px}
 .ghim button{text-decoration:underline;color:var(--phu);font-size:12px}
+.nhom-tieu{font-size:12px;font-weight:800;color:var(--phu);text-transform:uppercase;letter-spacing:.4px;margin:14px 0 6px;padding-top:12px;border-top:1px dashed var(--vien)}
+.hai-nut{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.qr-lop{position:fixed;inset:0;background:rgba(20,10,10,.75);z-index:40;display:none;align-items:center;justify-content:center;padding:16px}
+.qr-lop.mo{display:flex}
+.qr-the{background:#fff;border-radius:20px;padding:18px;text-align:center;max-width:360px;width:100%}
+.qr-the b{display:block;font-size:17px}
+.qr-the small{display:block;color:var(--phu);font-size:13px;margin-top:4px}
+.qr-the .qr{width:260px;height:260px;margin:12px auto}
+.qr-the .qr svg{width:100%;height:100%}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 </head>
 <body>
 <header class="hd"><div class="wrap">
@@ -149,13 +159,22 @@ a{color:inherit;text-decoration:none}
     <button class="nut luu an" id="luu-hs">☁️ Lưu hồ sơ công trình</button>
     <div class="trang-thai" id="tt"></div>
     <div class="link-ho-so" id="link-hs"></div>
+    <div class="nhom-tieu">Gửi đại lý</div>
     <div id="khoi-gui">
-      <button class="nut chinh" id="gui" style="margin-top:8px">Gửi Zalo kèm ảnh</button>
+      <button class="nut chinh" id="gui">Gửi Zalo đại lý kèm ảnh</button>
       <button class="nut phu" id="mo-zalo">💬 Mở Zalo đại lý (tin đã chép sẵn)</button>
     </div>
     <button class="mo-them" id="xem">Xem trước tin nhắn</button>
     <div class="xem-tin" id="tin"></div>
     <p class="goi-y" id="goi-y-gui">"Gửi Zalo kèm ảnh": chọn Zalo rồi chọn đúng đại lý. Nếu điện thoại không hỗ trợ, dùng "Mở Zalo đại lý" rồi dán tin.</p>
+
+    <div class="nhom-tieu">Gửi chủ nhà / thầu</div>
+    <div class="hai-nut">
+      <button class="nut phu" id="qr-cn" style="margin-top:0">📱 QR chủ nhà quét</button>
+      <button class="nut phu" id="gui-cn" style="margin-top:0">↗ Gửi chủ nhà</button>
+    </div>
+    <p class="goi-y">Chủ nhà quét mã là vào trang chọn gạch gắn đúng công trình, bấm "Zalo tư vấn" là nhắn thẳng cho anh. Ảnh gửi chủ nhà không có tên, SĐT khách.</p>
+    <button class="nut phu an" id="xong">✓ Xong, chào công trình tiếp theo</button>
   </section>
 
   <!-- Lịch sử -->
@@ -169,6 +188,12 @@ a{color:inherit;text-decoration:none}
 </main>
 <div class="toast" id="toast"></div>
 
+<div class="qr-lop" id="qr-lop"><div class="qr-the">
+  <b>Mời anh/chị quét mã</b><small>Bằng camera hoặc Zalo · xem gạch, ngói hợp ngân sách và đại lý gần nhà</small>
+  <div class="qr" id="qr-o"></div>
+  <small id="qr-link" style="word-break:break-all"></small>
+  <button class="nut luu" id="qr-dong" style="margin-top:12px">Đóng</button>
+</div></div>
 <script src="dai-ly.js"></script>
 <script>
 (function(){
@@ -213,7 +238,7 @@ function nhanAnh(files){
         cv.getContext('2d').drawImage(img,0,0,cv.width,cv.height);
         var t=document.createElement('canvas'), q=240/Math.max(cv.width,cv.height); t.width=Math.round(cv.width*q); t.height=Math.round(cv.height*q);
         t.getContext('2d').drawImage(cv,0,0,t.width,t.height);
-        var a={b64:cv.toDataURL('image/jpeg',0.78), nho:t.toDataURL('image/jpeg',0.6), file:null};
+        var a={b64:cv.toDataURL('image/jpeg',0.78), nho:t.toDataURL('image/jpeg',0.6), file:null, cv:cv};
         cv.toBlob(function(b){ a.file=new File([b],phieu.id+'_'+(phieu.anh.indexOf(a)+1)+'.jpg',{type:'image/jpeg'}); },'image/jpeg',0.8);
         if(phieu.anh.length<TOI_DA_ANH){ phieu.anh.push(a); phieu.daLuu=false; veAnh(); veNut(); }
         if(!viTri) layViTri();
@@ -347,7 +372,7 @@ function veNut(){
   $('luu-hs').textContent = phieu.daLuu ? '✓ Đã lưu hồ sơ' : (phieu.gheLai?'☁️ Cập nhật hồ sơ công trình':'☁️ Lưu hồ sơ công trình');
   // Có hồ sơ chung: lưu xong mới gửi (để tin có link hồ sơ). Chưa có: gửi luôn.
   var choGui = coDL && (!canLuu || phieu.daLuu || phieu.luuLoi);
-  $('gui').disabled=!choGui; $('mo-zalo').disabled=!choGui;
+  $('gui').disabled=!choGui; $('mo-zalo').disabled=!choGui; $('gui-cn').disabled=!choGui; $('qr-cn').disabled=!choGui;
   $('goi-y-gui').textContent = canLuu && !phieu.daLuu && !phieu.luuLoi ? 'Bấm "Lưu hồ sơ" trước, tin Zalo sẽ có link xem ảnh và tiến độ công trình.' : '"Gửi Zalo kèm ảnh": chọn Zalo rồi chọn đúng đại lý. Nếu điện thoại không hỗ trợ, dùng "Mở Zalo đại lý" rồi dán tin.';
   $('tin').textContent=soanTin()||'Chọn đại lý để soạn tin.';
 }
@@ -380,16 +405,106 @@ $('luu-hs').onclick=function(){
 
 function chep(t){ if(navigator.clipboard) return navigator.clipboard.writeText(t).catch(function(){}); var a=document.createElement('textarea'); a.value=t; document.body.appendChild(a); a.select(); try{document.execCommand('copy');}catch(e){} a.remove(); return Promise.resolve(); }
 
-// ===== Gửi Zalo =====
+// ===== Ảnh gửi Zalo có dải thông tin bên dưới (giống Giỏ ảnh SalesTool, KHÔNG in logo theo TB 60/2026) =====
+function homNay(){ return new Date().toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit',year:'numeric'}); }
+function dongDaiLy(){
+  var x=dlChon(); if(!x) return [];
+  var kc=viTri?km(viTri.lat,viTri.lng,x.c.lat,x.c.lng):null, gc=$('ghi-chu').value.trim(), ten=$('k-ten').value.trim(), sdt=$('k-sdt').value.trim();
+  var d=[{t:'CÔNG TRÌNH '+phieu.id+(phieu.gd?' · '+phieu.gd:'')+' · '+homNay(), mau:'#FFFFFF', dam:1}];
+  if(phieu.can.length||gc) d.push({t:[phieu.can.length?'Cần: '+phieu.can.join(', '):'', gc].filter(Boolean).join(' · '), mau:'#F3E2B3', dam:1});
+  d.push({t:'Gần đại lý: '+x.d.ten+(kc!=null?' (~'+soKm(kc)+')':'')+((ten||sdt)?' · Khách: '+[ten,sdt].filter(Boolean).join(' '):''), mau:'#A9A9A9'});
+  if(CT_API&&phieu.daLuu) d.push({t:'Hồ sơ: '+linkHS(phieu.id).replace('https://',''), mau:'#A9A9A9'});
+  return d;
+}
+function dongChuNha(){
+  var x=dlChon(); if(!x) return [];
+  var s=x.c.sdt||x.d.cuaHang[0].sdt||HOTLINE_HO_TRO;
+  var d=[{t:'CÔNG TRÌNH NHÀ MÌNH'+(phieu.gd?' · '+phieu.gd:'')+' · '+homNay(), mau:'#FFFFFF', dam:1},
+         {t:'Đại lý Đồng Tâm gần nhà: '+x.d.ten+' · '+dinhDangSdt(s), mau:'#F3E2B3', dam:1},
+         {t:'Tư vấn, báo giá: '+TEN_TU_VAN+' · Zalo '+dinhDangSdt(ZALO_TU_VAN), mau:'#A9A9A9'}];
+  d.push({t:'Chọn gạch theo ngân sách: '+linkKhach().replace('https://',''), mau:'#A9A9A9'});
+  return d;
+}
+function ganDai(cv, dong){
+  var w=cv.width, h=cv.height, b=Math.max(16,Math.round(Math.sqrt(w*h)*0.04)), pad=Math.round(b*0.8), lh=Math.round(b*1.4);
+  var tmp=document.createElement('canvas').getContext('2d'), dongVe=[];
+  dong.forEach(function(x,i){
+    var co=i===0?b:Math.round(b*0.82); tmp.font=(x.dam?'bold ':'')+co+'px Arial, sans-serif';
+    // giữ số điện thoại, "125 m", "120 m2" trên cùng 1 dòng
+    var giu=String(x.t).replace(/(\d) (?=\d)/g,'$1 ').replace(/ (m|m2|m²|km)(?=[\s)·,.]|$)/g,' $1');
+    var chu=giu.split(' '), cur='';
+    chu.forEach(function(t){ var thu=cur?cur+' '+t:t; if(tmp.measureText(thu).width>w-pad*2 && cur){ dongVe.push({t:cur,co:co,x:x}); cur=t; } else cur=thu; });
+    if(cur) dongVe.push({t:cur,co:co,x:x});
+  });
+  var dai=pad*2+dongVe.reduce(function(s,d){return s+Math.round(d.co*1.4);},0);
+  var c=document.createElement('canvas'); c.width=w; c.height=h+dai;
+  var g=c.getContext('2d'); g.drawImage(cv,0,0);
+  g.fillStyle='#2A2A2A'; g.fillRect(0,h,w,dai); g.fillStyle='#3C3C3C'; g.fillRect(0,h,w,1);
+  var y=h+pad; g.textBaseline='top';
+  dongVe.forEach(function(d){ g.font=(d.x.dam?'bold ':'')+d.co+'px Arial, sans-serif'; g.fillStyle=d.x.mau; g.fillText(d.t,pad,y); y+=Math.round(d.co*1.4); });
+  var u=c.toDataURL('image/jpeg',0.85), bin=atob(u.split(',')[1]), arr=new Uint8Array(bin.length);
+  for(var i=0;i<bin.length;i++) arr[i]=bin.charCodeAt(i);
+  return arr;
+}
+function anhCoDai(loai){
+  var dong=loai==='cn'?dongChuNha():dongDaiLy();
+  return phieu.anh.filter(function(a){return a.cv;}).map(function(a,i){
+    return new File([ganDai(a.cv,dong)], phieu.id+'_'+(loai==='cn'?'chu-nha':'dai-ly')+'_'+(i+1)+'.jpg', {type:'image/jpeg'});
+  });
+}
+function linkKhach(){ return CT_API&&phieu.daLuu ? TRANG_KHACH+'?ct='+phieu.id : TRANG_KHACH+'?dl='+phieu.dl; }
+
+// ===== Gửi Zalo đại lý =====
 $('gui').onclick=function(){
   var tin=soanTin(); if(!tin) return;
-  var data={text:tin}, files=phieu.anh.map(function(a){return a.file;}).filter(Boolean);
+  var data={text:tin}, files=[];
+  try{ files=anhCoDai('dl'); }catch(e){ files=phieu.anh.map(function(a){return a.file;}).filter(Boolean); }
   if(files.length && navigator.canShare && navigator.canShare({files:files})) data.files=files;
   if(navigator.share){
     chep(tin);   // phòng khi Zalo chỉ nhận ảnh: tin đã nằm sẵn để dán
     navigator.share(data).then(function(){ daGui(); }).catch(function(e){ if(e && e.name!=='AbortError') moZalo(); });
   } else moZalo();
 };
+
+// ===== Chủ nhà / thầu =====
+function tinChuNha(){
+  var x=dlChon(); if(!x) return '';
+  var s=x.c.sdt||x.d.cuaHang[0].sdt||HOTLINE_HO_TRO, ten=$('k-ten').value.trim();
+  var d=['Chào '+(ten||'anh/chị')+', em là '+TEN_TU_VAN.replace(/^anh /,'')+' – Gạch Đồng Tâm.'];
+  if(CT_API&&phieu.daLuu) d.push('Hồ sơ công trình nhà mình (ảnh, tiến độ): '+linkHS(phieu.id));
+  d.push('Xem mẫu gạch, ngói hợp ngân sách: '+linkKhach());
+  d.push('Đại lý Đồng Tâm gần nhà có sẵn mẫu thật: '+x.d.ten+', '+x.c.diaChi+' – '+dinhDangSdt(s)+'.');
+  d.push('Cần tư vấn, báo giá anh/chị Zalo em '+dinhDangSdt(ZALO_TU_VAN)+' nhé.');
+  return d.join('\n');
+}
+$('gui-cn').onclick=function(){
+  var tin=tinChuNha(); if(!tin) return;
+  var data={text:tin}, files=[];
+  try{ files=anhCoDai('cn'); }catch(e){}
+  if(files.length && navigator.canShare && navigator.canShare({files:files})) data.files=files;
+  var sdt=$('k-sdt').value.replace(/\D/g,'');
+  chep(tin);
+  if(navigator.share){ navigator.share(data).then(function(){ daGuiCN(); }).catch(function(e){ if(e && e.name!=='AbortError') moZaloCN(sdt); }); }
+  else moZaloCN(sdt);
+};
+function moZaloCN(sdt){
+  chep(tinChuNha()).then(function(){
+    daGuiCN();
+    if(sdt){ bao('Đã chép tin. Trong Zalo bấm giữ ô chat → Dán'); setTimeout(function(){ location.href='https://zalo.me/'+sdt; },700); }
+    else bao('Đã chép tin. Mở Zalo của chủ nhà rồi dán (hoặc ghi SĐT khách để mở thẳng).');
+  });
+}
+function daGuiCN(){ luuTrenMay(false,false,true); $('xong').classList.remove('an'); }
+$('qr-cn').onclick=function(){
+  if(typeof qrcode!=='function'){ bao('Chưa tải được thư viện QR, kiểm tra mạng'); return; }
+  var link=linkKhach(), q=qrcode(0,'M'); q.addData(link); q.make();
+  $('qr-o').innerHTML=q.createSvgTag({cellSize:6,margin:2,scalable:true});
+  $('qr-link').textContent=link.replace('https://','');
+  $('qr-lop').classList.add('mo');
+  daGuiCN();
+};
+$('qr-dong').onclick=function(){ $('qr-lop').classList.remove('mo'); };
+$('xong').onclick=function(){ lamMoi(); };
 function moZalo(){
   var x=dlChon(); if(!x) return;
   chep(soanTin()).then(function(){
@@ -399,7 +514,8 @@ function moZalo(){
   });
 }
 $('mo-zalo').onclick=moZalo;
-function daGui(){ luuTrenMay(true); setTimeout(lamMoi,1200); }
+// Gửi xong không tự xoá phiếu: anh còn gửi chủ nhà / cho quét QR, rồi bấm "Xong" để sang công trình mới
+function daGui(){ luuTrenMay(true); $('xong').classList.remove('an'); bao('Đã ghi nhận. Gửi chủ nhà hoặc bấm "Xong" để sang công trình tiếp theo'); }
 
 // ===== Danh sách trên điện thoại =====
 function doc(){ try{ return JSON.parse(localStorage.getItem(KHOA)||'[]')||[]; }catch(e){ return []; } }
@@ -409,7 +525,7 @@ function ghi(ds){
   catch(e){ ds.forEach(function(p,i){ if(i>=20) p.img=''; }); try{ localStorage.setItem(KHOA,JSON.stringify(ds)); }catch(e2){ bao('Bộ nhớ đầy: hãy tải Excel rồi xoá bớt'); } }
 }
 // Mỗi lần ghé là 1 dòng (lần ghé lại cùng mã công trình vẫn thêm dòng mới)
-function luuTrenMay(daGuiZalo, daLuuHS){
+function luuTrenMay(daGuiZalo, daLuuHS, daGuiChuNha){
   var x=dlChon(); if(!x) return;
   var ds=doc(), cu=ds.filter(function(p){return p.lan===phieu.lanId;})[0];
   if(!phieu.lanId) phieu.lanId=phieu.id+'_'+Date.now().toString(36);
@@ -418,13 +534,13 @@ function luuTrenMay(daGuiZalo, daLuuHS){
   p.lat=viTri?viTri.lat:null; p.lng=viTri?viTri.lng:null; p.km=viTri?+km(viTri.lat,viTri.lng,x.c.lat,x.c.lng).toFixed(2):null;
   p.ten=$('k-ten').value.trim(); p.sdt=$('k-sdt').value.trim(); p.ghiChu=$('ghi-chu').value.trim();
   p.soAnh=phieu.anh.length; p.img=(phieu.anh[0]&&phieu.anh[0].nho)||p.img||'';
-  if(daGuiZalo) p.gui=true; if(daLuuHS) p.hs=true;
+  if(daGuiZalo) p.gui=true; if(daLuuHS) p.hs=true; if(daGuiChuNha) p.cn=true;
   if(!cu) ds.unshift(p);
   ghi(ds); veLichSu();
 }
 function lamMoi(){
   moi(); $('ghi-chu').value=''; $('k-ten').value=''; $('k-sdt').value=''; $('them-tt').classList.remove('hien');
-  $('tt').textContent=''; $('link-hs').classList.remove('hien');
+  $('tt').textContent=''; $('link-hs').classList.remove('hien'); $('xong').classList.add('an');
   veAnh(); veChips(); veDaiLy(true); timGan();
   window.scrollTo({top:0,behavior:'smooth'});
 }

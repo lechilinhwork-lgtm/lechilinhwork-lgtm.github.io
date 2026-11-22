@@ -180,7 +180,7 @@ b{font-weight:800}
         <ul><li>Xem gạch, ngói, keo Đồng Tâm và giá niêm yết</li><li>Chọn mẫu theo số tiền bạn có</li><li>Tìm đại lý gần công trình, chỉ đường tới nơi</li></ul>
       </div>
     </div>
-    <div class="hl">Hỗ trợ kỹ thuật & báo giá công trình: <b class="js-hotline"></b></div>
+    <div class="hl">💬 Zalo / 📞 tư vấn & báo giá công trình: <b class="js-hotline"></b></div>
   </div>
 
   <!-- Bìa -->
@@ -264,7 +264,7 @@ b{font-weight:800}
     <div class="b"><div class="so">4</div><div><b>Chọn đại lý gần công trình</b><p>Xem mẫu thật, nhận báo giá chính xác và chiết khấu theo công trình.</p></div></div>
     <div class="qr-khoi" style="margin-top:auto">
       <div class="qr js-qr"></div>
-      <div class="ct"><b>Quét để bắt đầu</b><p>Giá luôn cập nhật mới nhất trên điện thoại của bạn.</p></div>
+      <div class="ct"><b>Quét để bắt đầu</b><p>Giá luôn cập nhật mới nhất trên điện thoại của bạn.</p><p style="margin-top:1.2mm"><b style="display:inline;font-size:8.6pt;color:#0068FF">💬 Zalo tư vấn: <span class="js-hotline"></span></b></p></div>
     </div>
     <div class="dl-cuoi">Mẫu thật có sẵn tại <b class="js-dl-ten">—</b><br><span class="js-dl-dc"></span></div>
   </div>
@@ -291,7 +291,7 @@ b{font-weight:800}
     var link=goc.value.trim()+(d?'?dl='+d.ma:'');
     document.getElementById('link-qr').textContent=link;
     set('js-qr', qrSvg(link));
-    set('js-hotline', dinhDangSdt(HOTLINE_HO_TRO));
+    set('js-hotline', dinhDangSdt(ZALO_TU_VAN)+' ('+TEN_TU_VAN+')');
     if(d){
       set('js-dl-ten', esc(d.ten));
       set('js-dl-day', esc(d.tenDay));

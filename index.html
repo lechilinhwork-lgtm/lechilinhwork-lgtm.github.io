@@ -275,6 +275,13 @@ section[id]{scroll-margin-top:12px}
 .thanh .in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:1.25fr 1fr;gap:8px}
 .thanh .nut{height:46px;font-size:14px}
 .an{display:none!important}
+.nut.zl{background:#0068FF;color:#fff;border-color:#0068FF}
+.ct-banner{display:flex;gap:10px;align-items:center;background:#fff;border:1.5px solid var(--do);border-radius:16px;padding:12px 14px;margin-top:14px}
+.ct-banner .i{flex:0 0 40px;height:40px;border-radius:12px;background:var(--do-nhat);display:flex;align-items:center;justify-content:center;font-size:20px}
+.ct-banner b{display:block;font-size:14.5px}
+.ct-banner small{display:block;color:var(--phu);font-size:12.5px;line-height:1.35}
+.ct-banner a{color:var(--do);font-weight:700;text-decoration:underline}
+.hoi-zalo{display:flex;align-items:center;gap:6px;margin-top:8px;font-size:13.5px;font-weight:700;color:#0068FF;background:#F3F7FF;border:1.5px solid #CFE0FF;border-radius:10px;padding:8px 12px}
 </style>
 </head>
 <body>
@@ -297,6 +304,8 @@ section[id]{scroll-margin-top:12px}
     <a href="#keo"><span class="ic">🧴</span>Keo, chà ron</a>
     <a href="#dai-ly"><span class="ic">📍</span>Đại lý gần bạn</a>
   </nav>
+
+  <div class="ct-banner an" id="ct-banner"></div>
 
   <!-- Mẫu chủ lực, bán chạy -->
   <section class="khoi an" id="chu-luc">
@@ -454,7 +463,7 @@ section[id]{scroll-margin-top:12px}
 
 <nav class="thanh"><div class="in">
   <a class="nut chinh" href="#dai-ly">📍 Đại lý gần bạn</a>
-  <a class="nut" id="thanh-goi">📞 Gọi tư vấn</a>
+  <a class="nut zl" id="thanh-goi" href="#">💬 Zalo tư vấn</a>
 </div></nav>
 
 <!-- Bảng chi tiết sản phẩm -->
@@ -637,12 +646,49 @@ function layViTri(){
   },function(){ b.textContent='Chưa lấy được vị trí, chọn theo khu vực bên dưới'; },{enableHighAccuracy:false,timeout:9000,maximumAge:600000});
 }
 function capNhatThanh(){
-  var s = DL ? sdtCH(DL.cuaHang[0]) : HOTLINE_HO_TRO;
-  var goi=$('thanh-goi');
-  goi.href='tel:'+s; goi.textContent = DL ? '📞 Gọi '+DL.ten : '📞 Gọi tư vấn';
-  $('tho-zalo').href='https://zalo.me/'+s;
+  $('thanh-goi').onclick=function(e){ e.preventDefault(); zaloTuVan(); };
+  $('tho-zalo').onclick=function(e){ e.preventDefault(); zaloTuVan('', 'Em là thầu/kiến trúc sư, cần báo giá công trình. Em gửi diện tích/bản vẽ sau tin này.'); };
+  $('tho-zalo').href='https://zalo.me/'+ZALO_TU_VAN;
   var cs=$('chan-sdt'); cs.href='tel:'+HOTLINE_HO_TRO; cs.textContent=dinhDangSdt(HOTLINE_HO_TRO);
 }
+// ===== ZALO TƯ VẤN (anh Linh) =====
+// Zalo không cho điền sẵn tin qua link, nên trang chép tin vào bộ nhớ rồi mở Zalo: khách chỉ việc dán + gửi.
+function chepTin(t){ if(navigator.clipboard&&window.isSecureContext) return navigator.clipboard.writeText(t).catch(function(){}); var a=document.createElement('textarea'); a.value=t; document.body.appendChild(a); a.select(); try{document.execCommand('copy');}catch(e){} a.remove(); return Promise.resolve(); }
+function zaloTuVan(mau, them){
+  var dong=['Chào '+TEN_TU_VAN+', em xem tờ rơi gạch Đồng Tâm'+(CT_INFO?' (công trình mã '+CT_INFO.id+')':'')+'.'];
+  if(mau){ dong.push('Em hỏi về mẫu: '+mau+'.'); }
+  else {
+    var luu=(typeof LUU!=='undefined'?LUU:[]).filter(function(id){ return THEO_MA[id]; }).slice(0,8);
+    if(luu.length) dong.push('Em quan tâm các mẫu: '+luu.map(tenNgan).join('; ')+'.');
+  }
+  if(them) dong.push(them);
+  dong.push('Nhờ anh tư vấn giúp em ạ.');
+  chepTin(dong.join(String.fromCharCode(10))).then(function(){
+    baoNhanh('Đã chép tin. Trong Zalo bấm giữ ô chat → Dán → Gửi');
+    setTimeout(function(){ location.href='https://zalo.me/'+ZALO_TU_VAN; },900);
+  });
+}
+// ===== KHÁCH QUÉT QR CÔNG TRÌNH (?ct=<mã>) =====
+var CT_API='https://script.google.com/macros/s/AKfycbzJuuVpMZgf2_Hdckq7zuHhf_BHtSeIjBZREvsek9TiggfoPUnA2vYM9SfiX--7yaJ-ug/exec';
+var CT_INFO=null;
+(function(){
+  var ma=(qs.get('ct')||'').trim(); if(!ma||!CT_API) return;
+  var cb='_ctk'+Date.now(), s=document.createElement('script');
+  window[cb]=function(r){
+    delete window[cb]; s.remove(); if(!r||!r.ok) return;
+    CT_INFO=r;
+    var d=timDaiLy(r.dl); if(d && !DL) DL=d;
+    var ch=d?(d.cuaHang.filter(function(c){return c.diaChi===r.ch;})[0]||d.cuaHang[0]):null;
+    var el=$('ct-banner');
+    el.innerHTML='<span class="i">🏗️</span><span><b>Công trình của anh/chị · mã '+esc(r.id)+'</b><small>'
+      +(r.gd?'Đang ở giai đoạn: '+esc(r.gd)+'. ':'')+(d?'Đại lý gần nhất: <b style="display:inline;font-size:12.5px">'+esc(d.ten)+'</b>'+(ch?' ('+esc(ch.diaChi.split(',')[0])+')':'')+'. ':'')
+      +'<a href="ct.html?id='+encodeURIComponent(r.id)+'">Xem ảnh, tiến độ</a></small></span>';
+    el.classList.remove('an');
+    veDaiLy();
+  };
+  s.src=CT_API+'?action=xem&id='+encodeURIComponent(ma)+'&callback='+cb; s.onerror=function(){};
+  document.head.appendChild(s);
+})();
 $('tim-gan').onclick=layViTri;
 $('map-tat-ca').href=LINK_MAP_TAT_CA;
 
@@ -1141,6 +1187,8 @@ function moChiTiet(id, tuLink){
   }
   var ac=$('anh-cuon'), dem=$('dem-anh');
   if(ac && dem) ac.addEventListener('scroll',function(){ dem.textContent=(Math.round(ac.scrollLeft/ac.clientWidth)+1)+'/'+ac.children.length; },{passive:true});
+  var gl=c.querySelector('.gia-lon');
+  if(gl){ gl.insertAdjacentHTML('afterend','<button class="hoi-zalo" id="hoi-zalo">💬 Hỏi '+TEN_TU_VAN+' về mẫu này qua Zalo</button>'); $('hoi-zalo').onclick=function(){ zaloTuVan(tenNgan(id)); }; }
   capNutLuu();
   $('phu-lop').classList.add('mo'); $('tam').classList.add('mo'); document.body.classList.add('khoa');
   if(tuLink){ moQuaLink=true; return; }

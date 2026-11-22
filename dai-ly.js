@@ -11,6 +11,8 @@
 
 var HOTLINE_HO_TRO = '0819548908';          // Gọi tư vấn: anh Lê Chí Linh, Đồng Tâm
 var HOTLINE_HO_TRO_TEN = 'Tư vấn Đồng Tâm';
+var ZALO_TU_VAN = '0819548908';               // Zalo anh Linh: khách bấm "Zalo tư vấn" là nhắn thẳng số này
+var TEN_TU_VAN = 'anh Linh';
 var LINK_MAP_TAT_CA = 'https://maps.app.goo.gl/N3aaxeVsy6NH9h8F7';
 
 var DAI_LY = [
