@@ -476,8 +476,8 @@ section[id]{scroll-margin-top:12px}
 var APPS_URL='https://script.google.com/macros/s/AKfycbyrO8symCYOkWsGG0nRWPF7gpndC3mzEVUk15UvWrA0O81ZUumW-kX_gEOZhtCJ34bMVQ/exec';
 var APP_KEY='QDy3MCObF1FLdoBexB9XO3dECy64';
 var CACHE_KEY='tg_cache_v4', CACHE_GIO=6;   // giữ bảng giá 6 tiếng trên máy khách
-// Link Web App "Cấp mẫu đại lý" (…/exec). Để trống thì dùng bản chụp trong mau-dai-ly.js
-var MAU_DL_URL='';
+// App Quản lý mẫu (quanlycongviectaidaily) — cổng công khai ?action=mauKhach. Chưa trả được thì dùng bản chụp mau-dai-ly.js
+var MAU_DL_URL='https://script.google.com/macros/s/AKfycbxeqnYKywzQqPH8dnpbQbmnvNBRndNNjkrtQNSKuVkYbVjsI107nIqsFIDnbc6QR5fWdQ/exec';
 var NOI_BAT=['DONGVAN','BARI'];   // bộ sưu tập chủ lực ưu tiên hiển thị
 var HAO_HUT=1.05;
 
@@ -537,44 +537,36 @@ function veThap(){
   Array.prototype.forEach.call($('thap').querySelectorAll('button'),function(b){ b.onclick=function(){ tangThap=+b.dataset.t; veThap(); }; });
 }
 
-// ===== MẪU ĐANG TRƯNG BÀY Ở ĐẠI LÝ (từ app cấp mẫu) =====
-function boDau(s){ return String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[đĐ]/g,'d').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim(); }
-function khoaDL(d){ return boDau(d.ten).replace(/\b(home|ceramic|svc|i)\b/g,' ').replace(/\s+/g,' ').trim(); }
-// "Thiên Lộc (Lê Văn Việt)" → đại lý Thiên Lộc, đúng cửa hàng Lê Văn Việt
-function ghepDaiLy(nhan){
-  var n=boDau(nhan), trong=(String(nhan).match(/\(([^)]+)\)/)||[])[1];
-  for(var i=0;i<DAI_LY.length;i++){
-    var d=DAI_LY[i], k=khoaDL(d);
-    if(k && (' '+n+' ').indexOf(' '+k+' ')>=0){
-      var ch=-1;
-      if(trong){ var t=boDau(trong); d.cuaHang.forEach(function(c,j){ if(ch<0 && boDau(c.diaChi).indexOf(t)>=0) ch=j; }); }
-      return {d:d, ch:ch};
-    }
-  }
-  return null;
-}
-var CO_MAU={};   // SAP → [{d, ch}]
+// ===== MẪU ĐANG TRƯNG BÀY Ở ĐẠI LÝ + MẪU BÁN CHẠY (từ app Quản lý mẫu) =====
+// Dữ liệu: {dl:[tên đại lý như cột Stock_by_Agency], mau:{SAP:[vị trí trong dl]}, banChay:[SAP theo hạng]}
+function boDau(s){ return String(s||'').replace(/​/g,'').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[đĐ]/g,'d').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim(); }
+var TEN_COT={};   // tên cột (bỏ dấu) → [{d, ch}]
+DAI_LY.forEach(function(d){ (d.mau||[]).forEach(function(m){
+  var k=boDau(m.ten); TEN_COT[k]=TEN_COT[k]||[];
+  if(m.ch) m.ch.forEach(function(i){ TEN_COT[k].push({d:d, ch:i}); }); else TEN_COT[k].push({d:d, ch:-1});
+}); });
+var CO_MAU={}, HANG_BC={};   // SAP → [{d, ch}] ; SAP → hạng bán chạy (0 = bán chạy nhất)
 function apMauDaiLy(goc){
-  if(!goc||!goc.mau) return;
+  if(!goc||!goc.mau||!goc.dl) return;
+  var cot=goc.dl.map(function(t){ return TEN_COT[boDau(t)]||null; });
   CO_MAU={};
   Object.keys(goc.mau).forEach(function(ma){
-    goc.mau[ma].forEach(function(nhan){
-      var g=ghepDaiLy(nhan); if(!g) return;
-      var ds=CO_MAU[ma]=CO_MAU[ma]||[];
-      if(!ds.some(function(x){return x.d===g.d && x.ch===g.ch;})) ds.push(g);
-    });
+    var ds=[];
+    goc.mau[ma].forEach(function(i){ (cot[i]||[]).forEach(function(g){ if(!ds.some(function(x){return x.d===g.d && x.ch===g.ch;})) ds.push(g); }); });
+    if(ds.length) CO_MAU[ma]=ds;
   });
+  HANG_BC={}; (goc.banChay||[]).forEach(function(ma,i){ if(!(ma in HANG_BC)) HANG_BC[ma]=i; });
 }
 function taiMauDaiLy(){
-  var c=null; try{ c=JSON.parse(localStorage.getItem('tg_maudl')||'null'); }catch(e){}
+  var c=null; try{ c=JSON.parse(localStorage.getItem('tg_maudl2')||'null'); }catch(e){}
   apMauDaiLy(c && c.t>MAU_DAI_LY_CHUP.t ? c : MAU_DAI_LY_CHUP);
   if(!MAU_DL_URL) return;
   var cb='_md'+Date.now(), s=document.createElement('script');
   window[cb]=function(res){
     delete window[cb]; s.remove();
-    if(res && res.mau){ try{ localStorage.setItem('tg_maudl',JSON.stringify(res)); }catch(e){} apMauDaiLy(res); if(SP.length){ veTatCa(); veChuLuc(); } veDaiLy(); }
+    if(res && res.mau && res.dl && res.dl.length){ try{ localStorage.setItem('tg_maudl2',JSON.stringify(res)); }catch(e){} apMauDaiLy(res); if(SP.length){ veTatCa(); veChuLuc(); } veDaiLy(); }
   };
-  s.src=MAU_DL_URL+'?action=mauDaiLy&callback='+cb; s.onerror=function(){};
+  s.src=MAU_DL_URL+'?action=mauKhach&callback='+cb; s.onerror=function(){};
   document.head.appendChild(s);
 }
 function soDaiLyCoMau(sap){ var a=CO_MAU[sap]||[], dl=[]; a.forEach(function(x){ if(dl.indexOf(x.d)<0) dl.push(x.d); }); return dl.length; }
@@ -720,8 +712,9 @@ function apDung(d){
 }
 // Điểm ưu tiên hiển thị: có mẫu ở đại lý > bán chạy (★) > chủ lực > bộ sưu tập nổi bật
 function laNoiBat(s){ var t=tenMau(s.ma); return NOI_BAT.some(function(k){ return t.indexOf(k)===0; }); }
-function diem(s){ return (CO_MAU[s.sap]?4:0) + (s.cl===2?3:s.cl===1?2:0) + (laNoiBat(s)?2:0); }
-function nhanCL(s){ return s.cl===2?'Bán chạy':s.cl===1?'Chủ lực':''; }
+function hangBC(s){ var h=HANG_BC[s.sap]; return h==null?9999:h; }
+function diem(s){ var h=hangBC(s); return (CO_MAU[s.sap]?4:0) + (h<60?4:h<200?3:s.cl===2?3:s.cl===1?2:0) + (laNoiBat(s)?2:0); }
+function nhanCL(s){ var h=hangBC(s); return h<60?'Bán chạy nhất':(h<200||s.cl===2)?'Bán chạy':s.cl===1?'Chủ lực':''; }
 function htmlThe(s, luong){
   var n=soDaiLyCoMau(s.sap);
   return '<button class="sp" data-sp="'+esc(s.sap)+'"><div class="anh" style="background-image:url(\''+esc(s.img)+'\')"><span class="nhan">'
@@ -737,7 +730,7 @@ function htmlThe(s, luong){
     +'</div></button>';
 }
 function veChuLuc(){
-  var ds=SP.filter(function(s){ return s.cl || laNoiBat(s) || CO_MAU[s.sap]; });
+  var ds=SP.filter(function(s){ return s.cl || laNoiBat(s) || CO_MAU[s.sap] || hangBC(s)<200; });
   // Bộ sưu tập chủ lực anh Linh chọn (DONGVAN, BARI) luôn đứng đầu, rồi tới mẫu có ở đại lý / bán chạy
   ds.sort(function(a,b){ return (laNoiBat(b)-laNoiBat(a)) || diem(b)-diem(a) || b.le-a.le; });
   var dem={}, chon=[];
