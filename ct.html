@@ -119,6 +119,9 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .td div.nay{color:var(--do2)}
 .cta{border-color:var(--do2)}
 .video a::before{background:var(--do2)}
+
+.gop-y{display:inline-block;margin-top:8px;padding-top:8px;border-top:1px solid #E3D9D6}
+.gop-y a{color:#8C1206;font-weight:700;text-decoration:underline}
 </style>
 </head>
 <body>
@@ -220,7 +223,7 @@ function ve(r){
     $('t-xem').href='./?ct='+encodeURIComponent(r.id);
   } else { $('t-goi').href='./#dai-ly'; $('t-goi').textContent='Đại lý gần bạn'; }
   h+='<a class="cta" href="'+$('t-xem').getAttribute('href')+'"><span><b>Chọn gạch, ngói cho công trình này</b><small>Xem mẫu, giá niêm yết, tính số thùng theo diện tích</small></span><span class="mui">›</span></a>';
-  h+='<div class="chan">Gạch Đồng Tâm · Vì cuộc sống tươi đẹp<br>Tư vấn, báo giá và giao hàng do đại lý Đồng Tâm phụ trách thực hiện.</div>';
+  h+='<div class="chan">Gạch Đồng Tâm · Vì cuộc sống tươi đẹp<br>Tư vấn, báo giá và giao hàng do đại lý Đồng Tâm phụ trách thực hiện.<br><span class="gop-y">Góp ý về trang web và sản phẩm: <a href="https://zalo.me/0819548908" target="_blank" rel="noopener">Zalo 0819 548 908</a> · <a href="mailto:lechilinh.work@gmail.com">lechilinh.work@gmail.com</a></span></div>';
   $('nd').innerHTML=h;
   // Chia 2 cột trên máy tính: trái = tiến độ + ảnh, phải = vật liệu, vị trí, đại lý (trên điện thoại vẫn xếp 1 cột theo thứ tự cũ)
   (function(){
