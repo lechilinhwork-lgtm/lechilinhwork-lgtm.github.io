@@ -638,6 +638,23 @@ button:active,.nut:active{transform:scale(.98)}
 .ai-thu button.ai-nut{width:100%;min-height:46px;border-radius:12px;border:0;background:#8C1206;color:#fff;font-weight:800;font-size:15px}
 .ai-thu ol{margin:10px 0 0;padding-left:20px;font-size:13px;color:#3B3434;display:grid;gap:4px}
 .ai-thu .ai-ghi{font-size:12px;color:var(--phu);margin-top:8px}
+
+/* ===== PHỐI AI NGAY TRÊN WEB ===== */
+.ai-chon{display:flex;gap:8px;margin:8px 0}
+.ai-chon button{flex:1;min-height:40px;border:1.5px solid var(--vien);background:#fff;border-radius:999px;font-weight:700;font-size:14px}
+.ai-chon button.on{background:#8C1206;border-color:#8C1206;color:#fff}
+label.ai-nut{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:50px;border-radius:12px;background:#8C1206;color:#fff;font-weight:800;font-size:15.5px;cursor:pointer}
+.ai-kq{margin-top:10px}
+.ai-kq img{width:100%;display:block;border-radius:12px;border:1px solid var(--vien)}
+.ai-cho{display:flex;align-items:center;gap:10px;padding:14px;border-radius:12px;background:#fff;border:1px dashed #D9B8B4;font-size:14px;font-weight:600}
+.ai-cho i{width:18px;height:18px;border-radius:50%;border:3px solid #E5C9C5;border-top-color:#8C1206;animation:aiq .9s linear infinite;flex:0 0 auto}
+@keyframes aiq{to{transform:rotate(360deg)}}
+.ai-hang{display:flex;gap:8px;margin-top:8px}
+.ai-hang button{flex:1;min-height:42px;border-radius:10px;border:1.5px solid var(--vien);background:#fff;font-weight:700;font-size:13.5px}
+.ai-hang button.chinh{background:#8C1206;border-color:#8C1206;color:#fff}
+.ai-loi{padding:12px;border-radius:12px;background:#FFF1F0;border:1px solid #F1C9C5;font-size:13.5px}
+.ai-tay{margin-top:10px;font-size:13px}
+.ai-tay summary{cursor:pointer;font-weight:700;color:#8C1206;min-height:32px}
 </style>
 </head>
 <body>
@@ -870,6 +887,7 @@ button:active,.nut:active{transform:scale(.98)}
 <script src="mau-dai-ly.js"></script>
 <script src="ct-thang.js"></script>
 <script src="face-data.js"></script>
+<script src="ai-config.js"></script>
 <script>
 (function(){
 'use strict';
@@ -1595,16 +1613,75 @@ function loiNhacAI(s){
     +'Giữ nguyên bố cục phòng, đồ đạc, ánh sáng và góc chụp; chỉ thay bề mặt '+(tuong?'tường':'sàn')+'. '
     +'Gạch chia viên đúng khổ, đường ron mảnh khoảng 2 mm, vân gạch lấy đúng từ ảnh mặt gạch, phối cảnh chân thực như ảnh chụp thật.';
 }
+function coAIWeb(){ return typeof AI_API!=='undefined' && !!AI_API; }
 function htmlAI(s){
-  return '<div class="ai-thu" id="ai-thu"><b>Phối thử vào chính căn phòng của bạn bằng AI</b>'
-    +'<p>Chụp phòng của bạn, nhờ Gemini lát mẫu này lên và xem trước khi mua. Dùng Gemini bằng tài khoản Google của bạn.</p>'
-    +'<button type="button" class="ai-nut" id="ai-nut">Mở Gemini và phối thử</button>'
+  var gem='<button type="button" class="ai-nut" id="ai-nut" style="width:100%;min-height:46px;border-radius:12px;border:0;background:#8C1206;color:#fff;font-weight:800;font-size:15px">Mở Gemini và phối thử</button>'
     +'<ol><li>Nút trên sẽ <b style="display:inline">tải ảnh mặt gạch</b> về máy và <b style="display:inline">chép sẵn câu lệnh</b>.</li>'
     +'<li>Trong Gemini, bấm dấu + đính kèm <b style="display:inline">ảnh phòng của bạn</b> và <b style="display:inline">ảnh mặt gạch vừa tải</b>.</li>'
-    +'<li>Dán câu lệnh (nhấn giữ ô chat, chọn Dán) rồi gửi.</li></ol>'
-    +'<div class="ai-ghi">Ảnh do AI tạo, chỉ để hình dung. Màu và vân thực tế xem tại đại lý.</div></div>';
+    +'<li>Dán câu lệnh (nhấn giữ ô chat, chọn Dán) rồi gửi.</li></ol>';
+  if(!coAIWeb()){
+    return '<div class="ai-thu" id="ai-thu"><b>Phối thử vào chính căn phòng của bạn bằng AI</b>'
+      +'<p>Chụp phòng của bạn, nhờ Gemini lát mẫu này lên và xem trước khi mua. Dùng Gemini bằng tài khoản Google của bạn.</p>'+gem
+      +'<div class="ai-ghi">Ảnh do AI tạo, chỉ để hình dung. Màu và vân thực tế xem tại đại lý.</div></div>';
+  }
+  var tuong=laTuongSP(s);
+  return '<div class="ai-thu" id="ai-thu"><b>Xem thử gạch này trong phòng của bạn</b>'
+    +'<p>Chụp hoặc chọn ảnh phòng, chờ khoảng 30 giây là thấy ảnh đã lát gạch. Không cần đăng ký.</p>'
+    +'<div class="ai-chon"><button type="button" data-m="san" class="'+(tuong?'':'on')+'">Lát nền</button><button type="button" data-m="tuong" class="'+(tuong?'on':'')+'">Ốp tường</button></div>'
+    +'<label class="ai-nut" for="ai-file">📷 Chụp hoặc chọn ảnh phòng</label><input type="file" id="ai-file" accept="image/*" hidden>'
+    +'<div class="ai-kq" id="ai-kq"></div>'
+    +'<div class="ai-ghi">Ảnh do AI tạo, chỉ để hình dung. Màu và vân thực tế xem tại đại lý.</div>'
+    +'<details class="ai-tay"><summary>Hoặc tự phối bằng Gemini của bạn</summary>'+gem+'</details></div>';
+}
+function maThietBi(){ var k='tg_dev', v=''; try{ v=localStorage.getItem(k)||''; if(!v){ v='d'+Math.random().toString(36).slice(2,12)+Date.now().toString(36); localStorage.setItem(k,v); } }catch(e){ v='d'+Math.random().toString(36).slice(2,14); } return v; }
+function thuNhoAnh(file){
+  return new Promise(function(ok,no){
+    var u=URL.createObjectURL(file), im=new Image();
+    im.onload=function(){ var M=1280, r=Math.min(1,M/Math.max(im.width,im.height)), c=document.createElement('canvas'); c.width=Math.round(im.width*r); c.height=Math.round(im.height*r);
+      c.getContext('2d').drawImage(im,0,0,c.width,c.height); URL.revokeObjectURL(u); ok(c.toDataURL('image/jpeg',0.85).split(',')[1]); };
+    im.onerror=function(){ URL.revokeObjectURL(u); no(new Error('anh')); };
+    im.src=u;
+  });
+}
+function ganAIWeb(s){
+  var file=$('ai-file'), kq=$('ai-kq'); if(!file) return;
+  var che=laTuongSP(s)?'tuong':'san', box=$('ai-thu'), chay=false;
+  Array.prototype.forEach.call(box.querySelectorAll('.ai-chon button'),function(x){ x.onclick=function(){ che=x.dataset.m; Array.prototype.forEach.call(box.querySelectorAll('.ai-chon button'),function(y){ y.classList.toggle('on',y===x); }); }; });
+  function loiHtml(t,duaDL){ return '<div class="ai-loi">'+t+(duaDL?'<div class="ai-hang"><button type="button" class="chinh" id="ai-dl">Nhờ đại lý phối giúp qua Zalo</button></div>':'')+'</div>'; }
+  function gan(){ var d=$('ai-dl'); if(d) d.onclick=function(){ zaloDaiLy(tenKemCT(dangMo)+' (em muốn nhờ cửa hàng phối thử mẫu này vào ảnh phòng nhà em)','',null,null,CO_MAU[dangMo]); }; }
+  file.onchange=function(){
+    var f=file.files&&file.files[0]; if(!f||chay) return; chay=true;
+    var cho=['Đang đọc ảnh phòng...','Đang lát gạch lên ảnh...','Đang hoàn thiện ánh sáng...','Sắp xong, chờ thêm chút nhé...'], i=0;
+    kq.innerHTML='<div class="ai-cho"><i></i><span id="ai-cho-t">'+cho[0]+'</span></div>';
+    var tm=setInterval(function(){ i=Math.min(i+1,cho.length-1); var t=$('ai-cho-t'); if(t) t.textContent=cho[i]; },7000);
+    var ctl=new AbortController(), to=setTimeout(function(){ ctl.abort(); },110000);
+    thuNhoAnh(f).then(function(b64){
+      return fetch(AI_API,{method:'POST',body:JSON.stringify({dev:maThietBi(),phong:b64,mat:soFace(s)?khoaFace(s.ma)+'-1.jpg':'',che_do:che,loi:loiNhacAI(s)}),signal:ctl.signal,redirect:'follow'}).then(function(r){ return r.json(); });
+    }).then(function(r){
+      clearInterval(tm); clearTimeout(to); chay=false; file.value='';
+      if(r&&r.ok&&r.img){
+        kq.innerHTML='<img alt="Ảnh phối thử" id="ai-anh" src="'+r.img+'">'
+          +'<div class="ai-hang"><button type="button" id="ai-luu">Lưu ảnh</button><button type="button" id="ai-gui" class="chinh">Gửi cho người nhà</button></div>'
+          +'<div class="ai-hang"><button type="button" id="ai-lai">Thử ảnh phòng khác</button></div>'
+          +(typeof r.con==='number'?'<div class="ai-ghi">Hôm nay bạn còn '+r.con+' lượt phối.</div>':'');
+        $('ai-lai').onclick=function(){ file.click(); };
+        $('ai-luu').onclick=function(){ var a=document.createElement('a'); a.href=r.img; a.download='phoi-gach-'+khoaFace(s.ma)+'.png'; document.body.appendChild(a); a.click(); a.remove(); };
+        $('ai-gui').onclick=function(){
+          fetch(r.img).then(function(x){ return x.blob(); }).then(function(bl){
+            var fl=new File([bl],'phoi-gach.png',{type:bl.type||'image/png'});
+            if(navigator.canShare&&navigator.canShare({files:[fl]})) return navigator.share({files:[fl],title:'Phối gạch '+tenMau(s.ma),text:'Mình phối thử gạch Đồng Tâm '+tenMau(s.ma)+' vào phòng nè'}).catch(function(){});
+            $('ai-luu').click(); baoNhanh('Đã lưu ảnh. Mở Zalo và gửi ảnh cho người nhà nhé');
+          });
+        };
+      } else if(r&&(r.loi==='het_luot')) kq.innerHTML=loiHtml('Hôm nay bạn đã dùng hết lượt phối miễn phí. Nhờ đại lý phối giúp, gửi luôn ảnh phòng cho cửa hàng.',true);
+      else if(r&&(r.loi==='tran_ngay')) kq.innerHTML=loiHtml('Hôm nay hệ thống phối ảnh đã quá tải. Bạn nhờ đại lý phối giúp, hoặc quay lại vào ngày mai nhé.',true);
+      else kq.innerHTML=loiHtml('Chưa phối được ảnh này. Bạn thử ảnh phòng khác (chụp rõ sàn hoặc tường), hoặc nhờ đại lý phối giúp.',true);
+      gan();
+    }).catch(function(){ clearInterval(tm); clearTimeout(to); chay=false; file.value=''; kq.innerHTML=loiHtml('Mạng chậm nên chưa phối xong. Bạn thử lại hoặc nhờ đại lý phối giúp.',true); gan(); });
+  };
 }
 function ganAI(s){
+  if(coAIWeb()) ganAIWeb(s);
   var nut=$('ai-nut'); if(!nut) return;
   nut.onclick=function(){
     var loi=loiNhacAI(s);
