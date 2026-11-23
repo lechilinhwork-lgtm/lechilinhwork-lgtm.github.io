@@ -120,6 +120,17 @@ a{color:inherit;text-decoration:none}
 .qr-the small{display:block;color:var(--phu);font-size:13px;margin-top:4px}
 .qr-the .qr{width:260px;height:260px;margin:12px auto}
 .qr-the .qr svg{width:100%;height:100%}
+
+.dn-lop{position:fixed;inset:0;background:rgba(20,10,10,.55);z-index:300;display:none;align-items:center;justify-content:center;padding:16px}
+.dn-lop.mo{display:flex}
+.dn-the{background:#fff;border-radius:18px;padding:20px;width:100%;max-width:380px}
+.dn-the h3{font-size:18px;margin:0 0 4px}
+.dn-the p{font-size:13.5px;color:#6B6060;margin:0 0 12px}
+.dn-the input{width:100%;min-height:48px;border:1.5px solid #E3D9D6;border-radius:12px;padding:0 14px;font-size:16px;margin-bottom:10px}
+.dn-the button.dn-go{width:100%;min-height:48px;border:0;border-radius:12px;background:#E81A21;color:#fff;font-weight:800;font-size:16px}
+.dn-the .dn-loi{color:#B3261E;font-size:13.5px;min-height:18px;margin-bottom:6px}
+.dn-the .dn-phu{display:flex;justify-content:space-between;margin-top:10px}
+.dn-the .dn-phu button{background:none;border:0;color:#6B6060;font-size:13px;text-decoration:underline;padding:6px 0}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 </head>
@@ -192,8 +203,16 @@ a{color:inherit;text-decoration:none}
     <div id="ls"></div>
     <button class="nut phu" id="excel">⬇️ Tải Excel danh sách</button>
   </section>
-  <p class="ghim">Mẹo: menu trình duyệt → "Thêm vào màn hình chính" để mở nhanh như ứng dụng.<br><button id="doi-pin">Đổi mã PIN lưu hồ sơ</button></p>
+  <p class="ghim">Mẹo: menu trình duyệt → "Thêm vào màn hình chính" để mở nhanh như ứng dụng.<br><span id="dn-tt"></span> <button id="doi-pin">Đăng nhập</button></p>
 </main>
+<div class="dn-lop" id="dn-lop"><form class="dn-the" id="dn-form" autocomplete="on">
+  <h3>Đăng nhập để lưu hồ sơ</h3><p>Dùng tài khoản SalesTool. Chỉ cần đăng nhập 1 lần trên máy này.</p>
+  <input id="dn-u" name="username" type="text" placeholder="Tên đăng nhập" autocomplete="username" autocapitalize="none" autocorrect="off">
+  <input id="dn-p" name="password" type="password" placeholder="Mật khẩu" autocomplete="current-password">
+  <div class="dn-loi" id="dn-loi"></div>
+  <button type="submit" class="dn-go" id="dn-go">Đăng nhập</button>
+  <div class="dn-phu"><button type="button" id="dn-pin">Dùng mã PIN</button><button type="button" id="dn-dong">Để sau</button></div>
+</form></div>
 <div class="toast" id="toast"></div>
 
 <div class="qr-lop" id="qr-lop"><div class="qr-the">
@@ -232,12 +251,55 @@ function qCT(){
   return p.join('&');
 }
 function linkCT(){ return TRANG_KHACH+'ct.html?'+qCT(); }
+// Đăng nhập bằng tài khoản SalesTool (phiên lưu trên máy). pin() trả "tok:<phiên>" hoặc mã PIN dự phòng; máy chủ hồ sơ tự kiểm tra.
+var SALES_API='https://script.google.com/macros/s/AKfycbyrO8symCYOkWsGG0nRWPF7gpndC3mzEVUk15UvWrA0O81ZUumW-kX_gEOZhtCJ34bMVQ/exec';
+var SALES_KEY='QDy3MCObF1FLdoBexB9XO3dECy64';
+function phien(){ try{ return JSON.parse(localStorage.getItem('ct_phien')||'null'); }catch(e){ return null; } }
 function pin(hoi){
+  var t=phien(); if(t&&t.tok) return 'tok:'+t.tok;
   var p=''; try{ p=localStorage.getItem('ct_pin')||''; }catch(e){}
-  if(!p && hoi){ p=(prompt('Nhập mã PIN lưu hồ sơ công trình (anh Linh giữ):')||'').trim(); if(p) try{ localStorage.setItem('ct_pin',p); }catch(e){} }
   return p;
 }
-$('doi-pin').onclick=function(){ try{ localStorage.removeItem('ct_pin'); }catch(e){} pin(true); };
+function veDangNhap(){
+  var t=phien(), tt=$('dn-tt'), b=$('doi-pin');
+  if(t&&t.tok){ tt.textContent='Đã đăng nhập: '+(t.ten||t.user); b.textContent='Đăng xuất'; }
+  else { tt.textContent=pin(false)?'Đang dùng mã PIN.':'Chưa đăng nhập.'; b.textContent='Đăng nhập'; }
+}
+var sauDangNhap=null;
+function moDangNhap(sau){
+  sauDangNhap=sau||null; $('dn-loi').textContent=''; $('dn-lop').classList.add('mo');
+  setTimeout(function(){ $('dn-u').focus(); },50);
+}
+function dongDangNhap(){ $('dn-lop').classList.remove('mo'); sauDangNhap=null; }
+$('dn-dong').onclick=dongDangNhap;
+$('dn-pin').onclick=function(){
+  var p=(prompt('Nhập mã PIN lưu hồ sơ (dự phòng):')||'').trim();
+  if(p){ try{ localStorage.setItem('ct_pin',p); }catch(e){} var f=sauDangNhap; dongDangNhap(); veDangNhap(); if(f) f(); }
+};
+$('dn-form').onsubmit=function(ev){
+  ev.preventDefault();
+  var u=$('dn-u').value.trim(), pw=$('dn-p').value, go=$('dn-go');
+  if(!u||!pw){ $('dn-loi').textContent='Nhập tên đăng nhập và mật khẩu'; return; }
+  go.disabled=true; go.textContent='Đang đăng nhập…'; $('dn-loi').textContent='';
+  var cb='_dn'+Date.now(), sc=document.createElement('script'), xong=false;
+  function ra(msg){ if(xong) return; xong=true; try{ delete window[cb]; sc.remove(); }catch(e){} go.disabled=false; go.textContent='Đăng nhập'; if(msg) $('dn-loi').textContent=msg; }
+  window[cb]=function(r){
+    if(r&&r.status==='ok'&&r.token){
+      if(String(r.role||'')==='khachhang'){ ra('Tài khoản khách hàng không dùng được trang này'); return; }
+      try{ localStorage.setItem('ct_phien',JSON.stringify({tok:r.token,user:u.toLowerCase(),ten:r.name||r.ten||u,role:r.role||'',t:Date.now()})); }catch(e){}
+      ra(''); $('dn-p').value=''; var f=sauDangNhap; dongDangNhap(); veDangNhap(); taiThongKe(); timGan(); if(f) f();
+    } else ra((r&&r.msg)||'Sai tên đăng nhập hoặc mật khẩu');
+  };
+  sc.onerror=function(){ ra('Không kết nối được, kiểm tra mạng'); };
+  sc.src=SALES_API+'?k='+SALES_KEY+'&action=login&username='+encodeURIComponent(u)+'&password='+encodeURIComponent(pw)+'&callback='+cb;
+  document.head.appendChild(sc);
+  setTimeout(function(){ ra('Mạng chậm, thử lại nhé'); },20000);
+};
+$('doi-pin').onclick=function(){
+  if(phien()){ try{ localStorage.removeItem('ct_phien'); localStorage.removeItem('ct_pin'); }catch(e){} veDangNhap(); bao('Đã đăng xuất'); }
+  else moDangNhap();
+};
+veDangNhap();
 
 // ===== Phiếu đang làm =====
 var phieu, viTri=null;
@@ -400,7 +462,7 @@ $('xem').onclick=function(){ $('tin').classList.toggle('hien'); this.textContent
 // ===== Lưu hồ sơ lên Sheet + Drive =====
 $('luu-hs').onclick=function(){
   var x=dlChon(); if(!x) return;
-  var p=pin(true); if(!p){ bao('Cần mã PIN để lưu hồ sơ'); return; }
+  var p=pin(true); if(!p){ moDangNhap(function(){ $('luu-hs').click(); }); return; }
   var b=this; b.disabled=true; b.textContent='Đang lưu '+(phieu.anh.length?phieu.anh.length+' ảnh':'')+'…';
   $('tt').className='trang-thai'; $('tt').textContent='';
   var goi={pin:p, act:'luu', ct:{id:phieu.id, lat:viTri?viTri.lat:null, lng:viTri?viTri.lng:null, gd:phieu.gd, can:phieu.can, dl:x.d.ma, dlTen:x.d.ten, ch:x.c.diaChi,
@@ -415,7 +477,7 @@ $('luu-hs').onclick=function(){
       veNut();
     })
     .catch(function(e){
-      if(/PIN/.test(e.message)){ try{ localStorage.removeItem('ct_pin'); }catch(x){} }
+      if(/PIN|đăng nhập/i.test(e.message)){ try{ localStorage.removeItem('ct_pin'); localStorage.removeItem('ct_phien'); }catch(x){} veDangNhap(); moDangNhap(function(){ $('luu-hs').click(); }); }
       phieu.luuLoi=true;
       $('tt').className='trang-thai loi'; $('tt').textContent='Chưa lưu được hồ sơ ('+e.message+'). Vẫn gửi Zalo được, tin dùng link trang chung. Có mạng thì bấm lưu lại.';
       veNut();
