@@ -583,6 +583,34 @@ body{font-size:15.5px}
   .tam-chan .nut{height:46px}
   .toast{bottom:36px}
 }
+
+/* ===== GIÁ TỐT THÁNG NÀY + BỘ LỌC + THAO TÁC ===== */
+.sp .anh .ct{color:#fff;font-size:10.5px;font-weight:800;padding:2px 8px;border-radius:999px}
+.sp .anh .ct1{background:#E81A21}
+.sp .anh .ct2{background:#141414}
+.ct-hoi{font-size:11.5px;font-weight:800;color:#8C1206;margin-top:2px}
+.ct-ban{background:#FDF0EF;border:1px solid #F0C4C1;border-radius:12px;padding:10px 12px;margin-top:10px;font-size:13px;line-height:1.4}
+.ct-ban b{display:block;color:#C8102E;font-size:14px}
+.tab-ct{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.tab-ct button{min-height:42px;padding:0 16px;border-radius:999px;border:1.5px solid var(--vien);background:#fff;font-weight:700;font-size:13.5px}
+.tab-ct button.on{background:#8C1206;border-color:#8C1206;color:#fff}
+#gia-tot .noi-bat .sp{flex:0 0 160px}
+.loc-hang{display:flex;flex-wrap:wrap;gap:2px 18px;margin-top:6px}
+.loc{min-height:40px}
+.sx{display:flex;align-items:center;gap:10px;margin-top:10px;font-size:13.5px;font-weight:600;color:var(--phu)}
+.sx select{flex:1;max-width:240px;height:42px;border:1.5px solid var(--vien);border-radius:10px;padding:0 10px;font:inherit;font-size:14.5px;background:#fff;color:var(--chu)}
+.khu button{min-height:40px}
+.ns-tu input,.sx select,.m2 input{font-size:16px}
+.tn-luu{display:none}
+button:active,.nut:active{transform:scale(.98)}
+@media (min-width:1000px){
+  #gia-tot .noi-bat{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;overflow:visible}
+  #gia-tot .noi-bat .sp{flex:none}
+  #gia-tot .noi-bat .sp:nth-child(n+9){display:flex}
+  .tn-luu{display:inline-flex;align-items:center;gap:6px;margin-left:auto;padding:8px 14px;border-radius:999px;font-weight:700;font-size:14px;color:#8C1206;background:#FDF0EF}
+  .tn-luu.an{display:none}
+  .tn-luu + .tn-zalo{margin-left:12px}
+}
 </style>
 </head>
 <body>
@@ -590,6 +618,7 @@ body{font-size:15.5px}
 <nav class="topnav" id="topnav"><div class="in">
   <a class="tn-logo" href="./"><img src="logo-dongtam.png" alt=""><span>Dongtam</span></a>
   <div class="tn-lk"><a href="#chon">Gạch ốp lát</a><a href="#ngoi">Ngói lợp mái</a><a href="#keo">Keo, chà ron</a><a href="#huong-dan">Hướng dẫn</a><a href="#dai-ly">Đại lý gần bạn</a></div>
+  <a class="tn-luu an" id="tn-luu" href="#luu">♥ Đã lưu <b id="tn-luu-so">0</b></a>
   <a class="nut zl tn-zalo" id="tn-zalo" href="#dai-ly">Nhắn đại lý</a>
 </div></nav>
 
@@ -622,6 +651,15 @@ body{font-size:15.5px}
   <div class="ct-banner an" id="ct-banner"></div>
 
   <!-- Mẫu chủ lực, bán chạy -->
+  <!-- Giá tốt tháng này (CT1) / Xả kho (CT2): chỉ gắn nhãn, KHÔNG hiện giá sale -->
+  <section class="khoi an" id="gia-tot">
+    <h3 id="gt-tieu">Giá tốt tháng này</h3>
+    <p class="mo-ta" id="gt-mo"></p>
+    <div class="tab-ct" id="gt-tab" role="tablist"></div>
+    <div class="noi-bat" id="ds-gia-tot"></div>
+    <p class="ghi-chu">Giá hiển thị là giá lẻ niêm yết. <b>Giá ưu đãi do đại lý báo</b> theo chương trình: nhắn đại lý để biết giá và số lượng còn.</p>
+  </section>
+
   <section class="khoi an" id="chu-luc">
     <h3>Mẫu chủ lực, được chọn nhiều</h3>
     <p class="mo-ta">Những mẫu đẹp, bán tốt nhất. Mẫu có dải đỏ "Có mẫu tại … đại lý" đang trưng bày sẵn tại cửa hàng.</p>
@@ -656,7 +694,14 @@ body{font-size:15.5px}
       <div class="buoc-tieu">3 · Chọn mức đầu tư</div>
       <div class="tang" id="ds-tang"><div class="dang-tai"><div class="xoay"></div>Đang tải bảng giá mới nhất…</div></div>
       <label class="ns-tu">Hoặc nhập số tiền bạn có: <input id="ns" type="number" inputmode="decimal" min="0" step="1" placeholder="vd 15"> triệu</label>
-      <label class="loc"><input type="checkbox" id="chi-kk"> Chỉ xem gạch men Nano kháng khuẩn</label>
+      <div class="loc-hang">
+        <label class="loc"><input type="checkbox" id="chi-kk"> Nano kháng khuẩn</label>
+        <label class="loc"><input type="checkbox" id="chi-co"> Có mẫu tại đại lý</label>
+        <label class="loc" id="loc-ct"><input type="checkbox" id="chi-ct"> Giá tốt tháng này</label>
+      </div>
+      <label class="sx">Sắp xếp
+        <select id="sap-xep"><option value="">Phù hợp nhất</option><option value="tang">Giá thấp đến cao</option><option value="giam">Giá cao đến thấp</option></select>
+      </label>
     </div>
 
     <div id="ket-qua"></div>
@@ -796,6 +841,7 @@ body{font-size:15.5px}
 
 <script src="dai-ly.js"></script>
 <script src="mau-dai-ly.js"></script>
+<script src="ct-thang.js"></script>
 <script>
 (function(){
 'use strict';
@@ -1005,7 +1051,7 @@ function zaloDaiLy(mau, them, d, ch, coMau){
   if(mau){ dong.push('Em hỏi về mẫu: '+mau+'.'); }
   else {
     var luu=(typeof LUU!=='undefined'?LUU:[]).filter(function(id){ return THEO_MA[id]; }).slice(0,8);
-    if(luu.length) dong.push('Em quan tâm các mẫu: '+luu.map(tenNgan).join('; ')+'.');
+    if(luu.length) dong.push('Em quan tâm các mẫu: '+luu.map(tenKemCT).join('; ')+'.');
   }
   if(them) dong.push(them);
   var ma=maToRoi(), uu=uuDaiCua(d);
@@ -1013,7 +1059,7 @@ function zaloDaiLy(mau, them, d, ch, coMau){
   dong.push('Nhờ cửa hàng tư vấn, báo giá giúp em ạ.');
   var sdt=String(ch.sdt||d.cuaHang[0].sdt||'').replace(/[^0-9]/g,'');
   if(!sdt){ $('dai-ly').scrollIntoView({behavior:'smooth'}); return; }
-  ghiNhan(d, ch, mau?'Hỏi mẫu':them?'Thầu thợ':'Nhắn đại lý', mau||(typeof LUU!=='undefined'?LUU.filter(function(id){return THEO_MA[id];}).slice(0,8).map(tenNgan).join('; '):''));
+  ghiNhan(d, ch, mau?'Hỏi mẫu':them?'Thầu thợ':'Nhắn đại lý', mau||(typeof LUU!=='undefined'?LUU.filter(function(id){return THEO_MA[id];}).slice(0,8).map(tenKemCT).join('; '):''));
   chepTin(dong.join(String.fromCharCode(10))).then(function(){
     baoNhanh('Đã chép tin (mã '+ma+') cho '+d.ten+'. Trong Zalo bấm giữ ô chat → Dán → Gửi');
     setTimeout(function(){ location.href='https://zalo.me/'+sdt; },900);
@@ -1117,16 +1163,19 @@ function apDung(d){
   SP.forEach(function(s){ THEO_MA[s.sap]={k:'g',d:s}; });
   NGOI.forEach(function(n){ THEO_MA[n.ma]={k:'n',d:n}; });
   KEO.forEach(function(k){ THEO_MA[k.ma]={k:'k',d:k}; });
-  veTatCa(); veChuLuc(); veNgoi(); veKeo(); veLuu(); veDaiLy(); moTuLink();
+  veTatCa(); veChuLuc(); veGiaTot(); veNgoi(); veKeo(); veLuu(); veDaiLy(); moTuLink();
 }
 // Điểm ưu tiên hiển thị: có mẫu ở đại lý > bán chạy (★) > chủ lực > bộ sưu tập nổi bật
 function laNoiBat(s){ var t=tenMau(s.ma); return NOI_BAT.some(function(k){ return t.indexOf(k)===0; }); }
 function hangBC(s){ var h=HANG_BC[s.sap]; return h==null?9999:h; }
-function diem(s){ var h=hangBC(s); return (CO_MAU[s.sap]?4:0) + (h<60?4:h<200?3:s.cl===2?3:s.cl===1?2:0) + (laNoiBat(s)?2:0); }
+function ctDay(s){ return ctConHan() ? (CT_THANG.ma[String(s.sap)]||null) : null; }
+function nhanCT(s){ var x=ctDay(s); return !x ? '' : x[0]===1 ? 'Giá tốt tháng '+CT_THANG.thang.split('/')[0] : 'Xả kho'; }
+function diem(s){ var h=hangBC(s), ct=ctDay(s); return (ct&&ct[0]===1&&ct[1]>=800?1.5:0) + (CO_MAU[s.sap]?4:0) + (h<60?4:h<200?3:s.cl===2?3:s.cl===1?2:0) + (laNoiBat(s)?2:0); }
 function nhanCL(s){ var h=hangBC(s); return h<60?'Bán chạy nhất':(h<200||s.cl===2)?'Bán chạy':s.cl===1?'Chủ lực':''; }
 function htmlThe(s, luong){
   var n=soDaiLyCoMau(s.sap);
   return '<button class="sp" data-sp="'+esc(s.sap)+'"><div class="anh" style="background-image:url(\''+esc(s.img)+'\')"><span class="nhan">'
+    +(nhanCT(s)?'<span class="ct ct'+ctDay(s)[0]+'">'+nhanCT(s)+'</span>':'')
     +(nhanCL(s)?'<span class="cl">'+nhanCL(s)+'</span>':'')
     +(s.tn==='KHÁNG_KHUẨN'?'<span class="kk">Kháng khuẩn</span>':'')+'</span>'
     +(daLuu(s.sap)?'<span class="tim">♥</span>':'')
@@ -1135,8 +1184,28 @@ function htmlThe(s, luong){
     +'<div class="dt">'+esc(s.kc.replace('x',' x '))+' · '+(s.x==='porcelain'?'Porcelain':'Ceramic')+(nhanMen(s)?' · '+nhanMen(s):'')+'</div>'
     +'<div class="gia">'+tien(s.le)+'<small> đ/m²</small></div>'
     +(luong?'<div class="du">≈ '+tienGon(s.le*luong)+' cho '+so1(luong)+' m²</div>':'')
+    +(ctDay(s)?'<div class="ct-hoi">Hỏi đại lý giá ưu đãi</div>':'')
     +'<div class="xem"><span>Xem chi tiết</span></div>'
     +'</div></button>';
+}
+var gtTab=1;
+function veGiaTot(){
+  var el=$('gia-tot'); if(!ctConHan()){ el.classList.add('an'); return; }
+  var thang=CT_THANG.thang.split('/')[0];
+  function danhSach(t){ return (t===1?CT_THANG.chon1:CT_THANG.chon2).map(function(sap){ return SP.filter(function(x){return x.sap===sap;})[0]; }).filter(Boolean); }
+  var d1=danhSach(1), d2=danhSach(2);
+  if(!d1.length && !d2.length){ el.classList.add('an'); return; }
+  if(gtTab===2 && !d2.length) gtTab=1; if(gtTab===1 && !d1.length) gtTab=2;
+  $('gt-tieu').textContent = gtTab===1 ? 'Giá tốt tháng '+thang : 'Xả kho tháng '+thang;
+  $('gt-mo').textContent = gtTab===1
+    ? 'Mẫu đẹp, bán chạy và còn nhiều hàng đang có chương trình tháng '+thang+'. Nhắn đại lý để biết giá ưu đãi.'
+    : 'Mẫu số lượng có hạn, đang xả kho tháng '+thang+'. Hết là bỏ mẫu, nên chốt sớm. Nhắn đại lý để biết giá.';
+  $('gt-tab').innerHTML=(d1.length?'<button role="tab" aria-selected="'+(gtTab===1)+'" class="'+(gtTab===1?'on':'')+'" data-t="1">'+CT_THANG.ten1+' ('+d1.length+')</button>':'')
+    +(d2.length?'<button role="tab" aria-selected="'+(gtTab===2)+'" class="'+(gtTab===2?'on':'')+'" data-t="2">'+CT_THANG.ten2+' ('+d2.length+')</button>':'');
+  Array.prototype.forEach.call($('gt-tab').querySelectorAll('button'),function(b){ b.onclick=function(){ gtTab=+b.dataset.t; veGiaTot(); }; });
+  $('ds-gia-tot').innerHTML=(gtTab===1?d1:d2).map(function(x){ return htmlThe(x,0); }).join('');
+  ganMo($('ds-gia-tot'));
+  el.classList.remove('an');
 }
 function veChuLuc(){
   var ds=SP.filter(function(s){ return s.cl || laNoiBat(s) || CO_MAU[s.sap] || hangBC(s)<200; });
@@ -1178,6 +1247,8 @@ function hopPhong(p, chiKK){
     if(p.cn && s.cn && p.cn.indexOf(s.cn)<0) return false;
     if(p.men && s.men && p.men.indexOf(s.men)<0) return false;
     if(chiKK && s.tn!=='KHÁNG_KHUẨN') return false;
+    if($('chi-co') && $('chi-co').checked && !CO_MAU[s.sap]) return false;
+    if($('chi-ct') && $('chi-ct').checked && !ctDay(s)) return false;
     return true;
   });
 }
@@ -1215,7 +1286,7 @@ function veTatCa(){
   $('m2-goi').textContent = m2 ? 'Cần mua khoảng '+so1(luong)+' m² (đã cộng 5% hao hụt).' : 'Nhập diện tích để tính tiền dự kiến.';
   var t=chiaTang(ds);
   var elT=$('ds-tang');
-  if(!t){ elT.innerHTML='<div class="trong">Chưa có mẫu phù hợp. Bỏ tick “kháng khuẩn” hoặc chọn khu vực khác.</div>'; $('ket-qua').innerHTML=''; return; }
+  if(!t){ elT.innerHTML='<div class="trong">Chưa có mẫu phù hợp với bộ lọc. Bỏ bớt lựa chọn lọc hoặc chọn khu vực khác.</div>'; $('ket-qua').innerHTML=''; return; }
   if(!t[tang]) tang = t[1]?1:0;
   elT.innerHTML=t.map(function(x,i){
     if(!x) return '';
@@ -1252,6 +1323,8 @@ function veKetQua(ds,t,luong,ns){
     });
     tieuDe='Mẫu '+TANG[tang].ten.toLowerCase()+' cho '+phong.ten.toLowerCase();
   }
+  var sx=$('sap-xep')?$('sap-xep').value:'';
+  if(sx==='tang') loc.sort(function(a,b){return a.le-b.le;}); else if(sx==='giam') loc.sort(function(a,b){return b.le-a.le;});
   var el=$('ket-qua');
   if(!loc.length){
     el.innerHTML='<div class="kq-dau"><h4>'+esc(tieuDe)+'</h4></div><div class="trong">Ngân sách hơi thấp so với diện tích. Thử giảm diện tích, chọn khu vực khác, hoặc gọi đại lý để được tư vấn mẫu khuyến mãi.</div>';
@@ -1452,6 +1525,7 @@ function ctGach(s){
     +'<div class="tam-nd"><div class="nhan-hang">'+badges+'</div>'
     +'<h2>'+esc(tenMau(s.ma))+'</h2><div class="dt">'+esc(s.kc.replace('x',' x '))+' mm · '+(s.x==='porcelain'?'Porcelain':'Ceramic')+(nhanMen(s)?' · '+nhanMen(s):'')+'</div>'
     +'<div class="gia-lon">'+tien(s.le)+' <small>đ/m² · giá lẻ niêm yết, đã gồm VAT</small></div>'
+    +(ctDay(s)?'<div class="ct-ban"><b>'+nhanCT(s)+'</b>Mẫu đang có chương trình tháng '+CT_THANG.thang.split('/')[0]+'. Nhắn đại lý để biết giá ưu đãi và số lượng còn.</div>':'')
     +(s.tn==='KHÁNG_KHUẨN'?'<div class="tem-ct"><img src="anh/tem-nano-web.png" alt=""><span><b>Có tem Nano kháng khuẩn</b>Tại đại lý, mẫu này dán tem như hình. Diệt đến 99% vi khuẩn bám trên mặt men.</span></div>':'')
     +'<div class="du-tinh">Diện tích của bạn <input id="ct-m2" type="number" inputmode="decimal" min="1" value="'+m2+'"> m²<div class="kq" id="ct-kq"></div></div>'
     +htmlCoMau(s.sap)
@@ -1527,7 +1601,7 @@ function ctKeo(k){
     +'<p class="ghi-chu">Mã sản phẩm: '+esc(k.ma)+'</p></div>';
 }
 
-var dangMo='', moQuaLink=false;
+var dangMo='', moQuaLink=false, moTu=null;
 function urlVoi(id){
   var p=new URLSearchParams(location.search); p.delete('luu');
   if(id) p.set('sp',id); else p.delete('sp');
@@ -1549,14 +1623,16 @@ function moChiTiet(id, tuLink){
   var ac=$('anh-cuon'), dem=$('dem-anh');
   if(ac && dem) ac.addEventListener('scroll',function(){ dem.textContent=(Math.round(ac.scrollLeft/ac.clientWidth)+1)+'/'+ac.children.length; },{passive:true});
   var gl=c.querySelector('.gia-lon');
-  if(gl){ gl.insertAdjacentHTML('afterend','<button class="hoi-zalo" id="hoi-zalo">Hỏi giá mẫu này qua Zalo đại lý</button>'); $('hoi-zalo').onclick=function(){ zaloDaiLy(tenNgan(id),'',null,null,CO_MAU[id]); }; }
+  if(gl){ gl.insertAdjacentHTML('afterend','<button class="hoi-zalo" id="hoi-zalo">Hỏi giá mẫu này qua Zalo đại lý</button>'); $('hoi-zalo').onclick=function(){ zaloDaiLy(tenKemCT(id),'',null,null,CO_MAU[id]); }; }
   capNutLuu();
+  if(!dangMoSan) moTu=document.activeElement;
   $('phu-lop').classList.add('mo'); $('tam').classList.add('mo'); document.body.classList.add('khoa');
+  setTimeout(function(){ try{ $('tam-dong').focus(); }catch(e){} },60);
   if(tuLink){ moQuaLink=true; return; }
   if(dangMoSan) history.replaceState({sp:id},'',urlVoi(id));   // đổi sản phẩm trong khung đang mở (vd bấm keo đi kèm)
   else history.pushState({sp:id},'',urlVoi(id));
 }
-function anChiTiet(){ dangMo=''; $('phu-lop').classList.remove('mo'); $('tam').classList.remove('mo'); document.body.classList.remove('khoa'); veTatCa(); veNgoi(); veLuu(); }
+function anChiTiet(){ var tu=moTu; moTu=null; setTimeout(function(){ try{ if(tu&&document.body.contains(tu)) tu.focus(); }catch(e){} },30); dangMo=''; $('phu-lop').classList.remove('mo'); $('tam').classList.remove('mo'); document.body.classList.remove('khoa'); veTatCa(); veNgoi(); veLuu(); }
 function dongChiTiet(sau){
   if(history.state&&history.state.sp&&!moQuaLink){ history.back(); }
   else { anChiTiet(); history.replaceState(null,'',urlVoi('')); moQuaLink=false; }
@@ -1599,6 +1675,7 @@ function batLuu(id){
   ghiLuu(); veLuu(); veDaiLy();
 }
 function capNutLuu(){ var b=$('tam-luu'), on=daLuu(dangMo); b.textContent=on?'♥ Đã lưu':'♡ Lưu'; b.classList.toggle('da',on); }
+function tenKemCT(id){ var x=THEO_MA[id]; var t=tenNgan(id); return (x&&x.k==='g'&&ctDay(x.d)) ? t+' (mẫu đang có chương trình tháng '+CT_THANG.thang.split('/')[0]+')' : t; }
 function tenNgan(id){
   var x=THEO_MA[id]; if(!x) return id;
   if(x.k==='g') return tenMau(x.d.ma)+' '+x.d.kc;
@@ -1609,6 +1686,7 @@ function veLuu(){
   var ds=LUU.filter(function(id){return THEO_MA[id];});
   $('luu').classList.toggle('an',!ds.length);
   $('luu-so').textContent=ds.length;
+  var tl=$('tn-luu'); if(tl){ tl.classList.toggle('an',!ds.length); $('tn-luu-so').textContent=ds.length; }
   $('luu-ds').innerHTML=ds.map(function(id){
     var x=THEO_MA[id], nen=x.k==='n'?';background-color:'+mauNgoi(x.d)[1]:'';
     return '<div class="o"><button data-sp="'+esc(id)+'" style="display:block;width:100%;text-align:left"><span class="a" style="background-image:url(\''+esc(x.d.img)+'\')'+nen+'"></span><span class="n">'+esc(tenNgan(id))+'</span></button>'
@@ -1635,7 +1713,7 @@ function chiaSe(tieuDe, txt, url){
 $('m2-mai').addEventListener('input',function(){ veNgoi(); });
 $('m2').addEventListener('input',function(){ veTatCa(); });
 $('ns').addEventListener('input',function(){ soHien=6; veTatCa(); });
-$('chi-kk').addEventListener('change',function(){ soHien=6; veTatCa(); });
+['chi-kk','chi-co','chi-ct','sap-xep'].forEach(function(id){ $(id).addEventListener('change',function(){ soHien=6; veTatCa(); }); });
 
 taiMauDaiLy(); veThap(); veDaiLy(); vePhong(); veLuu(); taiDuLieu();
 })();
