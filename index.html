@@ -630,6 +630,14 @@ button:active,.nut:active{transform:scale(.98)}
 .thu-do{position:absolute;left:6%;bottom:8%;width:44%;z-index:3;filter:drop-shadow(0 7px 6px rgba(0,0,0,.28));pointer-events:none}
 .thu-do2{position:absolute;right:8%;bottom:13%;width:8%;z-index:3;pointer-events:none;filter:drop-shadow(0 5px 4px rgba(0,0,0,.22))}
 .thu-ghi{font-size:12.5px;color:var(--phu);margin-top:6px}
+
+/* ===== PHỐI THỬ BẰNG AI (Gemini của khách) ===== */
+.ai-thu{margin:12px 0 4px;border:1.5px solid #E6D6D4;background:#FFF8F7;border-radius:14px;padding:12px 14px}
+.ai-thu b{display:block;font-size:14.5px;margin-bottom:2px}
+.ai-thu p{font-size:13px;color:var(--phu);margin:0 0 8px}
+.ai-thu button.ai-nut{width:100%;min-height:46px;border-radius:12px;border:0;background:#8C1206;color:#fff;font-weight:800;font-size:15px}
+.ai-thu ol{margin:10px 0 0;padding-left:20px;font-size:13px;color:#3B3434;display:grid;gap:4px}
+.ai-thu .ai-ghi{font-size:12px;color:var(--phu);margin-top:8px}
 </style>
 </head>
 <body>
@@ -1547,7 +1555,7 @@ function ctGach(s){
     +'<div class="gia-lon">'+tien(s.le)+' <small>đ/m² · giá lẻ niêm yết, đã gồm VAT</small></div>'
     +(ctDay(s)?'<div class="ct-ban"><b>'+nhanCT(s)+'</b>Mẫu đang có chương trình tháng '+CT_THANG.thang.split('/')[0]+'. Nhắn đại lý để biết giá ưu đãi và số lượng còn.</div>':'')
     +(s.tn==='KHÁNG_KHUẨN'?'<div class="tem-ct"><img src="anh/tem-nano-web.png" alt=""><span><b>Có tem Nano kháng khuẩn</b>Tại đại lý, mẫu này dán tem như hình. Thử tại Viện Pasteur TP.HCM: diệt khoảng 87–92% vi khuẩn bám trên mặt men sau 24 giờ.</span></div>':'')
-    +htmlThu(s)
+    +htmlThu(s)+htmlAI(s)
     +'<div class="du-tinh">Diện tích của bạn <input id="ct-m2" type="number" inputmode="decimal" min="1" value="'+m2+'"> m²<div class="kq" id="ct-kq"></div></div>'
     +htmlCoMau(s.sap)
     +'<h4>Vì sao đáng chọn</h4>'+htmlViSao(viSaoSP(s))
@@ -1579,6 +1587,35 @@ function htmlThu(s){
     +'<svg class="thu-do" viewBox="0 0 220 90" aria-hidden="true"><rect x="8" y="30" width="204" height="44" rx="12" fill="#9A9088"/><rect x="0" y="40" width="28" height="42" rx="10" fill="#867C73"/><rect x="192" y="40" width="28" height="42" rx="10" fill="#867C73"/><rect x="22" y="8" width="176" height="40" rx="14" fill="#A99F96"/><rect x="26" y="74" width="10" height="12" rx="3" fill="#5B534D"/><rect x="184" y="74" width="10" height="12" rx="3" fill="#5B534D"/></svg>'
     +'<svg class="thu-do2" viewBox="0 0 40 120" aria-hidden="true"><rect x="19" y="26" width="3" height="88" fill="#6B625B"/><ellipse cx="20" cy="116" rx="14" ry="4" fill="#6B625B"/><path d="M5 28 L10 4 H30 L35 28 Z" fill="#F3E6C9"/></svg>'
     +'</div><div class="thu-ghi">Hình minh hoạ từ mặt gạch thật của hãng, có thể lệch màu theo màn hình. Xem mẫu thật tại đại lý.</div></div>';
+}
+function loiNhacAI(s){
+  var tuong=laTuongSP(s), m=(s.kc||'').match(/(\d+)x(\d+)/i), kt=m?(m[1]+'x'+m[2]+' mm'):'';
+  return 'Hãy '+(tuong?'ốp gạch lên tường':'lát gạch lên sàn')+' trong ảnh phòng của tôi bằng mẫu gạch ở ảnh mặt gạch đính kèm. '
+    +'Gạch Đồng Tâm '+tenMau(s.ma)+(kt?', khổ '+kt:'')+(nhanMen(s)?', '+nhanMen(s).toLowerCase():'')+'. '
+    +'Giữ nguyên bố cục phòng, đồ đạc, ánh sáng và góc chụp; chỉ thay bề mặt '+(tuong?'tường':'sàn')+'. '
+    +'Gạch chia viên đúng khổ, đường ron mảnh khoảng 2 mm, vân gạch lấy đúng từ ảnh mặt gạch, phối cảnh chân thực như ảnh chụp thật.';
+}
+function htmlAI(s){
+  return '<div class="ai-thu" id="ai-thu"><b>Phối thử vào chính căn phòng của bạn bằng AI</b>'
+    +'<p>Chụp phòng của bạn, nhờ Gemini lát mẫu này lên và xem trước khi mua. Dùng Gemini bằng tài khoản Google của bạn.</p>'
+    +'<button type="button" class="ai-nut" id="ai-nut">Mở Gemini và phối thử</button>'
+    +'<ol><li>Nút trên sẽ <b style="display:inline">tải ảnh mặt gạch</b> về máy và <b style="display:inline">chép sẵn câu lệnh</b>.</li>'
+    +'<li>Trong Gemini, bấm dấu + đính kèm <b style="display:inline">ảnh phòng của bạn</b> và <b style="display:inline">ảnh mặt gạch vừa tải</b>.</li>'
+    +'<li>Dán câu lệnh (nhấn giữ ô chat, chọn Dán) rồi gửi.</li></ol>'
+    +'<div class="ai-ghi">Ảnh do AI tạo, chỉ để hình dung. Màu và vân thực tế xem tại đại lý.</div></div>';
+}
+function ganAI(s){
+  var nut=$('ai-nut'); if(!nut) return;
+  nut.onclick=function(){
+    var loi=loiNhacAI(s);
+    try{ if(navigator.clipboard) navigator.clipboard.writeText(loi).catch(function(){}); }catch(e){}
+    if(soFace(s)){
+      var a=document.createElement('a'); a.href='anh/face/'+khoaFace(s.ma)+'-1.jpg'; a.download='mat-gach-'+khoaFace(s.ma)+'.jpg';
+      document.body.appendChild(a); a.click(); a.remove();
+    }
+    baoNhanh('Đã chép câu lệnh'+(soFace(s)?' và tải ảnh mặt gạch':'')+'. Dán vào Gemini nhé');
+    setTimeout(function(){ window.open('https://gemini.google.com/app','_blank','noopener'); },600);
+  };
 }
 function veThu(s){
   var box=$('thu'); if(!box) return;
@@ -1678,7 +1715,7 @@ function moChiTiet(id, tuLink){
   c.innerHTML = x.k==='g' ? ctGach(x.d) : x.k==='n' ? ctNgoi(x.d) : ctKeo(x.d);
   c.scrollTop=0;
   ganMo(c);
-  if(x.k==='g') veThu(x.d);
+  if(x.k==='g'){ veThu(x.d); ganAI(x.d); }
   var inp=$('ct-m2');
   if(inp){
     var tinh = x.k==='g' ? function(){tinhCtGach(x.d);} : function(){tinhCtNgoi(x.d);};
