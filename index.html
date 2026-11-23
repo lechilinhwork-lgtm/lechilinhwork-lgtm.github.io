@@ -611,6 +611,25 @@ button:active,.nut:active{transform:scale(.98)}
   .tn-luu.an{display:none}
   .tn-luu + .tn-zalo{margin-left:12px}
 }
+
+/* ===== XEM THỬ TRONG PHÒNG (dùng mặt gạch sạch của hãng) ===== */
+.thu{margin:14px 0 4px}
+.thu h4{margin:0 0 8px}
+.thu-tab{display:flex;gap:8px;margin-bottom:8px}
+.thu-tab button{flex:1;min-height:40px;border:1.5px solid var(--vien);background:#fff;border-radius:999px;font-weight:700;font-size:14px;color:var(--chu)}
+.thu-tab button.on{background:#8C1206;border-color:#8C1206;color:#fff}
+.thu-canh{position:relative;aspect-ratio:4/3;border-radius:14px;overflow:hidden;background:#EFE9E3;border:1px solid var(--vien);isolation:isolate}
+.thu-tuong{position:absolute;left:0;right:0;top:0;height:46%;overflow:hidden;background:linear-gradient(#F7F3EF,#ECE5DE)}
+.thu-tuong .luoi{position:absolute;left:0;right:0;top:0;display:grid;gap:2px;background:#D9D3CC}
+.thu-tuong::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.10),rgba(0,0,0,0) 22%,rgba(0,0,0,0) 78%,rgba(0,0,0,.08)),linear-gradient(rgba(255,255,255,.18),rgba(0,0,0,.06));pointer-events:none}
+.thu-chan{position:absolute;left:0;right:0;top:calc(46% - 7px);height:7px;background:#FBFAF8;box-shadow:0 1px 2px rgba(0,0,0,.18);z-index:2}
+.thu-san{position:absolute;left:0;right:0;top:46%;bottom:0;overflow:hidden;perspective:300px;background:linear-gradient(#CDBFAE,#BBAB99)}
+.thu-san .luoi{position:absolute;left:-50%;width:200%;top:0;height:300%;display:grid;gap:3px;background:#BDB5AC;transform-origin:50% 0;transform:rotateX(56deg)}
+.thu-san::after{content:"";position:absolute;inset:0;background:linear-gradient(rgba(255,255,255,.34),rgba(255,255,255,0) 55%,rgba(0,0,0,.10));pointer-events:none}
+.thu .o{overflow:hidden;position:relative;background-size:cover;background-position:center}
+.thu-do{position:absolute;left:6%;bottom:8%;width:44%;z-index:3;filter:drop-shadow(0 7px 6px rgba(0,0,0,.28));pointer-events:none}
+.thu-do2{position:absolute;right:8%;bottom:13%;width:8%;z-index:3;pointer-events:none;filter:drop-shadow(0 5px 4px rgba(0,0,0,.22))}
+.thu-ghi{font-size:12.5px;color:var(--phu);margin-top:6px}
 </style>
 </head>
 <body>
@@ -842,6 +861,7 @@ button:active,.nut:active{transform:scale(.98)}
 <script src="dai-ly.js"></script>
 <script src="mau-dai-ly.js"></script>
 <script src="ct-thang.js"></script>
+<script src="face-data.js"></script>
 <script>
 (function(){
 'use strict';
@@ -1527,6 +1547,7 @@ function ctGach(s){
     +'<div class="gia-lon">'+tien(s.le)+' <small>đ/m² · giá lẻ niêm yết, đã gồm VAT</small></div>'
     +(ctDay(s)?'<div class="ct-ban"><b>'+nhanCT(s)+'</b>Mẫu đang có chương trình tháng '+CT_THANG.thang.split('/')[0]+'. Nhắn đại lý để biết giá ưu đãi và số lượng còn.</div>':'')
     +(s.tn==='KHÁNG_KHUẨN'?'<div class="tem-ct"><img src="anh/tem-nano-web.png" alt=""><span><b>Có tem Nano kháng khuẩn</b>Tại đại lý, mẫu này dán tem như hình. Diệt đến 99% vi khuẩn bám trên mặt men.</span></div>':'')
+    +htmlThu(s)
     +'<div class="du-tinh">Diện tích của bạn <input id="ct-m2" type="number" inputmode="decimal" min="1" value="'+m2+'"> m²<div class="kq" id="ct-kq"></div></div>'
     +htmlCoMau(s.sap)
     +'<h4>Vì sao đáng chọn</h4>'+htmlViSao(viSaoSP(s))
@@ -1546,6 +1567,48 @@ function ctGach(s){
     +(s.tk?'<div class="video" style="grid-template-columns:1fr"><a href="'+esc(s.tk)+'" target="_blank" rel="noopener">Xem video mẫu thực tế</a></div>':'')
     +'<p class="ghi-chu">Màu trên ảnh có thể khác thực tế do màn hình. Xem mẫu thật và chọn cùng số lô tại đại lý. Mã sản phẩm: '+esc(s.ma)+'</p>'
     +'</div>';
+}
+function khoaFace(ma){ return String(ma).toUpperCase().replace(/^\d{6}_/,'').replace(/[-_ ]?(H\+|FP|NUNG2L)/g,'').replace(/[^A-Z0-9]/g,''); }
+function soFace(s){ return (typeof FACE_GACH!=='undefined' && FACE_GACH[khoaFace(s.ma)]) || 0; }
+function htmlThu(s){
+  if(!soFace(s)) return '';
+  var tuong=laTuongSP(s);
+  return '<div class="thu" id="thu"><h4>Xem thử trong phòng</h4>'
+    +'<div class="thu-tab" role="tablist"><button type="button" data-m="san" class="'+(tuong?'':'on')+'">Lát nền</button><button type="button" data-m="tuong" class="'+(tuong?'on':'')+'">Ốp tường</button></div>'
+    +'<div class="thu-canh"><div class="thu-tuong" id="thu-tuong"></div><div class="thu-chan"></div><div class="thu-san" id="thu-san"></div>'
+    +'<svg class="thu-do" viewBox="0 0 220 90" aria-hidden="true"><rect x="8" y="30" width="204" height="44" rx="12" fill="#9A9088"/><rect x="0" y="40" width="28" height="42" rx="10" fill="#867C73"/><rect x="192" y="40" width="28" height="42" rx="10" fill="#867C73"/><rect x="22" y="8" width="176" height="40" rx="14" fill="#A99F96"/><rect x="26" y="74" width="10" height="12" rx="3" fill="#5B534D"/><rect x="184" y="74" width="10" height="12" rx="3" fill="#5B534D"/></svg>'
+    +'<svg class="thu-do2" viewBox="0 0 40 120" aria-hidden="true"><rect x="19" y="26" width="3" height="88" fill="#6B625B"/><ellipse cx="20" cy="116" rx="14" ry="4" fill="#6B625B"/><path d="M5 28 L10 4 H30 L35 28 Z" fill="#F3E6C9"/></svg>'
+    +'</div><div class="thu-ghi">Hình minh hoạ từ mặt gạch thật của hãng, có thể lệch màu theo màn hình. Xem mẫu thật tại đại lý.</div></div>';
+}
+function veThu(s){
+  var box=$('thu'); if(!box) return;
+  var n=soFace(s), key=khoaFace(s.ma);
+  var m=(s.kc||'').match(/(\d+)x(\d+)/i), a=m?+m[1]:600, b=m?+m[2]:600;
+  var dai=Math.max(a,b), ngan=Math.min(a,b), cmNgan=ngan/10, ti=dai/ngan;
+  function dung(el,soCot,soHang){
+    var h='';
+    for(var i=0;i<soHang;i++) for(var j=0;j<soCot;j++){
+      var v=((i*7+j*3+(i*j))%n)+1;
+      h+='<div class="o" style="aspect-ratio:'+ti.toFixed(3)+'/1;background-image:url(anh/face/'+key+'-'+v+'.jpg)"></div>';
+    }
+    el.innerHTML='<div class="luoi" style="grid-template-columns:repeat('+soCot+',1fr)">'+h+'</div>';
+  }
+  function ve(mode){
+    var tt=$('thu-tuong'), ss=$('thu-san');
+    var chieuNgang=dai/10;   // cạnh dài nằm ngang
+    var cotTuong=Math.max(2,Math.min(8,Math.round(300/chieuNgang)));
+    var cotSan=Math.max(3,Math.min(10,Math.round(560/chieuNgang)));
+    if(mode==='tuong'){
+      dung(tt,cotTuong,Math.ceil(cotTuong/ti*1.4)+2);
+      ss.innerHTML=''; ss.style.background='linear-gradient(#CDBFAE,#BBAB99)';
+    } else {
+      tt.innerHTML='';
+      dung(ss,cotSan,Math.ceil(cotSan/ti*4.2)+3);
+    }
+    Array.prototype.forEach.call(box.querySelectorAll('.thu-tab button'),function(x){ x.classList.toggle('on',x.dataset.m===mode); });
+  }
+  Array.prototype.forEach.call(box.querySelectorAll('.thu-tab button'),function(x){ x.onclick=function(){ ve(x.dataset.m); }; });
+  ve(laTuongSP(s)?'tuong':'san');
 }
 function tinhCtGach(s){
   var m2=soNhap('ct-m2'), luong=m2*HAO_HUT, th=THUNG[s.kc], kq=$('ct-kq');
@@ -1615,6 +1678,7 @@ function moChiTiet(id, tuLink){
   c.innerHTML = x.k==='g' ? ctGach(x.d) : x.k==='n' ? ctNgoi(x.d) : ctKeo(x.d);
   c.scrollTop=0;
   ganMo(c);
+  if(x.k==='g') veThu(x.d);
   var inp=$('ct-m2');
   if(inp){
     var tinh = x.k==='g' ? function(){tinhCtGach(x.d);} : function(){tinhCtNgoi(x.d);};
