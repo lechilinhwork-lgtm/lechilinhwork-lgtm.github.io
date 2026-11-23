@@ -188,13 +188,13 @@ function ve(r){
 
   var h='';
   // Tiến độ
-  h+='<section class="the"><div class="tieu">Tiến độ thi công</div><div class="td">'
+  h+='<section class="the s-td"><div class="tieu">Tiến độ thi công</div><div class="td">'
     +GD_NGAN.map(function(g,i){ return '<div class="'+(i<iGd?'qua':i===iGd?'nay':'')+'">'+g+'</div>'; }).join('')+'</div>'
     +'<div class="td-ghi">Hiện tại: <b>'+esc(r.gd||'chưa rõ')+'</b>'+(iGd>=0&&iGd<3?' · Còn thời gian chọn gạch, nên xem mẫu thật sớm để kịp đặt hàng.':iGd>=3?' · Sắp lát, nên chốt mẫu và số lượng ngay.':'')+'</div></section>';
   // Ảnh theo từng lần ghé
   var co=r.lan.filter(function(l){return l.anh.length;});
   if(co.length){
-    h+='<section class="the"><div class="tieu">Hình ảnh tại công trình</div>';
+    h+='<section class="the s-anh"><div class="tieu">Hình ảnh tại công trình</div>';
     co.forEach(function(l,k){
       h+='<div class="lan"><div class="lan-dau"><b>'+ngay(l.t)+'</b><span style="color:var(--phu)">'+l.anh.length+' ảnh</span>'+(l.gd?'<span class="gd">'+esc(l.gd)+'</span>':'')+'</div>';
       if(k===0){ h+='<button class="anh-dau" data-i="'+TAT_CA.length+'" style="margin-top:8px;background-image:url(\''+anh(l.anh[0],1000)+'\')"></button>'; TAT_CA.push(l.anh[0]); }
@@ -205,15 +205,15 @@ function ve(r){
     });
     h+='</section>';
   }
-  if(!co.length) h+='<section class="the"><div class="tieu">Hình ảnh tại công trình</div><div class="td-ghi">Hình ảnh công trình sẽ được cập nhật tại đây khi có lần ghé mới.</div></section>';
+  if(!co.length) h+='<section class="the s-anh"><div class="tieu">Hình ảnh tại công trình</div><div class="td-ghi">Hình ảnh công trình sẽ được cập nhật tại đây khi có lần ghé mới.</div></section>';
   // Nhu cầu
-  if(r.can) h+='<section class="the"><div class="tieu">Vật liệu cần</div><div class="chips">'+r.can.replace(/Keo, chà ron/g,'Keo & chà ron').split(',').map(function(x){return '<span>'+esc(x.trim())+'</span>';}).join('')+'</div></section>';
+  if(r.can) h+='<section class="the s-side"><div class="tieu">Vật liệu cần</div><div class="chips">'+r.can.replace(/Keo, chà ron/g,'Keo & chà ron').split(',').map(function(x){return '<span>'+esc(x.trim())+'</span>';}).join('')+'</div></section>';
   // Vị trí
-  if(r.lat&&r.lng) h+='<section class="the"><div class="tieu">Vị trí công trình</div><a class="nut" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+r.lat+','+r.lng+'">Mở trên Google Maps</a></section>';
+  if(r.lat&&r.lng) h+='<section class="the s-side"><div class="tieu">Vị trí công trình</div><a class="nut" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+r.lat+','+r.lng+'">Mở trên Google Maps</a></section>';
   // Đại lý phụ trách
   if(d&&ch){
     var sdt=ch.sdt||HOTLINE_HO_TRO;
-    h+='<section class="the dl"><div class="tieu">Đại lý Đồng Tâm phụ trách</div><b>'+esc(d.ten)+'</b><small>'+esc(ch.diaChi)+'</small>'
+    h+='<section class="the dl s-side"><div class="tieu">Đại lý Đồng Tâm phụ trách</div><b>'+esc(d.ten)+'</b><small>'+esc(ch.diaChi)+'</small>'
       +'<div class="hang"><a class="nut chinh" href="tel:'+sdt+'">Gọi</a><a class="nut zalo" target="_blank" rel="noopener" href="https://zalo.me/'+sdt+'">Zalo</a><a class="nut" target="_blank" rel="noopener" href="'+linkChiDuong(ch)+'">Chỉ đường</a></div>'
       +'<p style="font-size:13px;color:var(--phu);margin-top:10px">Có sẵn mẫu thật trưng bày. Ghé xem, nhận báo giá và chiết khấu theo công trình.</p></section>';
     $('t-goi').href='https://zalo.me/'+sdt; $('t-goi').target='_blank'; $('t-goi').textContent='Zalo '+d.ten;
@@ -222,6 +222,15 @@ function ve(r){
   h+='<a class="cta" href="'+$('t-xem').getAttribute('href')+'"><span><b>Chọn gạch, ngói cho công trình này</b><small>Xem mẫu, giá niêm yết, tính số thùng theo diện tích</small></span><span class="mui">›</span></a>';
   h+='<div class="chan">Gạch Đồng Tâm · Vì cuộc sống tươi đẹp<br>Tư vấn, báo giá và giao hàng do đại lý Đồng Tâm phụ trách thực hiện.</div>';
   $('nd').innerHTML=h;
+  // Chia 2 cột trên máy tính: trái = tiến độ + ảnh, phải = vật liệu, vị trí, đại lý (trên điện thoại vẫn xếp 1 cột theo thứ tự cũ)
+  (function(){
+    var nd=$('nd'), L=document.createElement('div'), R=document.createElement('div'); L.className='cot cot-t'; R.className='cot cot-p';
+    [].slice.call(nd.children).forEach(function(e){
+      if(e.classList.contains('s-td')||e.classList.contains('s-anh')) L.appendChild(e);
+      else if(!e.classList.contains('chan')) R.appendChild(e);
+    });
+    nd.insertBefore(R, nd.firstChild); nd.insertBefore(L, nd.firstChild);
+  })();
   $('thanh').classList.remove('an');
   Array.prototype.forEach.call(document.querySelectorAll('[data-i]'),function(b){ b.onclick=function(){ moAnh(+b.dataset.i); }; });
 }
@@ -237,6 +246,26 @@ $('xem').addEventListener('touchend',function(e){ if(x0==null) return; var dx=e.
 document.addEventListener('keydown',function(e){ if(!$('xem').classList.contains('mo')) return; if(e.key==='Escape') $('xem').classList.remove('mo'); if(e.key==='ArrowLeft') moAnh(dang-1); if(e.key==='ArrowRight') moAnh(dang+1); });
 })();
 </script>
-<style>.an{display:none!important}</style>
+<style>.an{display:none!important}
+/* ===== MÁY TÍNH ===== */
+.cot{display:contents}
+:focus-visible{outline:2px solid #8C1206;outline-offset:2px}
+@media (hover:hover){ .nut:hover{filter:brightness(.96)} .luoi button:hover{opacity:.9} }
+@media (min-width:720px){ .wrap{max-width:900px;padding:0 24px} .luoi{grid-template-columns:repeat(4,1fr)} .thanh{left:auto;right:20px;bottom:20px;border:1px solid var(--vien);border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.14)} .thanh .in{grid-template-columns:auto auto;max-width:none} .thanh .nut{padding:0 20px} }
+@media (min-width:1000px){
+  body{padding-bottom:40px}
+  .wrap{max-width:1180px;padding:0 32px}
+  .hd{padding:26px 0 34px}
+  .hd h1{font-size:36px}
+  #nd{display:grid;grid-template-columns:1.55fr 1fr;column-gap:32px;align-items:start}
+  .cot{display:block}
+  .cot-t{grid-column:1}
+  .cot-p{grid-column:2;position:sticky;top:20px}
+  #nd > .chan,#nd > .trong{grid-column:1/-1}
+  .luoi{grid-template-columns:repeat(3,1fr);gap:8px}
+  .anh-dau{aspect-ratio:16/10}
+  .thanh{display:none}
+}
+</style>
 </body>
 </html>
