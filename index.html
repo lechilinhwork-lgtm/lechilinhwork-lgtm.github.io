@@ -1608,17 +1608,21 @@ function htmlThu(s){
 }
 function loiNhacAI(s){
   var tuong=laTuongSP(s), m=(s.kc||'').match(/(\d+)x(\d+)/i), kt=m?(m[1]+'x'+m[2]+' mm'):'';
-  return 'Hãy '+(tuong?'ốp gạch lên tường':'lát gạch lên sàn')+' trong ảnh phòng của tôi bằng mẫu gạch ở ảnh mặt gạch đính kèm. '
+  var coMat=soFace(s), mo=[nhanTT(s.hv),nhanTT(s.mau)].filter(function(x){return x&&x!=='-';}).join(', ');
+  return 'Hãy '+(tuong?'ốp gạch lên tường':'lát gạch lên sàn')+' trong ảnh phòng của tôi bằng '+(coMat?'mẫu gạch ở ảnh mặt gạch đính kèm. ':'gạch Đồng Tâm mô tả sau đây'+(mo?' (vân/màu: '+mo.toLowerCase()+')':'')+'. ')
     +'Gạch Đồng Tâm '+tenMau(s.ma)+(kt?', khổ '+kt:'')+(nhanMen(s)?', '+nhanMen(s).toLowerCase():'')+'. '
     +'Giữ nguyên bố cục phòng, đồ đạc, ánh sáng và góc chụp; chỉ thay bề mặt '+(tuong?'tường':'sàn')+'. '
-    +'Gạch chia viên đúng khổ, đường ron mảnh khoảng 2 mm, vân gạch lấy đúng từ ảnh mặt gạch, phối cảnh chân thực như ảnh chụp thật.';
+    +'Gạch chia viên đúng khổ, đường ron mảnh khoảng 2 mm, '+(coMat?'vân gạch lấy đúng từ ảnh mặt gạch, ':'')+'phối cảnh chân thực như ảnh chụp thật.';
 }
 function coAIWeb(){ return typeof AI_API!=='undefined' && !!AI_API; }
 function htmlAI(s){
   var gem='<button type="button" class="ai-nut" id="ai-nut" style="width:100%;min-height:46px;border-radius:12px;border:0;background:#8C1206;color:#fff;font-weight:800;font-size:15px">Mở Gemini và phối thử</button>'
-    +'<ol><li>Nút trên sẽ <b style="display:inline">tải ảnh mặt gạch</b> về máy và <b style="display:inline">chép sẵn câu lệnh</b>.</li>'
-    +'<li>Trong Gemini, bấm dấu + đính kèm <b style="display:inline">ảnh phòng của bạn</b> và <b style="display:inline">ảnh mặt gạch vừa tải</b>.</li>'
-    +'<li>Dán câu lệnh (nhấn giữ ô chat, chọn Dán) rồi gửi.</li></ol>';
+    +'<ol><li>Nút trên sẽ '+(soFace(s)?'<b style="display:inline">tải ảnh mặt gạch</b> về máy và ':'')+'<b style="display:inline">chép sẵn câu lệnh</b>.</li>'
+    +'<li>Trong Gemini, bấm dấu + đính kèm <b style="display:inline">ảnh phòng của bạn</b>'+(soFace(s)?' và <b style="display:inline">ảnh mặt gạch vừa tải</b>':'')+'.</li>'
+    +'<li>Dán câu lệnh (nhấn giữ ô chat, chọn Dán) rồi gửi.</li></ol>'
+    +'<details class="ai-tay"><summary>Làm từng bước hoặc xem câu lệnh</summary>'
+    +'<div class="ai-hang">'+(soFace(s)?'<button type="button" id="ai-tai">Tải ảnh mặt gạch</button>':'')+'<button type="button" id="ai-chep">Chép câu lệnh</button></div>'
+    +'<textarea id="ai-loi" readonly rows="6" style="width:100%;margin-top:8px;padding:10px;border:1px solid var(--vien);border-radius:10px;font-family:inherit;font-size:13px;line-height:1.45;background:#fff"></textarea></details>';
   if(!coAIWeb()){
     return '<div class="ai-thu" id="ai-thu"><b>Phối thử vào chính căn phòng của bạn bằng AI</b>'
       +'<p>Chụp phòng của bạn, nhờ Gemini lát mẫu này lên và xem trước khi mua. Dùng Gemini bằng tài khoản Google của bạn.</p>'+gem
@@ -1683,13 +1687,20 @@ function ganAIWeb(s){
 function ganAI(s){
   if(coAIWeb()) ganAIWeb(s);
   var nut=$('ai-nut'); if(!nut) return;
+  var loiTxt=loiNhacAI(s), ta=$('ai-loi');
+  if(ta){ ta.value=loiTxt; ta.onclick=function(){ ta.select(); }; }
+  function taiMat(){ if(!soFace(s)) return; var a=document.createElement('a'); a.href='anh/face/'+khoaFace(s.ma)+'-1.jpg'; a.download='mat-gach-'+khoaFace(s.ma)+'.jpg'; document.body.appendChild(a); a.click(); a.remove(); }
+  function chepLoi(ok){
+    var xong=false;
+    try{ if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(loiTxt).then(function(){ if(ok) ok(); },function(){ if(ta){ ta.select(); } }); xong=true; } }catch(e){}
+    if(!xong&&ta){ ta.focus(); ta.select(); try{ document.execCommand('copy'); if(ok) ok(); }catch(e){} }
+  }
+  if($('ai-tai')) $('ai-tai').onclick=function(){ taiMat(); baoNhanh('Đã tải ảnh mặt gạch'); };
+  if($('ai-chep')) $('ai-chep').onclick=function(){ chepLoi(function(){ baoNhanh('Đã chép câu lệnh. Dán vào Gemini nhé'); }); };
   nut.onclick=function(){
-    var loi=loiNhacAI(s);
-    try{ if(navigator.clipboard) navigator.clipboard.writeText(loi).catch(function(){}); }catch(e){}
-    if(soFace(s)){
-      var a=document.createElement('a'); a.href='anh/face/'+khoaFace(s.ma)+'-1.jpg'; a.download='mat-gach-'+khoaFace(s.ma)+'.jpg';
-      document.body.appendChild(a); a.click(); a.remove();
-    }
+    var loi=loiTxt;
+    chepLoi();
+    taiMat();
     baoNhanh('Đã chép câu lệnh'+(soFace(s)?' và tải ảnh mặt gạch':'')+'. Dán vào Gemini nhé');
     setTimeout(function(){ window.open('https://gemini.google.com/app','_blank','noopener'); },600);
   };
