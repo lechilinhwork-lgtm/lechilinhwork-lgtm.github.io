@@ -1306,10 +1306,28 @@ function taiDuLieu(){
   };
   s.src=APPS_URL+'?action=getAll&k='+encodeURIComponent(APP_KEY)+'&t=&g=1&callback='+cb;
   s.onerror=function(){ if(!SP.length) baoLoi(); };
+  setTimeout(function(){ if(!xong && !SP.length) dungBanLuu(); }, 8000);      // máy chủ chậm: hiện bản lưu sẵn trước
   setTimeout(function(){ if(!xong && !SP.length) baoLoi(); }, 25000);
   document.head.appendChild(s);
 }
+// Bản bảng giá lẻ lưu sẵn (gia-snapshot.js): khi máy chủ giá lỗi hoặc chậm thì khách vẫn thấy sản phẩm
+var banLuuThu=false;
+function dungBanLuu(sau){
+  if(SP.length) return;
+  if(banLuuThu){ if(sau) sau(); return; }
+  banLuuThu=true;
+  var sc=document.createElement('script'); sc.src='gia-snapshot.js';
+  sc.onload=function(){
+    try{
+      if(!SP.length && window.GIA_SNAPSHOT){ var d=gonDuLieu(window.GIA_SNAPSHOT); if(d.sp.length){ d.t=0; apDung(d); baoNhanh('Đang dùng bảng giá lưu ngày '+(window.GIA_SNAPSHOT_NGAY||'')+'. Có mạng tốt sẽ tự cập nhật.'); return; } }
+    }catch(e){}
+    if(!SP.length && sau) sau();
+  };
+  sc.onerror=function(){ if(!SP.length && sau) sau(); };
+  document.head.appendChild(sc);
+}
 function baoLoi(){
+  if(!banLuuThu){ dungBanLuu(baoLoi); return; }
   ['ds-dong','ds-keo'].forEach(function(id){ $(id).innerHTML='<div class="trong" style="grid-column:1/-1">Chưa tải được bảng giá.</div>'; });
   $('ds-tang').innerHTML='<div class="trong">Chưa tải được bảng giá. Kiểm tra mạng rồi <a href="" style="color:var(--do);font-weight:700">tải lại</a>, hoặc gọi đại lý để được tư vấn.</div>';
 }
