@@ -496,22 +496,31 @@ body{font-size:15.5px}
   .tn-lk a:hover{background:#FDF0EF;color:#8C1206}
   .tn-zalo{margin-left:auto;height:40px;padding:0 22px;width:auto;font-size:14px}
   /* đầu trang 2 cột */
-  .hd{padding:36px 0 72px}
-  .hd .wrap{display:grid;grid-template-columns:1.05fr 1fr;column-gap:56px;align-items:center}
-  .hd-top{grid-column:1;margin-bottom:6px}
+  .hd{padding:36px 0 96px}
+  .hd .wrap{display:grid;grid-template-columns:1.05fr 1fr;grid-template-rows:1fr auto auto auto auto 1fr;column-gap:56px;align-items:start}
+  .hd-top{grid-column:1;grid-row:2;margin-bottom:6px}
   .hd-top .logo{display:none}
   .nano{margin-left:0}
-  .hd h1{grid-column:1;font-size:46px;line-height:1.1;margin-top:14px;letter-spacing:-1.2px}
-  .hd p{grid-column:1;font-size:17px;max-width:520px;margin-top:16px}
-  .hd-cta{grid-column:1;display:flex;gap:12px;margin-top:26px}
+  .hd h1{grid-column:1;grid-row:3;font-size:46px;line-height:1.1;margin-top:14px;letter-spacing:-1.2px}
+  .hd p{grid-column:1;grid-row:4;font-size:17px;max-width:520px;margin-top:16px}
+  .hd-cta{grid-column:1;grid-row:5;display:flex;gap:12px;margin-top:26px}
   .hd-cta .nut{width:auto;height:50px;padding:0 26px;font-size:15px;background:#fff;color:#8C1206;border-color:#fff}
   .hd-cta .nut + .nut{background:transparent;color:#fff;border-color:rgba(255,255,255,.6)}
-  .hd-anh{grid-column:2;grid-row:1/span 4;display:grid;grid-template-columns:1.25fr 1fr;grid-template-rows:1fr 1fr;gap:10px;height:400px}
-  .hd-anh div{border-radius:16px;background:#fff center/cover no-repeat;position:relative;overflow:hidden;box-shadow:0 18px 40px rgba(0,0,0,.22)}
-  .hd-anh .g1{grid-row:1/span 2}
-  .hd-anh .g2{background-size:170%;background-position:58% 30%}
-  .hd-anh .g3{background-size:contain}
-  .hd-anh span{position:absolute;left:10px;bottom:10px;background:#fff;color:#141414;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px}
+  /* Ảnh đầu trang: 3 thẻ so le, chú thích nền mờ, tem Nano nổi, chip đại lý */
+  .hd{position:relative;overflow:hidden}
+  .hd::before{content:"";position:absolute;right:-140px;top:-160px;width:640px;height:640px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.16),rgba(255,255,255,0) 68%)}
+  .hd .wrap{position:relative}
+  .hd-anh{grid-column:2;grid-row:1/span 6;align-self:center;display:grid;grid-template-columns:1.12fr 1fr;grid-template-rows:1fr 1fr;gap:14px;height:440px;position:relative;margin-bottom:56px}
+  .hd-anh .g1,.hd-anh .g2,.hd-anh .g3{border-radius:20px;background-color:#EFE9E2;background-position:center;background-repeat:no-repeat;position:relative;overflow:hidden;box-shadow:0 24px 48px rgba(60,6,0,.32),0 0 0 1px rgba(255,255,255,.55)}
+  .hd-anh .g1{grid-row:1/span 2;background-size:cover;transform:translateY(14px)}
+  .hd-anh .g2{background-size:210%;background-position:60% 34%}
+  .hd-anh .g3{background-size:auto 74%,cover;background-position:50% 10%,center;background-image:url(anh/bia-keo.jpg),radial-gradient(circle at 50% 36%,#fff 0,#EFE8E1 100%)!important;background-blend-mode:multiply,normal;background-color:#F4EFEA}
+  .hd-anh .cap{position:absolute;left:0;right:0;bottom:0;padding:34px 16px 13px;color:#fff;font-size:12.5px;font-weight:500;line-height:1.3;background:linear-gradient(to top,rgba(24,4,2,.78),rgba(24,4,2,0))}
+  .hd-anh .cap b{display:block;font-size:15px;font-weight:800;letter-spacing:-.2px}
+  .hd-anh .g3 .cap{background:linear-gradient(to top,rgba(24,4,2,.7),rgba(24,4,2,0))}
+  .hd-anh .tem{position:absolute;right:12px;top:12px;width:62px;height:62px;padding:6px;object-fit:contain;background:#fff;border-radius:50%;box-shadow:0 8px 18px rgba(0,0,0,.25)}
+  .hd-anh .chip-dl{position:absolute;left:50%;bottom:-62px;transform:translateX(-50%);display:flex;align-items:center;gap:9px;background:#fff;color:#8C1206;font-weight:800;font-size:14px;padding:11px 20px;border-radius:999px;box-shadow:0 14px 30px rgba(60,6,0,.3);white-space:nowrap;z-index:2}
+  .hd-anh .chip-dl i{width:10px;height:10px;border-radius:50%;background:#1E9E62;box-shadow:0 0 0 4px rgba(30,158,98,.2)}
   .loi-tat{display:none}
   /* khoảng cách + tiêu đề */
   .khoi{margin-top:72px}
@@ -593,7 +602,12 @@ body{font-size:15.5px}
     <h1>Gạch, ngói Đồng Tâm<br>đẹp, bền, đúng số tiền bạn có</h1>
     <p>Xem mẫu, giá niêm yết, thông số và vật tư đi kèm. Lưu mẫu ưng ý rồi mang tới đại lý gần công trình để xem mẫu thật.</p>
     <div class="hd-cta"><a class="nut" href="#chon">Chọn gạch theo ngân sách</a><a class="nut" href="#dai-ly">Đại lý gần công trình</a></div>
-    <div class="hd-anh" aria-hidden="true"><div class="g1" style="background-image:url(anh/catania-web.jpg)"><span>Gạch · CATANIA</span></div><div class="g2" style="background-image:url(anh/bia-ngoi.jpg)"><span>Ngói · TITAN</span></div><div class="g3" style="background-image:url(anh/bia-keo.jpg)"><span>Keo · GECKO</span></div></div>
+    <div class="hd-anh" aria-hidden="true">
+      <div class="g1" style="background-image:url(anh/hero-gach.jpg)"><img class="tem" src="anh/tem-nano-web.png" alt=""><span class="cap"><b>Gạch CATANIA 80x80</b>Men bóng · Nano kháng khuẩn</span></div>
+      <div class="g2" style="background-image:url(anh/bia-ngoi.jpg)"><span class="cap"><b>Ngói TITAN</b>Bền màu đến 50 năm</span></div>
+      <div class="g3" style="background-image:url(anh/bia-keo.jpg)"><span class="cap"><b>Keo GECKO</b>Gạch bám chắc, không bộp</span></div>
+      <div class="chip-dl"><i></i><span id="hero-dl">Có mẫu thật tại đại lý</span></div>
+    </div>
   </div>
 </header>
 
@@ -1034,6 +1048,7 @@ var CT_INFO=null;
   document.head.appendChild(s);
 })();
 $('uu-chung').textContent='Khách nhắn Zalo qua trang này: '+UU_DAI_CHUNG.charAt(0).toLowerCase()+UU_DAI_CHUNG.slice(1)+'.';
+var hd=$('hero-dl'); if(hd) hd.textContent=DAI_LY.length+' đại lý có mẫu thật gần bạn';
 $('tim-gan').onclick=layViTri;
 $('map-tat-ca').href=LINK_MAP_TAT_CA;
 
