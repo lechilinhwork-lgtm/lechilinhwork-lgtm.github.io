@@ -896,8 +896,8 @@ var THAP=[
   {ic:'', ten:'An toàn cho cả nhà', nd:
     '<h4>Nền móng: an toàn cho người ở</h4>'+'<div class="tem-ct" style="margin:0 0 10px"><img src="anh/tem-nano-web.png" alt=""><span><b>Tìm tem này trên mẫu tại đại lý</b>Mẫu dán tem là gạch men Nano kháng khuẩn.</span></div>'+'<ul>'
     +'<li><b>Chống trơn trượt đúng chỗ:</b> phòng khách, phòng ngủ cần chuẩn R9; bếp, nhà tắm, hành lang cần R10; sân, ban công, thành hồ bơi cần R11. Nơi ướt nên chọn gạch <b>men mờ chống trượt</b>.</li>'
-    +'<li><b>Men Nano bạc kháng khuẩn:</b> hạt Nano nung cùng lớp men ở 1.150–1.200°C nên không bong theo thời gian. Kết quả thử sau 24 giờ (Viện Pasteur TP.HCM, chuẩn VILAS):'
-    +'<div class="bang"><span class="vk">B. subtilis</span><span><span class="pt">96–99%</span> · bệnh đường ruột</span><span class="vk">E. coli</span><span><span class="pt">75–95%</span> · tiêu chảy</span><span class="vk">S. typhi</span><span><span class="pt">57–70%</span> · thương hàn</span></div></li>'
+    +'<li><b>Men Nano bạc kháng khuẩn:</b> hạt Nano nung cùng lớp men ở 1.150–1.200°C nên không bong theo thời gian. Kết quả thử sau 24 giờ tiếp xúc (Viện Pasteur TP.HCM, tiêu chuẩn ISO 22196:2011, thử trên gạch CATANIA, NAPOLI, BARI, tháng 5/2025):'
+    +'<div class="bang"><span class="vk">E. coli</span><span><span class="pt">88–89%</span> · tiêu chảy, nhiễm khuẩn</span><span class="vk">S. aureus</span><span><span class="pt">89–91%</span> · nhiễm trùng da</span><span class="vk">P. aeruginosa</span><span><span class="pt">87–89%</span> · nhiễm khuẩn bề mặt</span><span class="vk">K. pneumoniae</span><span><span class="pt">89–92%</span> · đường hô hấp</span><span class="vk">C. albicans</span><span><span class="pt">88–92%</span> · nấm men</span></div><div class="ghi-chu" style="margin-top:6px">Kết quả thử trong phòng thí nghiệm trên mẫu gửi kiểm nghiệm, có thể khác ngoài thực tế.</div></li>'
     +'<li><b>Gạch ốp tường không tuột rơi:</b> keo GECKO có độ trượt ≤ 0,5 mm, giữ chắc gạch ốp cao.</li>'
     +'<li><b>Mái an toàn:</b> ngói ALPHA chịu nhiệt cao, không cháy.</li></ul>'},
   {ic:'', ten:'Bền, khỏi sửa đi sửa lại', nd:
@@ -1546,7 +1546,7 @@ function ctGach(s){
     +'<h2>'+esc(tenMau(s.ma))+'</h2><div class="dt">'+esc(s.kc.replace('x',' x '))+' mm · '+(s.x==='porcelain'?'Porcelain':'Ceramic')+(nhanMen(s)?' · '+nhanMen(s):'')+'</div>'
     +'<div class="gia-lon">'+tien(s.le)+' <small>đ/m² · giá lẻ niêm yết, đã gồm VAT</small></div>'
     +(ctDay(s)?'<div class="ct-ban"><b>'+nhanCT(s)+'</b>Mẫu đang có chương trình tháng '+CT_THANG.thang.split('/')[0]+'. Nhắn đại lý để biết giá ưu đãi và số lượng còn.</div>':'')
-    +(s.tn==='KHÁNG_KHUẨN'?'<div class="tem-ct"><img src="anh/tem-nano-web.png" alt=""><span><b>Có tem Nano kháng khuẩn</b>Tại đại lý, mẫu này dán tem như hình. Diệt đến 99% vi khuẩn bám trên mặt men.</span></div>':'')
+    +(s.tn==='KHÁNG_KHUẨN'?'<div class="tem-ct"><img src="anh/tem-nano-web.png" alt=""><span><b>Có tem Nano kháng khuẩn</b>Tại đại lý, mẫu này dán tem như hình. Thử tại Viện Pasteur TP.HCM: diệt khoảng 87–92% vi khuẩn bám trên mặt men sau 24 giờ.</span></div>':'')
     +htmlThu(s)
     +'<div class="du-tinh">Diện tích của bạn <input id="ct-m2" type="number" inputmode="decimal" min="1" value="'+m2+'"> m²<div class="kq" id="ct-kq"></div></div>'
     +htmlCoMau(s.sap)
