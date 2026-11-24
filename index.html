@@ -1309,6 +1309,14 @@ function taiDuLieu(){
   };
   s.src=APPS_URL+'?action=getAll&k='+encodeURIComponent(APP_KEY)+'&t=&g=1&callback='+cb;
   s.onerror=function(){ if(!SP.length) baoLoi(); };
+  // Trình duyệt chặn thẻ script từ Google (vd Edge bật chặn theo dõi): sau 4 giây thử đường fetch
+  setTimeout(function(){
+    if(xong || SP.length || !window.fetch) return;
+    fetch(APPS_URL+'?action=getAll&k='+encodeURIComponent(APP_KEY)+'&t=&g=1',{redirect:'follow'})
+      .then(function(x){ return x.json(); })
+      .then(function(res){ if(window[cb]) window[cb](res); })
+      .catch(function(){});
+  }, 4000);
   setTimeout(function(){ if(!xong && !SP.length) dungBanLuu(); }, 8000);      // máy chủ chậm: hiện bản lưu sẵn trước
   setTimeout(function(){ if(!xong && !SP.length) baoLoi(); }, 25000);
   document.head.appendChild(s);

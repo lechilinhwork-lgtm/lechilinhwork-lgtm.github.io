@@ -175,7 +175,16 @@ if(r0) ketQua(r0);
 var cb='_ct'+Date.now(), s=document.createElement('script'), xong=false;
 window[cb]=function(r){ xong=true; delete window[cb]; s.remove(); if(r&&r.ok) ketQua(r); else khongCo('Không tìm thấy hồ sơ công trình '+esc(id)+'.'); };
 s.src=CT_API+'?action=xem&id='+encodeURIComponent(id)+'&callback='+cb;
-s.onerror=function(){ khongCo('Chưa tải được hồ sơ. Kiểm tra mạng rồi tải lại trang.'); };
+// Một số trình duyệt (vd Edge bật chặn theo dõi) không cho tải kiểu thẻ script từ Google: thử thêm đường fetch
+function thuFetch(thatBai){
+  if(!window.fetch){ if(thatBai) thatBai(); return; }
+  fetch(CT_API+'?action=xem&id='+encodeURIComponent(id),{redirect:'follow'})
+    .then(function(x){ return x.json(); })
+    .then(function(r){ if(window[cb]) window[cb](r); })
+    .catch(function(){ if(thatBai) thatBai(); });
+}
+s.onerror=function(){ thuFetch(function(){ khongCo('Chưa tải được hồ sơ. Kiểm tra mạng rồi tải lại trang.'); }); };
+setTimeout(function(){ if(!xong) thuFetch(); },5000);
 setTimeout(function(){ if(!xong) khongCo('Mạng chậm, chưa tải được hồ sơ. Thử tải lại trang.'); },25000);
 document.head.appendChild(s);
 
