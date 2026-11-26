@@ -2,6 +2,8 @@
 // Chạy:  node tools/duyet-bai.js ten-bai        (không cần đuôi .md)
 const fs = require('fs'), path = require('path'), cp = require('child_process');
 const R = path.join(__dirname, '..'), N = path.join(R, '..', 'bai-nhap');
+// CHỈ dùng khi anh Linh đã nói rõ "duyệt bài X" trong cuộc trò chuyện trực tiếp. Tác vụ tự động ban đêm KHÔNG được chạy file này.
+if (process.env.ANH_LINH_DA_DUYET !== '1') { console.log('Dung lai: chi chay khi anh Linh da noi duyet (dat ANH_LINH_DA_DUYET=1).'); process.exit(1); }
 const slug = (process.argv[2] || '').replace(/\.md$/, ''); if (!slug) { console.log('Thieu ten bai'); process.exit(1); }
 const src = path.join(N, slug + '.md'); if (!fs.existsSync(src)) { console.log('Khong thay ban nhap:', src); process.exit(1); }
 const kt = cp.spawnSync('node', [path.join(__dirname, 'kiem-tra-bai.js'), src], { encoding: 'utf8' }); process.stdout.write(kt.stdout);

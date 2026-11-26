@@ -28,10 +28,13 @@ G.gach.data.filter(r => r.le > 0).forEach(r => {
   slug = slug.replace(/[^a-z0-9-.]/g, '').replace(/\./g, '-');
   if (dung[slug]) slug += '-' + r.sap; dung[slug] = 1;
   const t = TT[r.ma] || {};
-  const imgLocal = FACE[k] ? 'anh/face/' + k + '-1.jpg' : (fs.existsSync(path.join(R, 'anh', 'sp', r.sap + '.jpg')) ? 'anh/sp/' + r.sap + '.jpg' : '');
+  // hai nguồn ảnh: Face = mặt gạch sạch của hãng; thực = ảnh sản phẩm thực tế lấy từ Sale tool (tải về anh/sp/)
+  const faces = []; if (FACE[k]) for (let n = 1; n <= (+FACE[k] || 1); n++) faces.push('anh/face/' + k + '-' + n + '.jpg');
+  const thuc = []; for (let n = 1; n <= 6; n++) { const f = 'anh/sp/' + r.sap + '-' + n + '.webp'; if (fs.existsSync(path.join(R, f))) thuc.push(f); }
+  const imgLocal = faces[0] || thuc[0] || '';
   const img = imgLocal || cuaGoc(IMG[r.sap]);
   const kho = KHO[r.sap] || {};
-  sp.push({ r, k, slug, w: +m[1] / 10, h: +m[2] / 10, ten: tenMau(r.ma), t, img, imgLocal, kho, ngung: !kho.dangKD });
+  sp.push({ r, k, slug, w: +m[1] / 10, h: +m[2] / 10, ten: tenMau(r.ma), t, img, imgLocal, faces, thuc, kho, ngung: !kho.dangKD });
 });
 // ưu tiên: sản phẩm chủ lực/mới lên trước, rồi theo hạng bán chạy
 sp.sort((a, b) => (b.kho.uuTien ? 1 : 0) - (a.kho.uuTien ? 1 : 0) || (a.kho.hangBanChay || 9999) - (b.kho.hangBanChay || 9999));
@@ -64,6 +67,8 @@ h2:after{content:"";display:block;width:46px;height:3px;background:var(--do);mar
 ul.ds{margin:8px 0 0 18px}.ds li{margin:3px 0}
 .nhan{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;padding:2px 9px;border-radius:99px;background:#111827;color:#fff;margin:0 6px 6px 0}.nhan.moi{background:var(--do);color:#fff}
 .loi p{margin:7px 0;font-size:15px}
+.gal{display:block}.gt{display:flex;gap:8px;margin:12px 0 0}.gt button{font:inherit;font-weight:700;font-size:14px;padding:8px 16px;border-radius:99px;border:1px solid var(--vien);background:#fff;color:var(--ruou);cursor:pointer}.gt button.on{background:var(--ruou);color:#fff;border-color:var(--ruou)}
+.gs{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.gs[hidden]{display:none}.gs a{display:block;border:2px solid var(--vien);border-radius:10px;overflow:hidden;width:72px;height:72px;background:#E5E7EB}.gs a.on{border-color:var(--do)}.gs img{width:100%;height:100%;object-fit:cover;display:block}
 h1,h2,.gia,.the span{font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1}
 .chip{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 0}.chip a{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--vien);border-radius:99px;padding:8px 16px;font-weight:700;font-size:14.5px;text-decoration:none;color:var(--ruou)}.chip a small{font-weight:500;color:var(--phu);font-size:12.5px}.chip a:hover{background:var(--ruou);color:#fff}.chip a:hover small{color:#FCA5A5}
 .the{position:relative}.the .nh{position:absolute;top:8px;left:8px;background:var(--do);color:#fff;font-size:10.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;padding:2px 8px;border-radius:99px}
@@ -133,6 +138,15 @@ function mdHtml(nd, ctx) {
   dong(); return out.join('\n');
 }
 
+
+// mã JS nhỏ cho bộ ảnh trang sản phẩm: chuyển tab Face/Thực tế và bấm ảnh nhỏ để đổi ảnh lớn
+const GAL_JS = '(function(){var A=document.getElementById("gA");if(!A)return;var F=document.getElementById("gF"),R=document.getElementById("gR");' +
+  'function bat(box,a){for(var i=0;i<box.children.length;i++){box.children[i].classList.toggle("on",box.children[i]===a);}}' +
+  'var tabs=document.querySelectorAll(".gt button");' +
+  'for(var k=0;k<tabs.length;k++){tabs[k].onclick=function(){var f=this.getAttribute("data-t")==="f";for(var j=0;j<tabs.length;j++){tabs[j].classList.toggle("on",tabs[j]===this);}' +
+  'if(F)F.hidden=!f;if(R)R.hidden=f;var box=f?F:R;if(box&&box.firstElementChild){A.src=box.firstElementChild.getAttribute("data-s");bat(box,box.firstElementChild);}};}' +
+  '[F,R].forEach(function(box){if(!box)return;box.onclick=function(e){var a=e.target.closest("a");if(!a)return;e.preventDefault();A.src=a.getAttribute("data-s");bat(box,a);};});})();';
+
 // ---- trang từng sản phẩm
 sp.forEach((s, i) => {
   const { r, t } = s, men = MEN[t.men] || '', kk = t.tinhNang === 'KHÁNG_KHUẨN';
@@ -158,8 +172,20 @@ sp.forEach((s, i) => {
   // gợi ý cùng khổ (chỉ mã đang kinh doanh)
   const cungAll = spKD.filter(x => x !== s && x.w === s.w && x.h === s.h && x.img), off = (i * 3) % Math.max(1, cungAll.length - 4);
   const cung = s.ngung ? cungAll.slice(0, 4) : cungAll.slice(0, 4).length < 4 ? cungAll : cungAll.slice(off, off + 4);
+  // bộ ảnh: tab "Mặt gạch (Face)" / "Ảnh thực tế" khi có cả hai; có nhiều ảnh thì hiện hàng ảnh nhỏ
+  const anhSrc = u => '../' + u, altF = (n) => esc('Mặt gạch ' + ten + (s.faces.length > 1 ? ' (' + (n + 1) + ')' : '')), altT = (n) => esc('Ảnh thực tế ' + ten + (s.thuc.length > 1 ? ' (' + (n + 1) + ')' : ''));
+  const batDau = s.faces.length ? 'f' : 't';
+  const chinh = s.faces[0] || s.thuc[0];
+  let khoiAnh = '';
+  if (chinh) {
+    const hangThu = (ds, id, alt, an) => ds.length > 1 || (s.faces.length && s.thuc.length) ? '<div class="gs" id="' + id + '"' + (an ? ' hidden' : '') + '>' + ds.map((u, n) => '<a href="' + anhSrc(u) + '" data-s="' + anhSrc(u) + '"' + (n === 0 ? ' class="on"' : '') + '><img loading="lazy" src="' + anhSrc(u) + '" alt="' + alt(n) + '" width="72" height="72"></a>').join('') + '</div>' : '';
+    const tab = s.faces.length && s.thuc.length ? '<div class="gt"><button type="button" data-t="f" class="on">Mặt gạch (Face)</button><button type="button" data-t="t">Ảnh thực tế</button></div>' : '';
+    khoiAnh = '<div class="gal"><img class="anh" id="gA" src="' + anhSrc(chinh) + '" alt="' + (batDau === 'f' ? altF(0) : altT(0)) + '" width="900" height="900">' + tab
+      + (s.faces.length ? hangThu(s.faces, 'gF', altF, false) : '') + (s.thuc.length ? hangThu(s.thuc, 'gR', altT, !!s.faces.length) : '') + '</div>'
+      + (tab || s.faces.length > 1 || s.thuc.length > 1 ? '<script>' + GAL_JS + '</script>' : '');
+  } else if (s.img) khoiAnh = '<img class="anh" src="' + esc(s.img) + '" alt="' + esc(ten) + '" width="900" height="900" onerror="this.style.display=\'none\'">';
   const body = `<div class="hero"><div class="wrap"><small>Gạch ${xuong} · ${kich}</small><h1>${esc(ten)}</h1><p>${esc(mota)}${kk ? '. Có men Nano kháng khuẩn.' : '.'}</p></div></div>
-<div class="wrap"><div class="sp"><div>${s.img ? '<img class="anh" src="' + (s.imgLocal ? '../' + s.imgLocal : esc(s.img)) + '" alt="' + esc(ten) + '" width="900" height="900">' : ''}</div>
+<div class="wrap"><div class="sp"><div>${khoiAnh}</div>
 <div>${nhanHtml}<div class="gia">${tien(r.le)} đ/m² <small>giá lẻ niêm yết tham khảo (đã gồm VAT), cập nhật ${NGAY}</small></div>${canh}
 <table>${hang.map(h => '<tr><td>' + esc(h[0]) + '</td><td>' + esc(h[1]) + '</td></tr>').join('')}</table>
 <a class="nut" href="${SITE}/?sp=${r.sap}">Xem giá, đại lý có mẫu thật</a><a class="nut v" href="${SITE}/?sp=${r.sap}#dai-ly">Nhắn đại lý gần bạn</a>
@@ -167,7 +193,7 @@ sp.forEach((s, i) => {
 ${khoiLoi}${khoiBai}
 ${cung.length ? '<h2>Gạch cùng khổ ' + kich + '</h2><div class="luoi">' + cung.map(c => '<a class="the" href="' + c.slug + '.html"><img loading="lazy" src="' + (c.imgLocal ? '../' + c.imgLocal : esc(c.img)) + '" alt="' + esc('Gạch ' + c.ten) + '"><span>' + esc(c.ten) + '<small>' + tien(c.r.le) + ' đ/m²</small></span></a>').join('') + '</div>' : ''}
 <p class="ghi"><a href="./">← Tất cả gạch Đồng Tâm</a> · <a href="kich-thuoc-${s.w}x${s.h}.html">Gạch ${kich}</a></p></div>`;
-  const ld = { '@context': 'https://schema.org', '@type': 'Product', name: ten, sku: String(r.sap), mpn: r.ma, brand: { '@type': 'Brand', name: 'Đồng Tâm' }, category: 'Gạch ' + xuong, description: desc, image: s.img ? [absImg(s.img)] : undefined };
+  const ld = { '@context': 'https://schema.org', '@type': 'Product', name: ten, sku: String(r.sap), mpn: r.ma, brand: { '@type': 'Brand', name: 'Đồng Tâm' }, category: 'Gạch ' + xuong, description: desc, image: (s.faces.slice(0, 2).concat(s.thuc.slice(0, 2)).length ? s.faces.slice(0, 2).concat(s.thuc.slice(0, 2)).map(absImg) : (s.img ? [absImg(s.img)] : undefined)) };
   fs.writeFileSync(path.join(dir, s.slug + '.html'), khung({ title, desc, url, og: 'product', img: absImg(s.img), body, ld, noindex: s.ngung }));
   if (!s.ngung) urls.push(url);
 });
