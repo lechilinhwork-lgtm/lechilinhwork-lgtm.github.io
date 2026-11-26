@@ -234,6 +234,30 @@ h2 small{color:var(--do);font-weight:700;letter-spacing:1pt}
 /* Bìa: 1 tấm ảnh tổng hợp sản phẩm */
 .bia .anh{display:block;padding:0 7mm;position:relative}
 .bia .anh .g1{width:100%;height:100%;grid-column:auto;border-radius:3mm;background-color:#0a0504;background-size:contain;background-position:50% 50%;background-repeat:no-repeat;box-shadow:0 .8mm 3mm rgba(40,10,8,.35)}
+
+/* ===== SANG TRỌNG: đồng bộ với bìa (đỏ rượu + vàng champagne + chữ có chân) ===== */
+:root{--ruou:#5A140F;--vangc:#D9B36A;--vangd:#A67C2E;--kem:#F8F3ED}
+.pn:not(.bia){background:var(--kem)}
+.bia,.bia .tren{background:var(--kem)!important}
+@media screen{ .pn + .pn{border-left:.2mm solid rgba(217,179,106,.55)} }
+h2{font-family:'Times New Roman',Cambria,Georgia,serif;font-weight:700;color:var(--ruou)!important;letter-spacing:-.1pt}
+h2::after{content:"";display:block;width:13mm;height:.55mm;background:var(--vangc);margin-top:2.2mm}
+h2 small{color:var(--vangd)!important;letter-spacing:.9pt;font-size:8pt}
+.nano .anh{background:url(anh/tem-nano.png) right 2.5mm bottom 2.5mm/16mm no-repeat,url(anh/catania-sach.jpg) 50% 25%/cover no-repeat!important;box-shadow:0 .6mm 2.4mm rgba(60,20,10,.3),0 0 0 .3mm var(--vangc)}
+.nano .anh span{left:2mm;right:auto;background:rgba(30,8,6,.72);color:#EBCF95}
+.vat div{box-shadow:0 0 0 .3mm var(--vangc)}
+.ss .o,.chs .c,.bo,.tho,.kem,.tim-tem,.uu{background:#fff!important;border:.25mm solid rgba(217,179,106,.8)!important;border-radius:2mm}
+.ss .o b,.bo > b,.tho b,.uu b,.kem b,.tim-tem b{color:var(--ruou)!important}
+.tk .ong span{background:linear-gradient(90deg,#6E1710,#C3231C)!important}
+.tk .nhan b{color:var(--ruou)!important}
+.b .so{border-color:var(--ruou)!important;color:var(--ruou)!important}
+.muc span{border-color:var(--vangc)!important;color:var(--ruou)!important}
+.qr-khoi{border:.4mm solid var(--vangc)!important}
+.qr-khoi .ct b{color:var(--ruou)!important}
+.moi{background:var(--ruou)!important;color:#EBCF95!important;border:.3mm solid var(--vangc)}
+.ns .b{margin-top:7mm}
+.ns .uu{margin-top:8mm}
+.tn span::before{background:var(--ruou)!important}
 </style>
 </head>
 <body>
@@ -311,7 +335,7 @@ h2 small{color:var(--do);font-weight:700;letter-spacing:1pt}
       <img class="tem" src="anh/tem-nano.png" alt="Tem Nano kháng khuẩn">
       <h2><small>Công nghệ men mới</small>Men Nano kháng khuẩn bảo vệ cả gia đình</h2>
     </div>
-    <div class="anh"><span>CATANIA 002 · 80x80 · Nano kháng khuẩn</span></div>
+    <div class="anh"><span>CATANIA 80x80 · Nano kháng khuẩn</span></div>
     <div class="tim-tem"><span><b>Nhận biết tại đại lý:</b> mẫu gạch dán tem này là gạch men Nano kháng khuẩn Đồng Tâm.</span></div>
     <p style="margin-top:2.5mm">Hạt Nano kháng khuẩn được trộn vào men và nung ở <b>1150–1200°C</b>. Tính năng kháng khuẩn nằm trong lớp men, <b>không phải lớp phủ bên ngoài</b>.</p>
     <div class="thanh-kq">
@@ -338,7 +362,7 @@ h2 small{color:var(--do);font-weight:700;letter-spacing:1pt}
       <div class="o"><b>Men mờ</b><p>Ít trơn, ít lộ vết bẩn. Nền nhà vệ sinh, sân, nhà có người già.</p></div>
       <div class="o"><b>Men bóng</b><p>Sáng, sang, dễ lau. Phòng khách, tường bếp, tường WC.</p></div>
     </div>
-    <div class="vat"><div style="background-image:url(anh/van1.jpg)"></div><div style="background-image:url(anh/van2.jpg)"></div><div style="background-image:url(anh/van3.jpg)"></div></div>
+    <div class="vat"><div style="background-image:url(anh/van-b3.jpg)"></div><div style="background-image:url(anh/van-b1.jpg)"></div><div style="background-image:url(anh/van-b2.jpg)"></div></div>
     <div class="tn">
       <span>Chống trầy xước</span><span>Chống thấm</span>
       <span>Chống trượt</span><span>Chống bám bẩn</span>

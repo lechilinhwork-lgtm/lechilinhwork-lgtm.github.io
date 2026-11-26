@@ -459,7 +459,7 @@ body{font-size:15.5px}
 /* ===== MÁY TÍNH & MÁY TÍNH BẢNG ===== */
 .ch-dc > span:empty{display:none}
 :focus-visible{outline:2px solid #8C1206;outline-offset:2px}
-.topnav,.hd-cta,.hd-anh{display:none}
+.topnav,.hd-cta,.hd-anh,.hd-anh2{display:none}
 @media (hover:hover){
   .sp:hover,.keo button:hover,.mau-ngoi button:hover,.dong-ngoi button:hover,.vt-dong:hover{border-color:#8C1206;box-shadow:0 8px 22px rgba(140,18,6,.12);transform:translateY(-2px)}
   .sp,.keo button,.mau-ngoi button,.dong-ngoi button,.vt-dong{transition:transform .15s,box-shadow .15s,border-color .15s}
@@ -670,6 +670,23 @@ label.ai-nut{display:flex;align-items:center;justify-content:center;gap:8px;widt
 
 .gop-y{display:inline-block;margin-top:8px;padding-top:8px;border-top:1px solid var(--vien)}
 .gop-y a{color:#8C1206;font-weight:700;text-decoration:underline}
+
+/* ===== SANG TRỌNG: đầu trang tối đỏ rượu + vàng champagne (đồng bộ bìa tờ rơi) ===== */
+.hd{background:radial-gradient(900px 700px at 72% 18%,#4A130F 0%,#1F0A08 52%,#090404 100%)!important;color:#fff;border-bottom:2px solid #D9B36A!important}
+.hd::before,.hd::after{display:none!important}
+.hd h1{font-family:'Times New Roman',Cambria,Georgia,serif;font-weight:700;letter-spacing:-.4px}
+.hd h1 .vang{color:#EBCF95}
+.hd p{color:#F1E4D2!important}
+.hd .nano{background:rgba(217,179,106,.12)!important;border:1px solid rgba(217,179,106,.75)!important;color:#EBCF95!important}
+.hd-cta .nut{background:#E81A21!important;color:#fff!important;border-color:#E81A21!important}
+.hd-cta .nut + .nut{background:transparent!important;color:#EBCF95!important;border-color:#D9B36A!important}
+.hd-anh2{display:none}
+@media (min-width:1000px){
+  .hd-anh2{display:block;grid-column:2;grid-row:1/span 6;align-self:center;position:relative;margin-bottom:64px}
+  .hd-anh2 img{width:112%;max-width:none;margin-left:-6%;display:block}
+  .hd-anh2 .chip-dl{position:absolute;left:50%;bottom:-62px;transform:translateX(-50%);display:flex;align-items:center;gap:9px;background:#1A0A08;color:#EBCF95;border:1px solid #D9B36A;font-weight:800;font-size:14px;padding:11px 20px;border-radius:999px;box-shadow:0 14px 30px rgba(0,0,0,.45);white-space:nowrap;z-index:2}
+  .hd-anh2 .chip-dl i{width:10px;height:10px;border-radius:50%;background:#1E9E62;box-shadow:0 0 0 4px rgba(30,158,98,.25)}
+}
 </style>
 </head>
 <body>
@@ -687,15 +704,10 @@ label.ai-nut{display:flex;align-items:center;justify-content:center;gap:8px;widt
       <div class="logo"><img src="logo-dongtam.png" alt=""><span style="color:#D7141A;font-weight:900;font-size:17px;margin-left:6px;letter-spacing:-.3px">Dongtam</span></div>
       <div class="nano"><img src="anh/tem-nano-web.png" alt="">Men Nano kháng khuẩn</div>
     </div>
-    <h1>Gạch, ngói Đồng Tâm<br>đẹp, bền, đúng số tiền bạn có</h1>
+    <h1>Gạch, ngói Đồng Tâm<br>đẹp, bền,<br><span class="vang">đúng số tiền bạn có</span></h1>
     <p>Xem mẫu, giá niêm yết, thông số và vật tư đi kèm. Lưu mẫu ưng ý rồi mang tới đại lý gần công trình để xem mẫu thật.</p>
     <div class="hd-cta"><a class="nut" href="#chon">Chọn gạch theo ngân sách</a><a class="nut" href="#dai-ly">Đại lý gần công trình</a></div>
-    <div class="hd-anh" aria-hidden="true">
-      <div class="g1" style="background-image:url(anh/hero-gach.jpg)"><img class="tem" src="anh/tem-nano-web.png" alt=""><span class="cap"><b>Gạch CATANIA 80x80</b>Men bóng · Nano kháng khuẩn</span></div>
-      <div class="g2" style="background-image:url(anh/bia-ngoi.jpg)"><span class="cap"><b>Ngói TITAN</b>Bền màu đến 50 năm</span></div>
-      <div class="g3" style="background-image:url(anh/bia-keo.jpg)"><span class="cap"><b>Keo GECKO</b>Gạch bám chắc, không bộp</span></div>
-      <div class="chip-dl"><i></i><span id="hero-dl">Có mẫu thật tại đại lý</span></div>
-    </div>
+    <div class="hd-anh2" aria-hidden="true"><img src="anh/hero-sang.webp" alt=""><div class="chip-dl"><i></i><span id="hero-dl">Có mẫu thật tại đại lý</span></div></div>
   </div>
 </header>
 
