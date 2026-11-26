@@ -122,6 +122,25 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 
 .gop-y{display:inline-block;margin-top:8px;padding-top:8px;border-top:1px solid #E3D9D6}
 .gop-y a{color:#8C1206;font-weight:700;text-decoration:underline}
+
+/* Danh sách công trình cùng đại lý */
+#nd > .s-ds{grid-column:1/-1}
+.s-ds{padding:0}
+.s-ds summary{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;font-size:15px;list-style:none;cursor:pointer;min-height:48px}
+.s-ds summary::-webkit-details-marker{display:none}
+.s-ds summary i{font-style:normal;font-weight:800;background:#8C1206;color:#fff;border-radius:999px;min-width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;padding:0 9px;font-size:13px}
+.s-ds[open] summary{border-bottom:1px solid var(--vien)}
+.ds-ds{padding:2px 16px 6px}
+.ds-o{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 0;border-top:1px solid var(--vien)}
+.ds-o:first-child{border-top:none}
+.ds-o.nay{background:#FFF6F5;margin:0 -16px;padding:11px 16px}
+.ds-t{min-width:0}
+.ds-t b{font-size:14.5px}
+.ds-t em{font-style:normal;font-size:11px;font-weight:800;color:#8C1206;background:#FBE3E1;border-radius:999px;padding:2px 8px;margin-left:8px}
+.ds-t small{display:block;font-size:12.5px;color:var(--phu);margin-top:2px}
+.ds-n{display:flex;gap:8px;flex:0 0 auto}
+.ds-n a{min-height:38px;display:inline-flex;align-items:center;padding:0 14px;border:1.5px solid var(--vien);border-radius:10px;font-weight:700;font-size:13px;background:#fff;color:var(--chu)}
+.ds-n a.ds-xem{background:#8C1206;border-color:#8C1206;color:#fff}
 </style>
 </head>
 <body>
@@ -243,8 +262,35 @@ function ve(r){
     });
     nd.insertBefore(R, nd.firstChild); nd.insertBefore(L, nd.firstChild);
   })();
+  if(d) taiDsDaiLy(r, d);
   $('thanh').classList.remove('an');
   Array.prototype.forEach.call(document.querySelectorAll('[data-i]'),function(b){ b.onclick=function(){ moAnh(+b.dataset.i); }; });
+}
+
+// Danh sách các công trình anh Linh đã giao cho cùng đại lý này (bấm vào link hồ sơ là thấy)
+function taiDsDaiLy(r, d){
+  if(!CT_API) return;
+  var cb='_ds'+Date.now(), sc=document.createElement('script'), xong=false, dlq=(new URLSearchParams(location.search)).get('dl')||'';
+  function ra(x){
+    if(xong) return; xong=true; try{ delete window[cb]; sc.remove(); }catch(e){}
+    if(!x||!x.ok||!x.ds||x.ds.length<2) return;      // chỉ có 1 công trình thì khỏi hiện
+    var nd=$('nd'), cu=$('ds-dl'); if(cu) cu.remove();
+    var el=document.createElement('details'); el.className='the s-ds'; el.id='ds-dl'; el.open=true;
+    el.innerHTML='<summary><span>📋 Công trình đã giao cho <b>'+esc(d.ten)+'</b></span><i>'+x.ds.length+'</i></summary>'
+      +'<div class="ds-ds">'+x.ds.map(function(c){
+        var nay=c.id===r.id;
+        var mp=(c.lat&&c.lng)?'<a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+c.lat+','+c.lng+'">Bản đồ</a>':'';
+        return '<div class="ds-o'+(nay?' nay':'')+'"><div class="ds-t"><b>'+esc(c.id)+'</b>'+(nay?'<em>Đang xem</em>':'')
+          +'<small>'+ngay(c.capNhat)+(c.gd?' · '+esc(c.gd):'')+(c.can?' · '+esc(c.can):'')+(c.anh?' · '+c.anh+' ảnh':'')+'</small></div>'
+          +'<div class="ds-n">'+mp+(nay?'':'<a class="ds-xem" href="ct.html?id='+encodeURIComponent(c.id)+(dlq?'&dl='+encodeURIComponent(dlq):'')+'">Xem</a>')+'</div></div>';
+      }).join('')+'</div>';
+    nd.insertBefore(el, nd.firstChild);
+  }
+  window[cb]=ra;
+  sc.onerror=function(){ if(window.fetch) fetch(CT_API+'?action=dsdl&id='+encodeURIComponent(r.id),{redirect:'follow'}).then(function(x){return x.json();}).then(ra).catch(function(){}); };
+  setTimeout(function(){ if(!xong&&window.fetch) fetch(CT_API+'?action=dsdl&id='+encodeURIComponent(r.id),{redirect:'follow'}).then(function(x){return x.json();}).then(ra).catch(function(){}); },6000);
+  sc.src=CT_API+'?action=dsdl&id='+encodeURIComponent(r.id)+'&callback='+cb;
+  document.head.appendChild(sc);
 }
 
 // Xem ảnh to

@@ -432,18 +432,17 @@ function soanTin(){
   var x=dlChon(); if(!x) return '';
   var kc = viTri ? km(viTri.lat,viTri.lng,x.c.lat,x.c.lng) : null;
   var ten=$('k-ten').value.trim(), sdt=$('k-sdt').value.trim(), gc=$('ghi-chu').value.trim();
-  var coHS = true;
-  var dong=[(phieu.gheLai?'🔄 CẬP NHẬT CÔNG TRÌNH GẦN ':'🏗️ CÔNG TRÌNH MỚI GẦN ')+x.d.ten.toUpperCase()+(kc!=null?' (cách cửa hàng ~'+soKm(kc)+')':'')];
-  if(phieu.gd) dong.push('• Giai đoạn: '+phieu.gd);
-  if(phieu.can.length) dong.push('• Cần: '+phieu.can.join(', '));
-  if(gc) dong.push('• Ghi chú: '+gc);
-  if(ten||sdt) dong.push('• Khách: '+[ten,sdt].filter(Boolean).join(' – '));
-  if(viTri) dong.push('• Vị trí: https://maps.google.com/?q='+viTri.lat.toFixed(6)+','+viTri.lng.toFixed(6));
-  dong.push('• Hồ sơ công trình (giai đoạn, nhu cầu, vị trí'+(CT_API&&phieu.daLuu?', ảnh':'')+'): '+linkCT());
+  var dong=[(phieu.gheLai?'🔄 CẬP NHẬT công trình gần ':'🏗️ CÔNG TRÌNH MỚI gần ')+x.d.ten+(kc!=null?' (~'+soKm(kc)+')':'')];
+  var chiTiet=[]; if(phieu.gd) chiTiet.push('Giai đoạn: '+phieu.gd); if(phieu.can.length) chiTiet.push('Cần: '+phieu.can.join(', '));
+  if(chiTiet.length) dong.push(chiTiet.join(' · '));
+  if(gc) dong.push('Ghi chú: '+gc);
+  if(ten||sdt) dong.push('Khách: '+[ten,sdt].filter(Boolean).join(' – '));
+  if(viTri) dong.push('📍 '+'https://maps.google.com/?q='+viTri.lat.toFixed(6)+','+viTri.lng.toFixed(6));
+  dong.push('📋 Hồ sơ'+(CT_API&&phieu.daLuu?' + ảnh':'')+' và các công trình em giao anh/chị: '+linkCT());
   dong.push('');
   dong.push(phieu.gheLai
-    ? 'Em Linh (Đồng Tâm) vừa ghé lại công trình, đã cập nhật ảnh và tiến độ trong hồ sơ. Nhờ anh/chị theo sát giúp em ạ. Mã: '+phieu.id
-    : 'Em Linh (Đồng Tâm) vừa phát tờ rơi tại đây. Khách quét QR sẽ thấy cửa hàng anh/chị. Nhờ anh/chị ghé chào hoặc gọi khách giúp em ạ. Mã: '+phieu.id);
+    ? 'Em Linh (Đồng Tâm) vừa ghé lại, đã cập nhật ảnh và tiến độ. Nhờ anh/chị theo sát giúp em ạ. (Mã '+phieu.id+')'
+    : 'Em Linh (Đồng Tâm) vừa phát tờ rơi tại đây, khách quét QR sẽ thấy cửa hàng anh/chị. Nhờ anh/chị ghé chào hoặc gọi khách giúp em ạ. (Mã '+phieu.id+')');
   return dong.join('\n');
 }
 function veNut(){
