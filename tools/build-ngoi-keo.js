@@ -39,7 +39,7 @@ module.exports = function (c) {
     g.the = the; g.thuc = thuc;
     if (!thongTinDong[g.dong]) { const t = moTa(lop.ma); if (t.length) thongTinDong[g.dong] = t; }
     const mt = moTa(lop.ma).length ? moTa(lop.ma) : (thongTinDong[g.dong] || []);
-    const khoiAnh = boAnh([{ k: 'the', nhan: 'Thẻ sản phẩm', alt: 'Thẻ sản phẩm', ds: the }, { k: 'thuc', nhan: 'Ảnh thực tế', alt: 'Ảnh thực tế', ds: thuc }, { k: 'pk', nhan: 'Phụ kiện', alt: 'Phụ kiện ngói', ds: pkBanner }], ten, '../');
+    const khoiAnh = boAnh([{ k: 'the', nhan: 'Thẻ sản phẩm', ngan: 'Thẻ', alt: 'Thẻ sản phẩm', ds: the }, { k: 'thuc', nhan: 'Ảnh thực tế', ngan: 'Thực tế', alt: 'Ảnh thực tế', ds: thuc }, { k: 'pk', nhan: 'Phụ kiện', ngan: 'Phụ kiện', alt: 'Phụ kiện ngói', ds: pkBanner }], ten, '../');
     const hang = ds.map(x => '<tr><td>' + esc(x.ten.replace(/\s*(TITAN|ALPHA)\s*\d+/i, '')) + '</td><td>' + esc(x.kc.replace(/x/g, ' x ') + ' mm') + '</td><td>' + esc(x.dong_goi || '') + '</td><td><b>' + tien(x.le) + ' đ</b></td></tr>').join('');
     const url = '/ngoi/' + slug + '.html', title = ten + ' Đồng Tâm: ' + d.loai + ', phụ kiện và giá tham khảo';
     const desc = (ten + ' Đồng Tâm (' + d.loai + '): ngói lợp ' + tien(lop.le) + ' đ/viên, đủ ngói rìa, nóc, chạc. Xem giá lẻ tham khảo và đại lý gần bạn.').slice(0, 158);
@@ -82,5 +82,26 @@ module.exports = function (c) {
   });
   gui(dirK, '', 'index.html', { title: 'Keo dán gạch GECKO và bột chà ron GROUTEX Đồng Tâm: công dụng, giá tham khảo', desc: 'Keo dán gạch GECKO Wall, Floor, Pro, Super và bột chà ron GROUTEX của Đồng Tâm: chọn đúng loại cho ốp tường, lát nền, khu vực ẩm. Giá lẻ tham khảo.'.slice(0, 158), url: '/keo/', img: absImg((khoK[0] && khoK[0].thuc[0]) || 'anh/bia-tong-hop.jpg'), body: '<div class="hero"><div class="wrap"><small>Vật tư đi kèm</small><h1>Keo dán gạch và bột chà ron</h1><p>Keo GECKO cho từng nhu cầu ốp tường, lát nền, khu vực ẩm và bột chà ron GROUTEX cùng thương hiệu Đồng Tâm.</p></div></div><div class="wrap"><h2>Danh sách sản phẩm</h2><div class="luoi">' + khoK.map(z => '<a class="the" href="' + z.slug + '.html"><img loading="lazy" src="' + (z.thuc[0] ? '../' + z.thuc[0] : '') + '" alt="' + esc(z.x.ten) + '"><span>' + esc(z.x.ten) + '<small>' + tien(z.x.le) + ' đ/' + esc(z.x.dv || '') + '</small></span></a>').join('') + '</div><p class="ghi">Giá lẻ tham khảo, cập nhật ' + NGAY + '. Đại lý báo giá chính xác theo công trình.</p></div>' });
   urls.push('/keo/');
-  console.log('ngoi: ' + cacMau.length + ' mau, keo/ron: ' + keo.length + ' san pham');
+
+  // ---------------- GẠCH KÍNH ----------------
+  const kinhRaw = (NK.kinh && NK.kinh.data) || [], dirG = path.join(R, 'kinh'); fs.rmSync(dirG, { recursive: true, force: true }); fs.mkdirSync(dirG, { recursive: true });
+  const kinh = kinhRaw.map(x => ({ x, so: (x.ten.match(/(\d+)\s*$/) || [])[1] || x.ma, thuc: tepAnh(x.ma, 4) })).map(k => Object.assign(k, { slug: 'gach-kinh-' + k.so }));
+  const soVien = x => { const m = String(x.dong_goi || x.dv || '').match(/(\d+)\s*v/i) || String(x.dv || '').match(/(\d+)\s*viên/i); return m ? +m[1] : 0; };
+  kinh.forEach(k => {
+    const x = k.x, sv = soVien(x), mt = moTa(x.ma), url = '/kinh/' + k.slug + '.html', ten = 'Gạch kính ' + k.so;
+    const title = ten + ' Đồng Tâm ' + (x.kc || '') + ': gạch kính lấy sáng, giá tham khảo';
+    const desc = (ten + ' Đồng Tâm kích thước ' + (x.kc || '') + ', ' + (x.dong_goi || '') + ', giá lẻ tham khảo ' + tien(x.le) + ' đ/thùng. Xem hình và đại lý gần bạn.').slice(0, 158);
+    const khoiAnh = boAnh([{ k: 'thuc', nhan: 'Ảnh thực tế', ngan: 'Thực tế', alt: 'Ảnh thực tế', ds: k.thuc }], ten, '../');
+    const hang = [['Mã sản phẩm', x.ma], ['Kích thước', (x.kc || '').replace(/x/g, ' x ')], ['Quy cách', x.dv || x.dong_goi || '']].filter(r => r[1]);
+    const body = '<div class="hero"><div class="wrap"><small>Gạch kính</small><h1>' + esc(ten) + ' Đồng Tâm</h1><p>Kích thước ' + esc((x.kc || '').replace(/x/g, ' x ')) + ', ' + esc(x.dv || x.dong_goi || '') + '. Dùng làm vách lấy sáng, điểm nhấn trang trí.</p></div></div>'
+      + '<div class="wrap"><div class="sp"><div>' + khoiAnh + '</div><div><div class="gia">' + tien(x.le) + ' đ/thùng <small>' + (sv ? 'giá lẻ tham khảo, khoảng ' + tien(x.le / sv) + ' đ/viên, ' : 'giá lẻ tham khảo, ') + 'cập nhật ' + NGAY + '</small></div><table>' + hang.map(r => '<tr><td>' + esc(r[0]) + '</td><td>' + esc(r[1]) + '</td></tr>').join('') + '</table>' + NUT + CHAN + '</div></div>'
+      + (mt.length ? '<h2>Thông tin</h2><div class="loi">' + html(mt) + '</div>' : '')
+      + (kinh.length > 1 ? '<h2>Các mã gạch kính khác</h2><div class="luoi">' + kinh.filter(z => z !== k).map(z => '<a class="the" href="' + z.slug + '.html"><span class="im">' + (z.thuc[0] ? '<img loading="lazy" src="../' + z.thuc[0] + '" alt="Gạch kính ' + esc(z.so) + '">' : '') + '</span><span>Gạch kính ' + esc(z.so) + '<small>' + tien(z.x.le) + ' đ/thùng</small></span></a>').join('') + '</div>' : '')
+      + '<p class="ghi"><a href="./">← Gạch kính Đồng Tâm</a> · <a href="../gach/">Gạch ốp lát</a></p></div>';
+    const ld = { '@context': 'https://schema.org', '@type': 'Product', name: ten + ' Đồng Tâm', sku: String(x.ma), brand: { '@type': 'Brand', name: 'Đồng Tâm' }, category: 'Gạch kính', description: desc, image: k.thuc.slice(0, 3).map(absImg) };
+    gui(dirG, ten, k.slug + '.html', { title, desc, url, og: 'product', img: absImg(k.thuc[0] || ''), body, ld }); urls.push(url);
+  });
+  gui(dirG, '', 'index.html', { title: 'Gạch kính Đồng Tâm: ' + kinh.length + ' mã lấy sáng, giá tham khảo', desc: 'Gạch kính Đồng Tâm kích thước 19x19 cm, 6 viên/thùng: vách lấy sáng, điểm nhấn trang trí. Xem hình thực tế, giá lẻ tham khảo và đại lý gần bạn.'.slice(0, 158), url: '/kinh/', img: absImg((kinh[0] && kinh[0].thuc[0]) || 'anh/bia-tong-hop.jpg'), body: '<div class="hero"><div class="wrap"><small>Gạch kính</small><h1>Gạch kính Đồng Tâm</h1><p>Gạch kính 19 x 19 cm lấy sáng cho vách ngăn, tường trang trí. Xem hình thực tế và giá lẻ tham khảo từng mã.</p></div></div><div class="wrap"><h2>Các mã gạch kính</h2><div class="luoi">' + kinh.map(z => '<a class="the" href="' + z.slug + '.html"><span class="im">' + (z.thuc[0] ? '<img loading="lazy" src="../' + z.thuc[0] + '" alt="Gạch kính ' + esc(z.so) + '">' : '') + '</span><span>Gạch kính ' + esc(z.so) + '<small>' + tien(z.x.le) + ' đ/thùng</small></span></a>').join('') + '</div><p class="ghi">Giá lẻ tham khảo, cập nhật ' + NGAY + '. Đại lý báo giá chính xác theo công trình.</p></div>' });
+  urls.push('/kinh/');
+  console.log('ngoi: ' + cacMau.length + ' mau, keo/ron: ' + keo.length + ' san pham, kinh: ' + kinh.length + ' ma');
 };

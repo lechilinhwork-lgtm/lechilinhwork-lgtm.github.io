@@ -8,7 +8,7 @@ const MULTI = snap.GIA_SNAPSHOT.spImagesMulti || {}, ONE = snap.GIA_SNAPSHOT.spI
 const kho = JSON.parse(fs.readFileSync(path.join(R, 'data', 'san-pham.json'), 'utf8')).sp.filter(x => x.dangKD);
 kho.sort((a, b) => (b.uuTien ? 1 : 0) - (a.uuTien ? 1 : 0) || (a.hangBanChay || 9999) - (b.hangBanChay || 9999));
 const NK = snap.GIA_SNAPSHOT.ngoiKeoKinh || {};
-const them = ((NK.keo && NK.keo.data) || []).concat((NK.ngoi && NK.ngoi.data) || []).map(x => ({ sap: x.ma }));
+const them = ((NK.keo && NK.keo.data) || []).concat((NK.ngoi && NK.ngoi.data) || []).concat((NK.kinh && NK.kinh.data) || []).map(x => ({ sap: x.ma }));
 kho.push(...them);
 const MAX = 4, nghi = ms => new Promise(r => setTimeout(r, ms));
 const dir = path.join(R, 'anh', 'sp'); fs.mkdirSync(dir, { recursive: true });

@@ -70,10 +70,10 @@ ul.ds{margin:8px 0 0 18px}.ds li{margin:3px 0}
 .nhan{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;padding:2px 9px;border-radius:99px;background:#111827;color:#fff;margin:0 6px 6px 0}.nhan.moi{background:var(--do);color:#fff}
 .loi p{margin:7px 0;font-size:15px}
 .sp>div{min-width:0}img[src=""]{visibility:hidden}.gal{display:block}.gt{display:flex;gap:8px;margin:12px 0 0}.gt button{font:inherit;font-weight:700;font-size:14px;padding:8px 16px;border-radius:99px;border:1px solid var(--vien);background:#fff;color:var(--ruou);cursor:pointer}.gt button.on{background:var(--ruou);color:#fff;border-color:var(--ruou)}
-.gs{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.gs[hidden]{display:none}.gs a{display:block;border:2px solid var(--vien);border-radius:10px;overflow:hidden;width:72px;height:72px;background:#E5E7EB}.gs a.on{border-color:var(--do)}.gs img{width:100%;height:100%;object-fit:cover;display:block}
+.gs{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.gs a{position:relative;display:block;border:2px solid var(--vien);border-radius:10px;overflow:hidden;width:72px;height:72px;background:#E5E7EB}.gs a.on{border-color:var(--do)}.gs img{width:100%;height:100%;object-fit:cover;display:block}.gs a[data-lb]::after{content:attr(data-lb);position:absolute;left:0;right:0;bottom:0;background:rgba(17,24,39,.78);color:#fff;font-size:10.5px;font-weight:700;text-align:center;padding:1px 0;letter-spacing:.2px}.gt small{opacity:.6;font-weight:500;margin-left:2px}
 h1,h2,.gia,.the span{font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1}
 .chip{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 0}.chip a{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--vien);border-radius:99px;padding:8px 16px;font-weight:700;font-size:14.5px;text-decoration:none;color:var(--ruou)}.chip a small{font-weight:500;color:var(--phu);font-size:12.5px}.chip a:hover{background:var(--ruou);color:#fff}.chip a:hover small{color:#FCA5A5}
-.the{position:relative}.the .nh{position:absolute;top:8px;left:8px;background:var(--do);color:#fff;font-size:10.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;padding:2px 8px;border-radius:99px}
+.the{position:relative}.the .im{display:block;position:relative;aspect-ratio:1;background:#E5E7EB;overflow:hidden}.the .im img{width:100%;height:100%;aspect-ratio:auto;object-fit:cover;display:block}.the .im .i2{position:absolute;inset:0;opacity:0;transition:opacity .3s}.the:hover .im .i2{opacity:1}.the .nh{position:absolute;top:8px;left:8px;background:var(--do);color:#fff;font-size:10.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;padding:2px 8px;border-radius:99px}
 /* bài viết */
 .bv-hero{display:grid;gap:22px;align-items:center}@media(min-width:820px){.bv-hero{grid-template-columns:1.25fr .75fr}}
 .bv-hero img{width:100%;max-height:200px;object-fit:cover;border-radius:14px;box-shadow:0 0 0 2px #fff,0 14px 34px rgba(0,0,0,.4);display:block}
@@ -98,7 +98,7 @@ function khung(o) {
 ${o.img ? '<meta property="og:image" content="' + esc(o.img) + '"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="' + esc(o.img) + '">' : ''}
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;800&family=Playfair+Display:wght@600;700&display=swap">
 <style>${CSS}</style>${o.ld ? '<script type="application/ld+json">' + JSON.stringify(o.ld) + '</script>' : ''}</head><body>
-<div class="top"><div class="wrap"><b>Dongtam</b><nav><a href="${SITE}/">Chọn gạch theo ngân sách</a><a href="${SITE}/gach/">Gạch</a><a href="${SITE}/ngoi/">Ngói</a><a href="${SITE}/keo/">Keo và ron</a>${bai.length ? '<a href="' + SITE + '/bai-viet/">Bài viết</a>' : ''}<a href="${SITE}/#dai-ly">Đại lý gần bạn</a></nav></div></div>
+<div class="top"><div class="wrap"><b>Dongtam</b><nav><a href="${SITE}/">Chọn gạch theo ngân sách</a><a href="${SITE}/gach/">Gạch</a><a href="${SITE}/ngoi/">Ngói</a><a href="${SITE}/keo/">Keo và ron</a><a href="${SITE}/kinh/">Gạch kính</a>${bai.length ? '<a href="' + SITE + '/bai-viet/">Bài viết</a>' : ''}<a href="${SITE}/#dai-ly">Đại lý gần bạn</a></nav></div></div>
 ${o.body}
 <footer><div class="wrap"><p>${KHONG_CHINH_THUC}</p><p style="margin-top:8px">${GOP_Y}</p></div></footer></body></html>`;
 }
@@ -141,19 +141,23 @@ function mdHtml(nd, ctx) {
 }
 
 
+// ảnh trên thẻ danh sách: Thẻ sản phẩm -> Ảnh thực tế -> Mặt gạch; di chuột (máy tính) đổi sang ảnh khác
+function cardAnh(c, pre, alt) {
+  const ds = [(c.the || [])[0], (c.thuc || [])[0], (c.faces || [])[0]].filter(Boolean).filter((v, i, a) => a.indexOf(v) === i);
+  if (!ds.length) return c.img ? '<span class="im"><img loading="lazy" src="' + esc(c.img) + '" alt="' + alt + '"></span>' : '<span class="im"></span>';
+  return '<span class="im"><img loading="lazy" src="' + pre + ds[0] + '" alt="' + alt + '">' + (ds[1] ? '<img class="i2" loading="lazy" src="' + pre + ds[1] + '" alt="">' : '') + '</span>';
+}
 // Bộ ảnh dùng chung cho trang gạch, ngói, keo: bo = [{k, nhan, alt, ds:[đường dẫn từ gốc web]}...] theo thứ tự ưu tiên (tab đầu hiện trước).
-const GAL_JS = '(function(){var A=document.getElementById("gA");if(!A)return;var sets=document.querySelectorAll(".gs");' +
-  'function bat(box,a){for(var i=0;i<box.children.length;i++){box.children[i].classList.toggle("on",box.children[i]===a);}}' +
-  'var tabs=document.querySelectorAll(".gt button");' +
-  'for(var k=0;k<tabs.length;k++){tabs[k].onclick=function(){var t=this.getAttribute("data-t");for(var j=0;j<tabs.length;j++){tabs[j].classList.toggle("on",tabs[j]===this);}' +
-  'for(var s=0;s<sets.length;s++){var on=sets[s].getAttribute("data-k")===t;sets[s].hidden=!on;if(on&&sets[s].firstElementChild){A.src=sets[s].firstElementChild.getAttribute("data-s");bat(sets[s],sets[s].firstElementChild);}}};}' +
-  'for(var s=0;s<sets.length;s++){(function(box){box.onclick=function(e){var a=e.target.closest("a");if(!a)return;e.preventDefault();A.src=a.getAttribute("data-s");bat(box,a);};})(sets[s]);}})();';
+const GAL_JS = '(function(){var A=document.getElementById("gA");if(!A)return;var box=document.querySelector(".gs");if(!box)return;var as=box.querySelectorAll("a");var tb=document.querySelectorAll(".gt button");' +
+  'function bat(a){for(var i=0;i<as.length;i++){as[i].classList.toggle("on",as[i]===a);}A.src=a.getAttribute("data-s");var t=a.getAttribute("data-k");for(var j=0;j<tb.length;j++){tb[j].classList.toggle("on",tb[j].getAttribute("data-t")===t);}}' +
+  'box.onclick=function(e){var a=e.target.closest("a");if(!a)return;e.preventDefault();bat(a);};' +
+  'for(var k=0;k<tb.length;k++){tb[k].onclick=function(){var t=this.getAttribute("data-t");for(var i=0;i<as.length;i++){if(as[i].getAttribute("data-k")===t){bat(as[i]);break;}}};}})();';
 function boAnh(bo, ten, tienTo) {
   bo = bo.filter(x => x.ds && x.ds.length); if (!bo.length) return '';
-  const src = u => tienTo + u, alt = (x, n) => esc(x.alt + ' ' + ten + (x.ds.length > 1 ? ' (' + (n + 1) + ')' : ''));
-  const tab = bo.length > 1 ? '<div class="gt">' + bo.map((x, i) => '<button type="button" data-t="' + x.k + '"' + (i === 0 ? ' class="on"' : '') + '>' + x.nhan + '</button>').join('') + '</div>' : '';
-  const hang = (x, i) => bo.length > 1 || x.ds.length > 1 ? '<div class="gs" data-k="' + x.k + '"' + (i > 0 ? ' hidden' : '') + '>' + x.ds.map((u, n) => '<a href="' + src(u) + '" data-s="' + src(u) + '"' + (n === 0 ? ' class="on"' : '') + '><img loading="lazy" src="' + src(u) + '" alt="' + alt(x, n) + '" width="72" height="72"></a>').join('') + '</div>' : '';
-  return '<div class="gal"><img class="anh" id="gA" src="' + src(bo[0].ds[0]) + '" alt="' + alt(bo[0], 0) + '" width="900" height="900">' + tab + bo.map(hang).join('') + '</div>' + (tab || bo[0].ds.length > 1 ? '<script>' + GAL_JS + '</script>' : '');
+  const src = u => tienTo + u, tong = bo.reduce((n, x) => n + x.ds.length, 0);
+  const tab = bo.length > 1 ? '<div class="gt">' + bo.map((x, i) => '<button type="button" data-t="' + x.k + '"' + (i === 0 ? ' class="on"' : '') + '>' + x.nhan + ' <small>' + x.ds.length + '</small></button>').join('') + '</div>' : '';
+  const strip = tong > 1 ? '<div class="gs">' + bo.map((x, bi) => x.ds.map((u, n) => '<a href="' + src(u) + '" data-s="' + src(u) + '" data-k="' + x.k + '"' + (n === 0 ? ' data-lb="' + (x.ngan || x.nhan) + '"' : '') + (bi === 0 && n === 0 ? ' class="on"' : '') + '><img loading="lazy" src="' + src(u) + '" alt="' + esc(x.alt + ' ' + ten + (x.ds.length > 1 ? ' (' + (n + 1) + ')' : '')) + '" width="72" height="72"></a>').join('')).join('') + '</div>' : '';
+  return '<div class="gal"><img class="anh" id="gA" src="' + src(bo[0].ds[0]) + '" alt="' + esc(bo[0].alt + ' ' + ten) + '" width="900" height="900">' + tab + strip + '</div>' + (strip ? '<script>' + GAL_JS + '</script>' : '');
 }
 
 // ---- trang từng sản phẩm
@@ -182,7 +186,7 @@ sp.forEach((s, i) => {
   const cungAll = spKD.filter(x => x !== s && x.w === s.w && x.h === s.h && x.img), off = (i * 3) % Math.max(1, cungAll.length - 4);
   const cung = s.ngung ? cungAll.slice(0, 4) : cungAll.slice(0, 4).length < 4 ? cungAll : cungAll.slice(off, off + 4);
   // bộ ảnh theo thứ tự ưu tiên: Thẻ sản phẩm (banner của công ty) -> Ảnh thực tế (Sale tool) -> Mặt gạch (Face)
-  let khoiAnh = boAnh([{ k: 'the', nhan: 'Thẻ sản phẩm', alt: 'Thẻ sản phẩm', ds: s.the }, { k: 'thuc', nhan: 'Ảnh thực tế', alt: 'Ảnh thực tế', ds: s.thuc }, { k: 'face', nhan: 'Mặt gạch (Face)', alt: 'Mặt gạch', ds: s.faces }], ten, '../');
+  let khoiAnh = boAnh([{ k: 'the', nhan: 'Thẻ sản phẩm', ngan: 'Thẻ', alt: 'Thẻ sản phẩm', ds: s.the }, { k: 'thuc', nhan: 'Ảnh thực tế', ngan: 'Thực tế', alt: 'Ảnh thực tế', ds: s.thuc }, { k: 'face', nhan: 'Mặt gạch (Face)', ngan: 'Face', alt: 'Mặt gạch', ds: s.faces }], ten, '../');
   if (!khoiAnh && s.img) khoiAnh = '<img class="anh" src="' + esc(s.img) + '" alt="' + esc(ten) + '" width="900" height="900" onerror="this.style.display=\'none\'">';
   const body = `<div class="hero"><div class="wrap"><small>Gạch ${xuong} · ${kich}</small><h1>${esc(ten)}</h1><p>${esc(mota)}${kk ? '. Có men Nano kháng khuẩn.' : '.'}</p></div></div>
 <div class="wrap"><div class="sp"><div>${khoiAnh}</div>
@@ -191,7 +195,7 @@ sp.forEach((s, i) => {
 <a class="nut" href="${SITE}/?sp=${r.sap}">Xem giá, đại lý có mẫu thật</a><a class="nut v" href="${SITE}/?sp=${r.sap}#dai-ly">Nhắn đại lý gần bạn</a>
 <p class="ghi">Giá chỉ để tham khảo, đại lý báo giá chính xác và chiết khấu theo công trình. Màu trên ảnh có thể khác thực tế do màn hình: nên xem mẫu thật và chọn cùng số lô.</p></div></div>
 ${khoiLoi}<h2>Vật tư đi kèm</h2><p class="ghi" style="font-size:15px">Ốp lát đẹp và bền cần đúng keo dán và bột chà ron: xem <a href="../keo/">keo dán gạch GECKO và bột chà ron GROUTEX</a> của Đồng Tâm.</p>${khoiBai}
-${cung.length ? '<h2>Gạch cùng khổ ' + kich + '</h2><div class="luoi">' + cung.map(c => '<a class="the" href="' + c.slug + '.html"><img loading="lazy" src="' + (c.imgLocal ? '../' + c.imgLocal : esc(c.img)) + '" alt="' + esc('Gạch ' + c.ten) + '"><span>' + esc(c.ten) + '<small>' + tien(c.r.le) + ' đ/m²</small></span></a>').join('') + '</div>' : ''}
+${cung.length ? '<h2>Gạch cùng khổ ' + kich + '</h2><div class="luoi">' + cung.map(c => '<a class="the" href="' + c.slug + '.html">' + (c.kho.moi ? '<i class="nh">Mới</i>' : '') + cardAnh(c, '../', esc('Gạch ' + c.ten)) + '<span>' + esc(c.ten) + '<small>' + tien(c.r.le) + ' đ/m²</small></span></a>').join('') + '</div>' : ''}
 <p class="ghi"><a href="./">← Tất cả gạch Đồng Tâm</a> · <a href="kich-thuoc-${s.w}x${s.h}.html">Gạch ${kich}</a></p></div>`;
   const ld = { '@context': 'https://schema.org', '@type': 'Product', name: ten, sku: String(r.sap), mpn: r.ma, brand: { '@type': 'Brand', name: 'Đồng Tâm' }, category: 'Gạch ' + xuong, description: desc, image: (s.the.slice(0, 1).concat(s.thuc.slice(0, 2)).concat(s.faces.slice(0, 1)).length ? s.the.slice(0, 1).concat(s.thuc.slice(0, 2)).concat(s.faces.slice(0, 1)).map(absImg) : (s.img ? [absImg(s.img)] : undefined)) };
   fs.writeFileSync(path.join(dir, s.slug + '.html'), khung({ title, desc, url, og: 'product', img: absImg(s.the[0] || s.thuc[0] || s.img), body, ld, noindex: s.ngung }));
@@ -200,7 +204,7 @@ ${cung.length ? '<h2>Gạch cùng khổ ' + kich + '</h2><div class="luoi">' + c
 
 // ---- trang theo kích thước + trang danh mục
 const nhom = {}; spKD.forEach(s => { (nhom[s.w + 'x' + s.h] = nhom[s.w + 'x' + s.h] || []).push(s); });
-const the = c => '<a class="the" href="' + c.slug + '.html">' + (c.kho.moi ? '<i class="nh">Mới</i>' : '') + '<img loading="lazy" src="' + (c.imgLocal ? '../' + c.imgLocal : esc(c.img || '')) + '" alt="' + esc('Gạch ' + c.ten + ' ' + c.w + 'x' + c.h) + '"><span>' + esc(c.ten) + '<small>' + c.w + 'x' + c.h + ' · ' + tien(c.r.le) + ' đ/m²</small></span></a>';
+const the = c => '<a class="the" href="' + c.slug + '.html">' + (c.kho.moi ? '<i class="nh">Mới</i>' : '') + cardAnh(c, '../', esc('Gạch ' + c.ten + ' ' + c.w + 'x' + c.h)) + '<span>' + esc(c.ten) + '<small>' + c.w + 'x' + c.h + ' · ' + tien(c.r.le) + ' đ/m²</small></span></a>';
 Object.keys(nhom).sort((a, b) => nhom[b].length - nhom[a].length).forEach(k => {
   const ds = nhom[k].filter(x => x.img);
   if (ds.length < 3) return;
@@ -223,7 +227,7 @@ const bdir = path.join(R, 'bai-viet'); fs.rmSync(bdir, { recursive: true, force:
 if (bai.length) {
   fs.mkdirSync(bdir, { recursive: true });
   const tim = m => { m = String(m).trim().toUpperCase(); return sp.find(x => String(x.r.ma).toUpperCase() === m || String(x.r.sap) === m); };
-  const theB = c => '<a class="the" href="../gach/' + c.slug + '.html">' + (c.kho.moi ? '<i class="nh">Mới</i>' : '') + '<img loading="lazy" src="' + (c.imgLocal ? '../' + c.imgLocal : esc(c.img || '')) + '" alt="' + esc('Gạch ' + c.ten + ' ' + c.w + 'x' + c.h) + '"><span>' + esc(c.ten) + '<small>' + c.w + 'x' + c.h + ' · ' + tien(c.r.le) + ' đ/m²</small></span></a>';
+  const theB = c => '<a class="the" href="../gach/' + c.slug + '.html">' + (c.kho.moi ? '<i class="nh">Mới</i>' : '') + cardAnh(c, '../', esc('Gạch ' + c.ten + ' ' + c.w + 'x' + c.h)) + '<span>' + esc(c.ten) + '<small>' + c.w + 'x' + c.h + ' · ' + tien(c.r.le) + ' đ/m²</small></span></a>';
   bai.forEach(b => {
     const dsSp = b.sp.map(tim).filter(Boolean), url = '/bai-viet/' + b.slug + '.html';
     const thamKhao = dsSp.length ? '<h2>Mẫu gạch được nhắc trong bài</h2><div class="luoi">' + dsSp.map(theB).join('') + '</div>' : '';
