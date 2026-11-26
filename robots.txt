@@ -3,4 +3,4 @@ Allow: /
 Disallow: /chao-cong-trinh.html
 Disallow: /ct.html
 Disallow: /to-roi.html
-Sitemap: https://lechilinhwork-lgtm.github.io/sitemap.xml
+Sitemap: https://gachngoikeodongtam.com/sitemap.xml
