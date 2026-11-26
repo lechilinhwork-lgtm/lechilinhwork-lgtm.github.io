@@ -9,7 +9,9 @@ const BO_TIEN_TO = k => k.replace(/^(DTD|DTS|CT|D)(?=\d)/, '');
 const idx = {}; kho.forEach(x => { const k = kh(x.ma); idx[k] = x; const k2 = BO_TIEN_TO(k); if (k2 !== k && !idx[k2]) idx[k2] = x; });
 const TIEN_TO = { '1000x1000': '100', '200x200': '2020', '300x300': '3030', '300x600': '3060', '400x400': '4040', '400x800': '4080', '600x1200': '60120', '600x600': '6060', '800x800': '8080' };
 const dir = path.join(R, 'anh', 'the'); fs.mkdirSync(dir, { recursive: true });
-const files = []; (function quet(d, goc) { for (const f of fs.readdirSync(d, { withFileTypes: true })) { const p = path.join(d, f.name); if (f.isDirectory()) { if (!/thiết kế/i.test(f.name)) quet(p, goc || f.name); } else if (/\.(jpg|jpeg|png)$/i.test(f.name)) files.push({ p, ten: f.name, thuMuc: goc || '' }); } })(GOC, '');
+// ảnh anh Linh xác nhận KHÔNG chính xác: bỏ qua (thêm tên file vào danh sách này khi cần)
+const LOAI_TRU = ['D3060ROXY003.jpg'];
+const files = []; (function quet(d, goc) { for (const f of fs.readdirSync(d, { withFileTypes: true })) { const p = path.join(d, f.name); if (f.isDirectory()) { if (!/thiết kế/i.test(f.name)) quet(p, goc || f.name); } else if (/\.(jpg|jpeg|png)$/i.test(f.name) && !LOAI_TRU.includes(f.name)) files.push({ p, ten: f.name, thuMuc: goc || '' }); } })(GOC, '');
 // -> danh sách mã ứng viên từ tên file
 function ungVien(f) {
   let b = f.ten.replace(/\.(jpg|jpeg|png)$/i, '').replace(/\s*copy.*$/i, '').replace(/\s+/g, '').toUpperCase();

@@ -17,15 +17,20 @@ const esc = s => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g,
 const tien = n => Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 const nhan = v => { v = String(v || '').replace(/_/g, ' ').toLowerCase(); return v ? v.charAt(0).toUpperCase() + v.slice(1) : ''; };
 const khoa = ma => String(ma).toUpperCase().replace(/^\d{6}_/, '').replace(/[-_ ]?(H\+|FP|NUNG2L)/g, '').replace(/[^A-Z0-9]/g, '');
-function tenMau(ma) { const m = String(ma).replace(/^(?:DTD|DTS|CT|D)?\d+/, '').replace(/-.*$/, ''); const k = m.match(/^([A-Z]+)(\d+)$/i); return k ? k[1] + ' ' + k[2] : m; }
+function tenMau(ma) {
+  let t = String(ma).toUpperCase(); const loai = (t.match(/\s*LO[ẠA]I\s*(\d)/) || [])[1]; t = t.replace(/\s*LO[ẠA]I\s*\d.*$/, '');
+  const goc = t, c = t.replace(/^(?:DTD|DTS|CT|D)?\d+/, ''), k = c.match(/^([A-Z]+?)[-_ ]?(\d+)/);
+  const r = k ? k[1] + ' ' + k[2] : (c || goc).replace(/-.*$/, '');
+  return loai ? r + ' (loại ' + loai + ')' : r;
+}
 const MEN = { 'BÓNG': 'men bóng', 'MỜ': 'men mờ', 'DOUBLE_CHARGE': 'double charge', 'ĐỒNG_CHẤT': 'đồng chất' };
 const cuaGoc = u => { u = String(u || ''); const m = u.match(/\/d\/([\w-]+)/) || u.match(/id=([\w-]+)/); return m ? 'https://lh3.googleusercontent.com/d/' + m[1] + '=w900' : ''; };
 
 // ---- chuẩn bị danh sách sản phẩm
 const sp = [], dung = {};
 G.gach.data.filter(r => r.le > 0).forEach(r => {
-  const k = khoa(r.ma), m = String(r.kc || '').match(/(\d+)x(\d+)/i); if (!m || !/^[A-Z]+ \d+$/i.test(tenMau(r.ma))) return;
-  let slug = 'gach-' + tenMau(r.ma).toLowerCase().replace(/\s+/g, '-') + '-' + m[1] / 10 + 'x' + m[2] / 10;
+  const k = khoa(r.ma), m = String(r.kc || '').match(/(\d+)x(\d+)/i); if (!m) return;
+  let slug = 'gach-' + tenMau(r.ma).toLowerCase().replace(/\(loại (\d)\)/, 'loai-$1').replace(/\s+/g, '-') + '-' + m[1] / 10 + 'x' + m[2] / 10;
   slug = slug.replace(/[^a-z0-9-.]/g, '').replace(/\./g, '-');
   if (dung[slug]) slug += '-' + r.sap; dung[slug] = 1;
   const t = TT[r.ma] || {};
