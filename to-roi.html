@@ -240,6 +240,10 @@ h2 small{color:var(--do);font-weight:700;letter-spacing:1pt}
 .pn:not(.bia){background:var(--kem)}
 .bia,.bia .tren{background:var(--kem)!important}
 .bia .tren img{mix-blend-mode:multiply}
+/* ===== GẬP 3: panel gập vào trong hẹp hơn 2mm (tránh cấn), thanh đỏ không tràn mép giấy ===== */
+.trang:nth-of-type(1){grid-template-columns:97mm 101mm 99mm}
+.trang:nth-of-type(2){grid-template-columns:99mm 101mm 97mm}
+.bia .day{margin:4mm 8mm 7mm;border-radius:2.5mm;padding:3mm 4mm}
 @media screen{ .pn + .pn{border-left:.2mm solid rgba(217,179,106,.55)} }
 h2{font-family:'Times New Roman',Cambria,Georgia,serif;font-weight:700;color:var(--ruou)!important;letter-spacing:-.1pt}
 h2::after{content:"";display:block;width:13mm;height:.55mm;background:var(--vangc);margin-top:2.2mm}
