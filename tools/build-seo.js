@@ -11,6 +11,7 @@ const G = snap.GIA_SNAPSHOT, NGAY = snap.GIA_SNAPSHOT_NGAY;
 const FACE = nap('face-data.js', 'FACE_GACH') || {};
 const TT = G.thuocTinh.data, IMG = G.spImages || {}, EXTRA = G.extra || {};
 const KT = require('./kien-thuc.js');
+const THE = (function () { try { return JSON.parse(fs.readFileSync(path.join(R, 'data', 'the-san-pham.json'), 'utf8')); } catch (e) { return { gach: {}, ngoi: {} }; } })();
 const KHO = (function () { try { const d = JSON.parse(fs.readFileSync(path.join(R, 'data', 'san-pham.json'), 'utf8')); const m = {}; d.sp.forEach(x => { m[x.sap] = x; }); return m; } catch (e) { console.log('Chua co data/san-pham.json: chay node tools/lap-kho.js truoc'); return {}; } })();
 const esc = s => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const tien = n => Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -34,7 +35,8 @@ G.gach.data.filter(r => r.le > 0).forEach(r => {
   const imgLocal = faces[0] || thuc[0] || '';
   const img = imgLocal || cuaGoc(IMG[r.sap]);
   const kho = KHO[r.sap] || {};
-  sp.push({ r, k, slug, w: +m[1] / 10, h: +m[2] / 10, ten: tenMau(r.ma), t, img, imgLocal, faces, thuc, kho, ngung: !kho.dangKD });
+  const the = (THE.gach[k] || THE.gach[k.replace(/^(DTD|DTS|CT|D)(?=\d)/, '')] || []).filter(f => fs.existsSync(path.join(R, f)));
+  sp.push({ r, k, slug, w: +m[1] / 10, h: +m[2] / 10, ten: tenMau(r.ma), t, img, imgLocal, faces, thuc, the, kho, ngung: !kho.dangKD });
 });
 // ưu tiên: sản phẩm chủ lực/mới lên trước, rồi theo hạng bán chạy
 sp.sort((a, b) => (b.kho.uuTien ? 1 : 0) - (a.kho.uuTien ? 1 : 0) || (a.kho.hangBanChay || 9999) - (b.kho.hangBanChay || 9999));
@@ -67,7 +69,7 @@ h2:after{content:"";display:block;width:46px;height:3px;background:var(--do);mar
 ul.ds{margin:8px 0 0 18px}.ds li{margin:3px 0}
 .nhan{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;padding:2px 9px;border-radius:99px;background:#111827;color:#fff;margin:0 6px 6px 0}.nhan.moi{background:var(--do);color:#fff}
 .loi p{margin:7px 0;font-size:15px}
-.gal{display:block}.gt{display:flex;gap:8px;margin:12px 0 0}.gt button{font:inherit;font-weight:700;font-size:14px;padding:8px 16px;border-radius:99px;border:1px solid var(--vien);background:#fff;color:var(--ruou);cursor:pointer}.gt button.on{background:var(--ruou);color:#fff;border-color:var(--ruou)}
+.sp>div{min-width:0}img[src=""]{visibility:hidden}.gal{display:block}.gt{display:flex;gap:8px;margin:12px 0 0}.gt button{font:inherit;font-weight:700;font-size:14px;padding:8px 16px;border-radius:99px;border:1px solid var(--vien);background:#fff;color:var(--ruou);cursor:pointer}.gt button.on{background:var(--ruou);color:#fff;border-color:var(--ruou)}
 .gs{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.gs[hidden]{display:none}.gs a{display:block;border:2px solid var(--vien);border-radius:10px;overflow:hidden;width:72px;height:72px;background:#E5E7EB}.gs a.on{border-color:var(--do)}.gs img{width:100%;height:100%;object-fit:cover;display:block}
 h1,h2,.gia,.the span{font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1}
 .chip{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 0}.chip a{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--vien);border-radius:99px;padding:8px 16px;font-weight:700;font-size:14.5px;text-decoration:none;color:var(--ruou)}.chip a small{font-weight:500;color:var(--phu);font-size:12.5px}.chip a:hover{background:var(--ruou);color:#fff}.chip a:hover small{color:#FCA5A5}
@@ -96,7 +98,7 @@ function khung(o) {
 ${o.img ? '<meta property="og:image" content="' + esc(o.img) + '"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="' + esc(o.img) + '">' : ''}
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;800&family=Playfair+Display:wght@600;700&display=swap">
 <style>${CSS}</style>${o.ld ? '<script type="application/ld+json">' + JSON.stringify(o.ld) + '</script>' : ''}</head><body>
-<div class="top"><div class="wrap"><b>Dongtam</b><nav><a href="${SITE}/">Chọn gạch theo ngân sách</a><a href="${SITE}/gach/">Danh mục gạch</a>${bai.length ? '<a href="' + SITE + '/bai-viet/">Bài viết</a>' : ''}<a href="${SITE}/#dai-ly">Đại lý gần bạn</a></nav></div></div>
+<div class="top"><div class="wrap"><b>Dongtam</b><nav><a href="${SITE}/">Chọn gạch theo ngân sách</a><a href="${SITE}/gach/">Gạch</a><a href="${SITE}/ngoi/">Ngói</a><a href="${SITE}/keo/">Keo và ron</a>${bai.length ? '<a href="' + SITE + '/bai-viet/">Bài viết</a>' : ''}<a href="${SITE}/#dai-ly">Đại lý gần bạn</a></nav></div></div>
 ${o.body}
 <footer><div class="wrap"><p>${KHONG_CHINH_THUC}</p><p style="margin-top:8px">${GOP_Y}</p></div></footer></body></html>`;
 }
@@ -139,13 +141,20 @@ function mdHtml(nd, ctx) {
 }
 
 
-// mã JS nhỏ cho bộ ảnh trang sản phẩm: chuyển tab Face/Thực tế và bấm ảnh nhỏ để đổi ảnh lớn
-const GAL_JS = '(function(){var A=document.getElementById("gA");if(!A)return;var F=document.getElementById("gF"),R=document.getElementById("gR");' +
+// Bộ ảnh dùng chung cho trang gạch, ngói, keo: bo = [{k, nhan, alt, ds:[đường dẫn từ gốc web]}...] theo thứ tự ưu tiên (tab đầu hiện trước).
+const GAL_JS = '(function(){var A=document.getElementById("gA");if(!A)return;var sets=document.querySelectorAll(".gs");' +
   'function bat(box,a){for(var i=0;i<box.children.length;i++){box.children[i].classList.toggle("on",box.children[i]===a);}}' +
   'var tabs=document.querySelectorAll(".gt button");' +
-  'for(var k=0;k<tabs.length;k++){tabs[k].onclick=function(){var f=this.getAttribute("data-t")==="f";for(var j=0;j<tabs.length;j++){tabs[j].classList.toggle("on",tabs[j]===this);}' +
-  'if(F)F.hidden=!f;if(R)R.hidden=f;var box=f?F:R;if(box&&box.firstElementChild){A.src=box.firstElementChild.getAttribute("data-s");bat(box,box.firstElementChild);}};}' +
-  '[F,R].forEach(function(box){if(!box)return;box.onclick=function(e){var a=e.target.closest("a");if(!a)return;e.preventDefault();A.src=a.getAttribute("data-s");bat(box,a);};});})();';
+  'for(var k=0;k<tabs.length;k++){tabs[k].onclick=function(){var t=this.getAttribute("data-t");for(var j=0;j<tabs.length;j++){tabs[j].classList.toggle("on",tabs[j]===this);}' +
+  'for(var s=0;s<sets.length;s++){var on=sets[s].getAttribute("data-k")===t;sets[s].hidden=!on;if(on&&sets[s].firstElementChild){A.src=sets[s].firstElementChild.getAttribute("data-s");bat(sets[s],sets[s].firstElementChild);}}};}' +
+  'for(var s=0;s<sets.length;s++){(function(box){box.onclick=function(e){var a=e.target.closest("a");if(!a)return;e.preventDefault();A.src=a.getAttribute("data-s");bat(box,a);};})(sets[s]);}})();';
+function boAnh(bo, ten, tienTo) {
+  bo = bo.filter(x => x.ds && x.ds.length); if (!bo.length) return '';
+  const src = u => tienTo + u, alt = (x, n) => esc(x.alt + ' ' + ten + (x.ds.length > 1 ? ' (' + (n + 1) + ')' : ''));
+  const tab = bo.length > 1 ? '<div class="gt">' + bo.map((x, i) => '<button type="button" data-t="' + x.k + '"' + (i === 0 ? ' class="on"' : '') + '>' + x.nhan + '</button>').join('') + '</div>' : '';
+  const hang = (x, i) => bo.length > 1 || x.ds.length > 1 ? '<div class="gs" data-k="' + x.k + '"' + (i > 0 ? ' hidden' : '') + '>' + x.ds.map((u, n) => '<a href="' + src(u) + '" data-s="' + src(u) + '"' + (n === 0 ? ' class="on"' : '') + '><img loading="lazy" src="' + src(u) + '" alt="' + alt(x, n) + '" width="72" height="72"></a>').join('') + '</div>' : '';
+  return '<div class="gal"><img class="anh" id="gA" src="' + src(bo[0].ds[0]) + '" alt="' + alt(bo[0], 0) + '" width="900" height="900">' + tab + bo.map(hang).join('') + '</div>' + (tab || bo[0].ds.length > 1 ? '<script>' + GAL_JS + '</script>' : '');
+}
 
 // ---- trang từng sản phẩm
 sp.forEach((s, i) => {
@@ -172,29 +181,20 @@ sp.forEach((s, i) => {
   // gợi ý cùng khổ (chỉ mã đang kinh doanh)
   const cungAll = spKD.filter(x => x !== s && x.w === s.w && x.h === s.h && x.img), off = (i * 3) % Math.max(1, cungAll.length - 4);
   const cung = s.ngung ? cungAll.slice(0, 4) : cungAll.slice(0, 4).length < 4 ? cungAll : cungAll.slice(off, off + 4);
-  // bộ ảnh: tab "Mặt gạch (Face)" / "Ảnh thực tế" khi có cả hai; có nhiều ảnh thì hiện hàng ảnh nhỏ
-  const anhSrc = u => '../' + u, altF = (n) => esc('Mặt gạch ' + ten + (s.faces.length > 1 ? ' (' + (n + 1) + ')' : '')), altT = (n) => esc('Ảnh thực tế ' + ten + (s.thuc.length > 1 ? ' (' + (n + 1) + ')' : ''));
-  const batDau = s.faces.length ? 'f' : 't';
-  const chinh = s.faces[0] || s.thuc[0];
-  let khoiAnh = '';
-  if (chinh) {
-    const hangThu = (ds, id, alt, an) => ds.length > 1 || (s.faces.length && s.thuc.length) ? '<div class="gs" id="' + id + '"' + (an ? ' hidden' : '') + '>' + ds.map((u, n) => '<a href="' + anhSrc(u) + '" data-s="' + anhSrc(u) + '"' + (n === 0 ? ' class="on"' : '') + '><img loading="lazy" src="' + anhSrc(u) + '" alt="' + alt(n) + '" width="72" height="72"></a>').join('') + '</div>' : '';
-    const tab = s.faces.length && s.thuc.length ? '<div class="gt"><button type="button" data-t="f" class="on">Mặt gạch (Face)</button><button type="button" data-t="t">Ảnh thực tế</button></div>' : '';
-    khoiAnh = '<div class="gal"><img class="anh" id="gA" src="' + anhSrc(chinh) + '" alt="' + (batDau === 'f' ? altF(0) : altT(0)) + '" width="900" height="900">' + tab
-      + (s.faces.length ? hangThu(s.faces, 'gF', altF, false) : '') + (s.thuc.length ? hangThu(s.thuc, 'gR', altT, !!s.faces.length) : '') + '</div>'
-      + (tab || s.faces.length > 1 || s.thuc.length > 1 ? '<script>' + GAL_JS + '</script>' : '');
-  } else if (s.img) khoiAnh = '<img class="anh" src="' + esc(s.img) + '" alt="' + esc(ten) + '" width="900" height="900" onerror="this.style.display=\'none\'">';
+  // bộ ảnh theo thứ tự ưu tiên: Thẻ sản phẩm (banner của công ty) -> Ảnh thực tế (Sale tool) -> Mặt gạch (Face)
+  let khoiAnh = boAnh([{ k: 'the', nhan: 'Thẻ sản phẩm', alt: 'Thẻ sản phẩm', ds: s.the }, { k: 'thuc', nhan: 'Ảnh thực tế', alt: 'Ảnh thực tế', ds: s.thuc }, { k: 'face', nhan: 'Mặt gạch (Face)', alt: 'Mặt gạch', ds: s.faces }], ten, '../');
+  if (!khoiAnh && s.img) khoiAnh = '<img class="anh" src="' + esc(s.img) + '" alt="' + esc(ten) + '" width="900" height="900" onerror="this.style.display=\'none\'">';
   const body = `<div class="hero"><div class="wrap"><small>Gạch ${xuong} · ${kich}</small><h1>${esc(ten)}</h1><p>${esc(mota)}${kk ? '. Có men Nano kháng khuẩn.' : '.'}</p></div></div>
 <div class="wrap"><div class="sp"><div>${khoiAnh}</div>
 <div>${nhanHtml}<div class="gia">${tien(r.le)} đ/m² <small>giá lẻ niêm yết tham khảo (đã gồm VAT), cập nhật ${NGAY}</small></div>${canh}
 <table>${hang.map(h => '<tr><td>' + esc(h[0]) + '</td><td>' + esc(h[1]) + '</td></tr>').join('')}</table>
 <a class="nut" href="${SITE}/?sp=${r.sap}">Xem giá, đại lý có mẫu thật</a><a class="nut v" href="${SITE}/?sp=${r.sap}#dai-ly">Nhắn đại lý gần bạn</a>
 <p class="ghi">Giá chỉ để tham khảo, đại lý báo giá chính xác và chiết khấu theo công trình. Màu trên ảnh có thể khác thực tế do màn hình: nên xem mẫu thật và chọn cùng số lô.</p></div></div>
-${khoiLoi}${khoiBai}
+${khoiLoi}<h2>Vật tư đi kèm</h2><p class="ghi" style="font-size:15px">Ốp lát đẹp và bền cần đúng keo dán và bột chà ron: xem <a href="../keo/">keo dán gạch GECKO và bột chà ron GROUTEX</a> của Đồng Tâm.</p>${khoiBai}
 ${cung.length ? '<h2>Gạch cùng khổ ' + kich + '</h2><div class="luoi">' + cung.map(c => '<a class="the" href="' + c.slug + '.html"><img loading="lazy" src="' + (c.imgLocal ? '../' + c.imgLocal : esc(c.img)) + '" alt="' + esc('Gạch ' + c.ten) + '"><span>' + esc(c.ten) + '<small>' + tien(c.r.le) + ' đ/m²</small></span></a>').join('') + '</div>' : ''}
 <p class="ghi"><a href="./">← Tất cả gạch Đồng Tâm</a> · <a href="kich-thuoc-${s.w}x${s.h}.html">Gạch ${kich}</a></p></div>`;
-  const ld = { '@context': 'https://schema.org', '@type': 'Product', name: ten, sku: String(r.sap), mpn: r.ma, brand: { '@type': 'Brand', name: 'Đồng Tâm' }, category: 'Gạch ' + xuong, description: desc, image: (s.faces.slice(0, 2).concat(s.thuc.slice(0, 2)).length ? s.faces.slice(0, 2).concat(s.thuc.slice(0, 2)).map(absImg) : (s.img ? [absImg(s.img)] : undefined)) };
-  fs.writeFileSync(path.join(dir, s.slug + '.html'), khung({ title, desc, url, og: 'product', img: absImg(s.img), body, ld, noindex: s.ngung }));
+  const ld = { '@context': 'https://schema.org', '@type': 'Product', name: ten, sku: String(r.sap), mpn: r.ma, brand: { '@type': 'Brand', name: 'Đồng Tâm' }, category: 'Gạch ' + xuong, description: desc, image: (s.the.slice(0, 1).concat(s.thuc.slice(0, 2)).concat(s.faces.slice(0, 1)).length ? s.the.slice(0, 1).concat(s.thuc.slice(0, 2)).concat(s.faces.slice(0, 1)).map(absImg) : (s.img ? [absImg(s.img)] : undefined)) };
+  fs.writeFileSync(path.join(dir, s.slug + '.html'), khung({ title, desc, url, og: 'product', img: absImg(s.the[0] || s.thuc[0] || s.img), body, ld, noindex: s.ngung }));
   if (!s.ngung) urls.push(url);
 });
 
@@ -214,6 +214,9 @@ const ks = Object.keys(nhom).filter(k => nhom[k].filter(x => x.img).length >= 3)
 const titleI = 'Gạch Đồng Tâm: ' + spKD.length + ' mẫu gạch ốp lát theo khổ, màu, giá tham khảo';
 const descI = 'Danh mục gạch Porcelain và Ceramic Đồng Tâm: các khổ 60x60, 80x80, 30x60, 40x80... Xem ảnh mặt gạch, giá lẻ tham khảo và đại lý có mẫu thật gần bạn.';
 fs.writeFileSync(path.join(dir, 'index.html'), khung({ title: titleI, desc: descI, url: '/gach/', img: absImg('anh/bia-tong-hop.jpg'), body: '<div class="hero"><div class="wrap"><small>Danh mục</small><h1>Gạch ốp lát Đồng Tâm</h1><p>Chọn theo khổ gạch, rồi xem từng mẫu: ảnh mặt gạch, thông số, giá lẻ tham khảo và đại lý có mẫu thật.</p></div></div><div class="wrap"><h2>Theo kích thước</h2><div class="chip">' + ks.map(k => '<a href="kich-thuoc-' + k + '.html">' + k + ' cm <small>' + nhom[k].filter(x => x.img).length + ' mẫu</small></a>').join('') + '</div><h2>Mẫu bán chạy và mẫu mới</h2><div class="luoi">' + spKD.filter(x => x.imgLocal && x.kho.uuTien).slice(0, 12).map(the).join('') + '</div></div>' })); urls.push('/gach/');
+
+// ---- ngói, keo, ron
+require('./build-ngoi-keo.js')({ fs, path, R, SITE, NGAY, khung, esc, tien, absImg, boAnh, urls, G, THE });
 
 // ---- trang bài viết + trang danh sách bài viết
 const bdir = path.join(R, 'bai-viet'); fs.rmSync(bdir, { recursive: true, force: true });
