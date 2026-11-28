@@ -655,6 +655,17 @@ label.ai-nut{display:flex;align-items:center;justify-content:center;gap:8px;widt
 .ai-hang button{flex:1;min-height:42px;border-radius:10px;border:1.5px solid var(--vien);background:#fff;font-weight:700;font-size:13.5px}
 .ai-hang button.chinh{background:#8C1206;border-color:#8C1206;color:#fff}
 .ai-loi{padding:12px;border-radius:12px;background:#FFF1F0;border:1px solid #F1C9C5;font-size:13.5px}
+.ai-tuy{margin:2px 0 10px;display:grid;gap:7px}
+.ai-tuy .ai-t1{font-size:12.5px;color:var(--phu);font-weight:700}
+.ai-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.ai-chip{border:1.5px solid var(--vien);background:#fff;border-radius:99px;padding:6px 12px;font-size:12.5px;font-weight:700;color:#3B3434;min-height:34px}
+.ai-chip.on{background:#8C1206;border-color:#8C1206;color:#fff}
+.ai-buoc{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:10px;counter-reset:b}
+.ai-buoc li{position:relative;padding-left:38px;font-size:13.5px;line-height:1.5;color:#3B3434;counter-increment:b}
+.ai-buoc li:before{content:counter(b);position:absolute;left:0;top:1px;width:26px;height:26px;border-radius:50%;background:#8C1206;color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}
+.ai-buoc li b{display:inline;color:#8C1206}
+.ai-buoc li small{display:block;color:var(--phu);font-size:12.5px;margin-top:2px}
+.ai-meo{margin-top:10px;background:#fff;border:1px dashed #D9B7B2;border-radius:10px;padding:9px 11px;font-size:12.5px;color:#4A4040}
 .ai-tay{margin-top:10px;font-size:13px}
 .ai-tay summary{cursor:pointer;font-weight:700;color:#8C1206;min-height:32px}
 
@@ -1683,23 +1694,72 @@ function htmlThu(s){
     +'<svg class="thu-do2" viewBox="0 0 40 120" aria-hidden="true"><rect x="19" y="26" width="3" height="88" fill="#6B625B"/><ellipse cx="20" cy="116" rx="14" ry="4" fill="#6B625B"/><path d="M5 28 L10 4 H30 L35 28 Z" fill="#F3E6C9"/></svg>'
     +'</div><div class="thu-ghi">Hình minh hoạ từ mặt gạch thật của hãng, có thể lệch màu theo màn hình. Xem mẫu thật tại đại lý.</div></div>';
 }
+// ---- câu lệnh phối gạch cho Gemini: có màu ron hài hoà với màu gạch và kiểu lát
+var AI_OPT={ron:'cung',le:''};
+function nhomMauGach(s){
+  var m=String(s.mau||'').toUpperCase();
+  if(/ĐEN/.test(m)) return 'den';
+  if(/TRẮNG/.test(m)) return 'trang';
+  if(/KEM|VÀNG|PASTEL|HỒNG|CAM/.test(m)) return 'kem';
+  if(/NÂU|ĐỎ/.test(m)) return 'nau';
+  if(/XANH|TÍM/.test(m)) return 'xanh';
+  return 'xam';
+}
+var RON_GOI_Y={
+  trang:{cung:'trắng ngà rất nhạt, gần như hòa vào màu gạch', dam:'xám nhạt ấm, đậm hơn gạch một bậc', tp:'xám than để viền gạch nổi rõ'},
+  kem:{cung:'kem ngà, cùng tông và sẫm hơn màu gạch một chút', dam:'be đậm ấm', tp:'nâu cà phê để viền gạch nổi rõ'},
+  xam:{cung:'xám cùng tông với màu gạch', dam:'xám đậm hơn gạch một bậc', tp:'đen than để viền gạch nổi rõ'},
+  nau:{cung:'nâu cùng tông, hơi tối hơn màu gạch', dam:'nâu sẫm', tp:'đen nâu để viền gạch nổi rõ'},
+  xanh:{cung:'xanh xám cùng tông với màu gạch', dam:'xanh xám đậm hơn một bậc', tp:'xám than để viền gạch nổi rõ'},
+  den:{cung:'đen than cùng tông với màu gạch', dam:'đen than đậm', tp:'xám bạc nhạt để viền gạch nổi rõ'}
+};
+function viengChuNhat(s){ var m=(s.kc||'').match(/(\d+)x(\d+)/i); if(!m) return false; var a=+m[1], b=+m[2]; return Math.max(a,b)/Math.min(a,b)>=1.8; }
+function leMacDinh(s){ return viengChuNhat(s) ? (/GỖ/i.test(String(s.hv||''))?'sole':'thang') : ''; }
 function loiNhacAI(s){
-  var tuong=laTuongSP(s), m=(s.kc||'').match(/(\d+)x(\d+)/i), kt=m?(m[1]+'x'+m[2]+' mm'):'';
+  var tuong=laTuongSP(s), m=(s.kc||'').match(/(\d+)x(\d+)/i), kt=m?(m[1]+'x'+m[2]+' mm'):'', canNho=m?Math.min(+m[1],+m[2]):600;
   var coMat=soFace(s), mo=[nhanTT(s.hv),nhanTT(s.mau)].filter(function(x){return x&&x!=='-';}).join(', ');
-  return 'Hãy '+(tuong?'ốp gạch lên tường':'lát gạch lên sàn')+' trong ảnh phòng của tôi bằng '+(coMat?'mẫu gạch ở ảnh mặt gạch đính kèm. ':'gạch Đồng Tâm mô tả sau đây'+(mo?' (vân/màu: '+mo.toLowerCase()+')':'')+'. ')
-    +'Gạch Đồng Tâm '+tenMau(s.ma)+(kt?', khổ '+kt:'')+(nhanMen(s)?', '+nhanMen(s).toLowerCase():'')+'. '
-    +'Giữ nguyên bố cục phòng, đồ đạc, ánh sáng và góc chụp; chỉ thay bề mặt '+(tuong?'tường':'sàn')+'. '
-    +'Gạch chia viên đúng khổ, đường ron mảnh khoảng 2 mm, '+(coMat?'vân gạch lấy đúng từ ảnh mặt gạch, ':'')+'phối cảnh chân thực như ảnh chụp thật.';
+  var bong=/bóng/i.test(nhanMen(s)||''), men=(nhanMen(s)||'').toLowerCase();
+  var ron=(RON_GOI_Y[nhomMauGach(s)]||RON_GOI_Y.xam)[AI_OPT.ron||'cung'];
+  var le=AI_OPT.le||leMacDinh(s), bePron=canNho>=500?'1,5 đến 2':'2 đến 3', vat=tuong?'tường':'sàn';
+  var d=[];
+  d.push('Hãy '+(tuong?'ốp gạch lên tường':'lát gạch lên sàn')+' trong ảnh phòng của tôi bằng '+(coMat?'mẫu gạch ở ảnh mặt gạch đính kèm':'gạch Đồng Tâm mô tả sau đây'+(mo?' (vân và màu: '+mo.toLowerCase()+')':''))+'. Gạch Đồng Tâm '+tenMau(s.ma)+(kt?', khổ '+kt:'')+(men?', '+men:'')+'.');
+  d.push('Yêu cầu:');
+  d.push('1. Giữ nguyên bố cục phòng, đồ đạc, tường, trần, ánh sáng và góc chụp; chỉ thay bề mặt '+vat+'. Không thêm hay bớt đồ vật.');
+  d.push('2. Gạch chia viên đúng khổ'+(kt?' '+kt:'')+', theo đúng phối cảnh của '+vat+': viên càng xa càng nhỏ dần, các đường ron thẳng và song song.');
+  if(le==='sole') d.push('3. Kiểu '+(tuong?'ốp':'lát')+': xếp so le như gạch thẻ, mỗi hàng lệch nửa viên.');
+  else if(le==='thang') d.push('3. Kiểu '+(tuong?'ốp':'lát')+': xếp thẳng hàng ngay ngắn, các viên thẳng mạch.');
+  else d.push('3. Kiểu '+(tuong?'ốp':'lát')+': xếp thẳng hàng ngay ngắn.');
+  d.push('4. Đường ron: màu '+ron+'; mảnh khoảng '+bePron+' mm, phẳng và đều. Ron phối đồng điệu với màu gạch để tổng thể liền mạch, sang trọng, không để viền trắng chói quanh từng viên.');
+  d.push('5. '+(bong?'Bề mặt bóng: phản chiếu nhẹ ánh đèn và đồ đạc, không bị chói cháy sáng.':'Bề mặt mờ: ít phản chiếu, nhìn mộc mạc và tinh tế.'));
+  d.push('6. '+(coMat?'Vân gạch lấy đúng từ ảnh mặt gạch; mỗi viên hơi khác nhau một chút cho tự nhiên như gạch thật.':'Vân và màu gạch theo mô tả, mỗi viên hơi khác nhau một chút cho tự nhiên.'));
+  d.push('7. Ảnh kết quả chân thực như ảnh chụp thật, sắc nét, giữ nguyên tỉ lệ khung hình của ảnh phòng.');
+  return d.join('\n');
+}
+function chipAI(k,v,t,on){ return '<button type="button" class="ai-chip'+(on?' on':'')+'" data-k="'+k+'" data-v="'+v+'">'+t+'</button>'; }
+function htmlTuyChonAI(s){
+  var le=leMacDinh(s);
+  return '<div class="ai-tuy"><div><div class="ai-t1">Màu đường ron (tùy chọn)</div><div class="ai-chips">'
+    +chipAI('ron','cung','Cùng tông, sang trọng',AI_OPT.ron==='cung')+chipAI('ron','dam','Đậm hơn một bậc',AI_OPT.ron==='dam')+chipAI('ron','tp','Viền nổi rõ',AI_OPT.ron==='tp')
+    +'</div></div>'
+    +(le?'<div><div class="ai-t1">Kiểu '+(laTuongSP(s)?'ốp':'lát')+' (gạch chữ nhật)</div><div class="ai-chips">'
+      +chipAI('le','thang','Thẳng hàng',(AI_OPT.le||le)==='thang')+chipAI('le','sole','So le',(AI_OPT.le||le)==='sole')+'</div></div>':'')
+    +'</div>';
 }
 function coAIWeb(){ return typeof AI_API!=='undefined' && !!AI_API; }
 function htmlAI(s){
-  var gem='<button type="button" class="ai-nut" id="ai-nut" style="width:100%;min-height:46px;border-radius:12px;border:0;background:#8C1206;color:#fff;font-weight:800;font-size:15px">Mở Gemini và phối thử</button>'
-    +'<ol><li>Nút trên sẽ '+(soFace(s)?'<b style="display:inline">tải ảnh mặt gạch</b> về máy và ':'')+'<b style="display:inline">chép sẵn câu lệnh</b>.</li>'
-    +'<li>Trong Gemini, bấm dấu + đính kèm <b style="display:inline">ảnh phòng của bạn</b>'+(soFace(s)?' và <b style="display:inline">ảnh mặt gạch vừa tải</b>':'')+'.</li>'
-    +'<li>Dán câu lệnh (nhấn giữ ô chat, chọn Dán) rồi gửi.</li></ol>'
-    +'<details class="ai-tay"><summary>Làm từng bước hoặc xem câu lệnh</summary>'
-    +'<div class="ai-hang">'+(soFace(s)?'<button type="button" id="ai-tai">Tải ảnh mặt gạch</button>':'')+'<button type="button" id="ai-chep">Chép câu lệnh</button></div>'
-    +'<textarea id="ai-loi" readonly rows="6" style="width:100%;margin-top:8px;padding:10px;border:1px solid var(--vien);border-radius:10px;font-family:inherit;font-size:13px;line-height:1.45;background:#fff"></textarea></details>';
+  AI_OPT={ron:'cung',le:''};
+  var cm=soFace(s)?1:0;
+  var gem=htmlTuyChonAI(s)
+    +'<button type="button" class="ai-nut" id="ai-nut" style="width:100%;min-height:46px;border-radius:12px;border:0;background:#8C1206;color:#fff;font-weight:800;font-size:15px">Bước 1: Bấm đây để mở Gemini</button>'
+    +'<ol class="ai-buoc">'
+    +'<li><b>Bấm nút đỏ ở trên.</b> Máy sẽ tự '+(cm?'tải ảnh mặt gạch (tên <b>mat-gach-'+khoaFace(s.ma).toLowerCase()+'.jpg</b>) về máy, ':'')+'chép sẵn câu lệnh và mở Gemini.<small>Nếu máy hỏi cho phép tải xuống hoặc dán, bạn chọn Cho phép.</small></li>'
+    +'<li><b>Đính ảnh vào Gemini.</b> Bấm dấu <b>+</b> cạnh ô chat, chọn <b>Tải ảnh lên</b> (Upload), rồi chọn '+(cm?'<b>2 ảnh</b>: ảnh <b>phòng của bạn</b> và ảnh <b>mặt gạch vừa tải</b> (nằm trong thư mục Tải xuống hoặc Downloads).':'ảnh <b>phòng của bạn</b>.')+'<small>Ảnh phòng nên chụp ban ngày, đứng ở góc phòng, thấy rõ '+(laTuongSP(s)?'mảng tường cần ốp':'sàn nhà')+', không bị đồ che nhiều.</small></li>'
+    +'<li><b>Dán câu lệnh rồi gửi.</b> Chạm vào ô chat, giữ ngón tay và chọn <b>Dán</b> (máy tính: bấm Ctrl+V), sau đó bấm nút <b>gửi ➤</b>. Chờ khoảng 10 đến 30 giây là có ảnh.</li>'
+    +'<li><b>Muốn chỉnh?</b> Gõ thêm cho Gemini, ví dụ: "ron tối hơn một chút", "đổi sang xếp so le", "sáng hơn".</li>'
+    +'</ol>'
+    +'<details class="ai-tay"><summary>Chưa tải được ảnh hoặc chưa chép được câu lệnh? Bấm vào đây</summary>'
+    +'<div class="ai-hang">'+(cm?'<button type="button" id="ai-tai">Tải ảnh mặt gạch</button>':'')+'<button type="button" id="ai-chep">Chép câu lệnh</button></div>'
+    +'<textarea id="ai-loi" readonly rows="9" style="width:100%;margin-top:8px;padding:10px;border:1px solid var(--vien);border-radius:10px;font-family:inherit;font-size:13px;line-height:1.45;background:#fff"></textarea></details>';
   if(!coAIWeb()){
     return '<div class="ai-thu" id="ai-thu"><b>Phối thử vào chính căn phòng của bạn bằng AI</b>'
       +'<p>Chụp phòng của bạn, nhờ Gemini lát mẫu này lên và xem trước khi mua. Dùng Gemini bằng tài khoản Google của bạn.</p>'+gem
@@ -1766,7 +1826,14 @@ function ganAI(s){
   var nut=$('ai-nut'); if(!nut) return;
   var loiTxt=loiNhacAI(s), ta=$('ai-loi');
   if(ta){ ta.value=loiTxt; ta.onclick=function(){ ta.select(); }; }
-  function taiMat(){ if(!soFace(s)) return; var a=document.createElement('a'); a.href='anh/face/'+khoaFace(s.ma)+'-1.jpg'; a.download='mat-gach-'+khoaFace(s.ma)+'.jpg'; document.body.appendChild(a); a.click(); a.remove(); }
+  Array.prototype.forEach.call(document.querySelectorAll('#ai-thu .ai-chip'),function(c){
+    c.onclick=function(){
+      AI_OPT[c.dataset.k]=c.dataset.v;
+      Array.prototype.forEach.call(document.querySelectorAll('#ai-thu .ai-chip[data-k="'+c.dataset.k+'"]'),function(x){ x.classList.toggle('on',x===c); });
+      loiTxt=loiNhacAI(s); if(ta) ta.value=loiTxt;
+    };
+  });
+  function taiMat(){ if(!soFace(s)) return; var a=document.createElement('a'); a.href='anh/face/'+khoaFace(s.ma)+'-1.jpg'; a.download='mat-gach-'+khoaFace(s.ma).toLowerCase()+'.jpg'; document.body.appendChild(a); a.click(); a.remove(); }
   function chepLoi(ok){
     var xong=false;
     try{ if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(loiTxt).then(function(){ if(ok) ok(); },function(){ if(ta){ ta.select(); } }); xong=true; } }catch(e){}
