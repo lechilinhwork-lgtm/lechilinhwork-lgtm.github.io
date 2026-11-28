@@ -58,6 +58,8 @@ Dưới đây là các mẫu Porcelain màu sáng, hoa văn nhẹ, hợp phòng 
 
 {{anh:phong-khach-nho/catania-60x60-ai.webp|Phòng khách lát CATANIA 60x60 nền kem, vân Crema Marfil. Ảnh minh hoạ do AI dựng từ mặt gạch thật, màu thực tế xem mẫu tại đại lý.}}
 
+{{anh:phong-khach-nho/can-san-catania-ai.webp|Cận cảnh sàn CATANIA 60x60: vân Crema Marfil mảnh, mặt bóng phản chiếu nhẹ, ron kem ngà liền mạch. Ảnh minh hoạ do AI dựng từ mặt gạch thật, màu thực tế xem mẫu tại đại lý.}}
+
 {{sp:6060SICILY001-FP-H+}}
 {{sp:6060CATANIA001-FP-H+}}
 
