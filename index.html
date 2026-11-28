@@ -239,8 +239,11 @@ section[id]{scroll-margin-top:12px}
 .tam-cuon{overflow-y:auto;flex:1;overscroll-behavior:contain}
 .tam .dong{position:absolute;right:10px;top:10px;z-index:3;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;font-size:18px;display:flex;align-items:center;justify-content:center}
 .anh-cuon{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;background:#EEE7E4;border-radius:20px 20px 0 0;scrollbar-width:none}
-.anh-cuon img{flex:0 0 100%;width:100%;aspect-ratio:4/3;object-fit:cover;scroll-snap-align:start;display:block}
-.anh-cuon .mau-to{flex:0 0 100%;aspect-ratio:4/3}
+.anh-cuon .sl{flex:0 0 100%;position:relative;scroll-snap-align:start}
+.anh-cuon img{width:100%;aspect-ratio:1/1;object-fit:contain;background:#E9E5E2;display:block}
+.dem-anh{display:none}
+.anh-cuon .nh-a{position:absolute;left:10px;top:10px;background:rgba(17,24,39,.78);color:#fff;font-size:11.5px;font-weight:700;padding:2px 10px;border-radius:99px;font-style:normal}
+.anh-cuon .mau-to{flex:0 0 100%;aspect-ratio:1/1}
 .dem-anh{position:relative;height:0}
 .dem-anh span{position:absolute;right:10px;top:-30px;background:rgba(0,0,0,.55);color:#fff;font-size:11.5px;font-weight:700;padding:2px 9px;border-radius:999px}
 .tam-nd{padding:14px 16px 18px}
@@ -576,6 +579,7 @@ body{font-size:15.5px}
   .tam.mo{transform:translate(-50%,-50%);opacity:1}
   .tam-cuon{display:grid;grid-template-columns:46% 1fr;align-items:start}
   .anh-cuon{grid-column:1;grid-row:1/span 2;flex-direction:column;overflow:visible;gap:2px;border-radius:20px 0 0 0;scroll-snap-type:none}
+  .anh-cuon .sl{flex:none}
   .anh-cuon img{aspect-ratio:1/1;height:auto}
   .anh-cuon .mau-to{aspect-ratio:1/1}
   .dem-anh{display:none}
@@ -946,6 +950,7 @@ label.ai-nut{display:flex;align-items:center;justify-content:center;gap:8px;widt
 <script src="mau-dai-ly.js"></script>
 <script src="ct-thang.js"></script>
 <script src="face-data.js"></script>
+<script src="anh-data.js"></script>
 <script src="ai-config.js"></script>
 <script>
 (function(){
@@ -1279,7 +1284,7 @@ function diem(s){ var h=hangBC(s), ct=ctDay(s); return (ct&&ct[0]===1&&ct[1]>=80
 function nhanCL(s){ var h=hangBC(s); return h<60?'Bán chạy nhất':(h<200||s.cl===2)?'Bán chạy':s.cl===1?'Chủ lực':''; }
 function htmlThe(s, luong){
   var n=soDaiLyCoMau(s.sap);
-  return '<button class="sp" data-sp="'+esc(s.sap)+'"><div class="anh" style="background-image:url(\''+esc(s.img)+'\')"><span class="nhan">'
+  return '<button class="sp" data-sp="'+esc(s.sap)+'"><div class="anh" style="background-image:url(\''+esc(thumbSP(s).u)+'\');background-size:'+(thumbSP(s).cover?'118%;background-position:center top':'contain')+'"><span class="nhan">'
     +(nhanCT(s)?'<span class="ct ct'+ctDay(s)[0]+'">'+nhanCT(s)+'</span>':'')
     +(nhanCL(s)?'<span class="cl">'+nhanCL(s)+'</span>':'')
     +(s.tn==='KHÁNG_KHUẨN'?'<span class="kk">Kháng khuẩn</span>':'')+'</span>'
@@ -1623,12 +1628,36 @@ function viSaoSP(s){
   r.push(['','Phong cách', (dep.length?dep.join(', ')+'. ':'')+(dai>=800 ? 'Khổ lớn, ít đường ron, không gian liền mạch.' : dai<=300 ? 'Khổ nhỏ, dễ lát chỗ hẹp, dễ tạo dốc thoát nước.' : 'Khổ vừa, dễ phối nền và tường.')]);
   return r;
 }
-function htmlAnh(ds, mauNen){
+function htmlAnh(ds, mauNen, nhan){
   var a=(ds||[]).filter(Boolean);
   if(!a.length) return '<div class="anh-cuon"><div class="mau-to" style="background:'+(mauNen||'#EEE')+'"></div></div>';
-  return '<div class="anh-cuon" id="anh-cuon"'+(mauNen?' style="background:'+mauNen+'"':'')+'>'+a.map(function(u,i){ return '<img src="'+esc(anhTo(u))+'" alt="" '+(i?'loading="lazy" ':'')+'onerror="this.style.visibility=\'hidden\'">'; }).join('')+'</div>'
+  return '<div class="anh-cuon" id="anh-cuon"'+(mauNen?' style="background:'+mauNen+'"':'')+'>'+a.map(function(u,i){ return '<div class="sl"><img src="'+esc(anhTo(u))+'" alt="" '+(i?'loading="lazy" ':'')+'onerror="this.style.visibility=\'hidden\'">'+(nhan&&nhan[i]?'<i class="nh-a">'+esc(nhan[i])+(a.length>1?' · '+(i+1)+'/'+a.length:'')+'</i>':'')+'</div>'; }).join('')+'</div>'
     +(a.length>1?'<div class="dem-anh"><span id="dem-anh">1/'+a.length+'</span></div>':'');
 }
+// Thứ tự ảnh: 1) Thẻ sản phẩm của hãng, 2) Ảnh thực tế (Sale tool), 3) Mặt gạch (Face)
+function theCua(khoa){ var T=window.ANH_THE||{}; return T[khoa]||T[String(khoa).replace(/^(DTD|DTS|CT|D)(?=\d)/,'')]||[]; }
+function thucCua(sap){ var n=(window.ANH_THUC||{})[sap]||0, o=[]; for(var i=1;i<=n;i++) o.push('anh/sp/'+sap+'-'+i+'.webp'); return o; }
+function gomAnh(the,thuc,thucDrive,face){
+  var u=[], l=[];
+  the.forEach(function(f){ u.push(f); l.push('Thẻ sản phẩm'); });
+  (thuc.length?thuc:(thucDrive||[]).filter(Boolean)).forEach(function(f){ u.push(f); l.push('Ảnh thực tế'); });
+  face.forEach(function(f){ u.push(f); l.push('Mặt gạch (Face)'); });
+  return [u,'',l];
+}
+function argsGach(s){
+  var k=khoaFace(s.ma), nf=soFace(s), face=[]; for(var i=1;i<=nf;i++) face.push('anh/face/'+k+'-'+i+'.jpg');
+  var r=gomAnh(theCua(k), thucCua(s.sap), s.imgs||[s.img], face);
+  return r[0].length ? r : [s.imgs||[s.img],'',[]];
+}
+function argsNgoi(n,mauNen){
+  var key='ngoi-'+String(n.dong).toLowerCase()+'-'+String(n.code).slice(-3), r=gomAnh(theCua(key), thucCua(n.ma), n.imgs||[n.img], []);
+  return r[0].length ? [r[0],mauNen,r[2]] : [n.imgs||[n.img],mauNen,[]];
+}
+function argsKeo(k){
+  var r=gomAnh([], thucCua(k.ma), [k.img], []);
+  return r[0].length ? r : [[k.img],'',[]];
+}
+function thumbSP(s){ var b=theCua(khoaFace(s.ma)); return b.length ? {u:b[0],cover:true} : {u:s.img,cover:false}; }
 // Đại lý đang trưng bày đúng mẫu này (dữ liệu app cấp mẫu)
 function htmlCoMau(sap){
   var ds=CO_MAU[sap]||[];
@@ -1654,7 +1683,7 @@ function ctGach(s){
   var nd=noiDungSP(s), th=THUNG[s.kc], m2=dienTich()||10;
   var badges=(s.tn==='KHÁNG_KHUẨN'?'<span class="kk">Kháng khuẩn Nano</span>':'')+(s.tn==='CHỐNG_TRƯỢT'?'<span class="kk">Chống trượt</span>':'')+(nhanCL(s)?'<span class="cl">'+nhanCL(s)+'</span>':'')
     +'<span>'+(s.x==='porcelain'?'Porcelain':'Ceramic')+'</span>';
-  return htmlAnh(s.imgs||[s.img])
+  return htmlAnh.apply(null,argsGach(s))
     +'<div class="tam-nd"><div class="nhan-hang">'+badges+'</div>'
     +'<h2>'+esc(tenMau(s.ma))+'</h2><div class="dt">'+esc(s.kc.replace('x',' x '))+' mm · '+(s.x==='porcelain'?'Porcelain':'Ceramic')+(nhanMen(s)?' · '+nhanMen(s):'')+'</div>'
     +'<div class="gia-lon">'+tien(s.le)+' <small>đ/m² · giá lẻ niêm yết, đã gồm VAT</small></div>'
@@ -1889,7 +1918,7 @@ function tinhCtGach(s){
 }
 function ctNgoi(n){
   var mau=mauNgoi(n), d=NGOI_DONG[n.dong], m2=m2Mai()||100;
-  return htmlAnh(n.imgs||[n.img], mau[1])
+  return htmlAnh.apply(null,argsNgoi(n,mau[1]))
     +'<div class="tam-nd"><div class="nhan-hang"><span class="kk">Bền màu 50 năm</span>'+(mau[2]?'<span class="cl">Đặt trước</span>':'<span>Có sẵn</span>')+'<span>Ngói '+(n.dong==='TITAN'?'sóng':'phẳng')+'</span></div>'
     +'<h2>'+esc(n.dong)+' · '+esc(mau[0])+'</h2><div class="dt">Mã màu '+esc(n.code)+' · '+esc(d.kieu)+'</div>'
     +'<div class="gia-lon">'+tien(n.le)+' <small>đ/viên · giá lẻ niêm yết, đã gồm VAT</small></div>'
@@ -1914,7 +1943,7 @@ function ctKeo(k){
   var i=KEO_INFO[k.ma];
   var ts = i.ron ? [['Quy cách','Bao '+i.kg+' kg'],['Độ rộng ron','1–15 mm'],['Tiêu chuẩn','ISO 13007-3 (CG2 WA)'],['Dùng cho','Gạch men, cotto, đá, mosaic; trong nhà và ngoài trời']]
     : [['Quy cách','Bao 25 kg · hạn dùng 12 tháng'],['Định mức','Lát nền lớp 2 mm ≈ 6,9 m²/bao; ốp tường, gạch lớn lớp 3 mm ≈ 4,6 m²/bao'],['Thời gian chỉnh gạch','20–30 phút'],['Độ trượt','≤ 0,5 mm, gạch ốp không tuột'],['Tiêu chuẩn','ISO 13007-1:2014 và TCVN 7899-1:2008']];
-  return htmlAnh([k.img])
+  return htmlAnh.apply(null,argsKeo(k))
     +'<div class="tam-nd"><div class="nhan-hang"><span>'+esc(i.loai)+'</span></div>'
     +'<h2>'+esc(i.ten)+'</h2><div class="dt">'+esc(i.dung)+'</div>'
     +'<div class="gia-lon">'+tien(k.le)+' <small>đ/bao · giá lẻ niêm yết, đã gồm VAT</small></div>'

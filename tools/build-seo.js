@@ -157,6 +157,8 @@ function mdHtml(nd, ctx) {
     let m;
     if (t.charAt(0) === '|') { if (ul) dong(); tb.push(t); return; }
     if (tb.length) dong();
+    // ảnh minh hoạ trong bài: {{anh:thu-muc/file.webp|chú thích}}, file nằm ở anh/bai-viet/
+    if ((m = t.match(/^\{\{anh:([^|}]+)(?:\|([^}]*))?\}\}$/))) { dong(); const cap = (m[2] || '').trim(); out.push('<figure style="margin:16px 0"><img loading="lazy" src="../anh/bai-viet/' + esc(m[1].trim()) + '" alt="' + esc(cap) + '" style="width:100%;height:auto;border-radius:12px;display:block">' + (cap ? '<figcaption style="font-size:13px;color:#6b625b;margin-top:6px;line-height:1.45">' + inl(cap) + '</figcaption>' : '') + '</figure>'); return; }
     if ((m = t.match(/^\{\{sp:([^}]+)\}\}$/))) { if (ul) dong(); const s = ctx.tim(m[1]); if (s) the.push(ctx.the(s)); return; }
     if ((m = t.match(/^(#{2,3})\s+(.*)$/))) { dong(); out.push('<h' + m[1].length + '>' + inl(m[2]) + '</h' + m[1].length + '>'); return; }
     if ((m = t.match(/^[-*]\s+(.*)$/))) { if (!ul) { out.push('<ul class="ds">'); ul = true; } out.push('<li>' + inl(m[1]) + '</li>'); return; }
@@ -280,4 +282,11 @@ if (bai.length) {
 const ngay = new Date().toISOString().slice(0, 10);
 fs.writeFileSync(path.join(R, 'sitemap.xml'), '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ['/'].concat(urls).map(u => '<url><loc>' + SITE + u + '</loc><lastmod>' + ngay + '</lastmod></url>').join('\n') + '\n</urlset>\n');
 fs.writeFileSync(path.join(R, 'robots.txt'), 'User-agent: *\nAllow: /\nDisallow: /chao-cong-trinh.html\nDisallow: /ct.html\nDisallow: /to-roi.html\nSitemap: ' + SITE + '/sitemap.xml\n');
+// dữ liệu ảnh cho trang chủ (index.html): thẻ sản phẩm + số ảnh thực tế
+(function () {
+  const the = {}; Object.keys(THE.gach || {}).forEach(k => { const f = (THE.gach[k] || []).filter(x => fs.existsSync(path.join(R, x))); if (f.length) the[k] = f; });
+  Object.keys(THE.ngoi || {}).forEach(k => { if (/^ngoi-(titan|alpha)-/.test(k) && fs.existsSync(path.join(R, THE.ngoi[k]))) the[k] = [THE.ngoi[k]]; });
+  const thuc = {}; fs.readdirSync(path.join(R, 'anh', 'sp')).forEach(f => { const m = f.match(/^(\d+)-(\d+)\.webp$/); if (m) thuc[m[1]] = Math.max(thuc[m[1]] || 0, +m[2]); });
+  fs.writeFileSync(path.join(R, 'anh-data.js'), '// Tạo tự động bởi tools/build-seo.js: ảnh thẻ sản phẩm và số ảnh thực tế (anh/sp/<mã>-n.webp)\nwindow.ANH_THE=' + JSON.stringify(the) + ';\nwindow.ANH_THUC=' + JSON.stringify(thuc) + ';\n');
+})();
 console.log('san pham:', sp.length, '(dang kinh doanh', spKD.length, ', uu tien', spKD.filter(x => x.kho.uuTien).length, ') trang trong sitemap:', urls.length, 'site:', SITE);

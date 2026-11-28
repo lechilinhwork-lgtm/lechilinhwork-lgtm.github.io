@@ -8,6 +8,11 @@ const slug = (process.argv[2] || '').replace(/\.md$/, ''); if (!slug) { console.
 const src = path.join(N, slug + '.md'); if (!fs.existsSync(src)) { console.log('Khong thay ban nhap:', src); process.exit(1); }
 const kt = cp.spawnSync('node', [path.join(__dirname, 'kiem-tra-bai.js'), src], { encoding: 'utf8' }); process.stdout.write(kt.stdout);
 if (kt.status !== 0) { console.log('Bai chua dat kiem tra, khong duyet.'); process.exit(1); }
+// chép ảnh minh hoạ {{anh:...}} từ bai-nhap/anh/ sang anh/bai-viet/ của web
+const anhThieu = [];
+[...fs.readFileSync(src, 'utf8').matchAll(/\{\{anh:([^|}]+)/g)].forEach(x => { const p = x[1].trim(), a = path.join(N, 'anh', p), d = path.join(R, 'anh', 'bai-viet', p);
+  if (!fs.existsSync(a)) { anhThieu.push(p); return; } fs.mkdirSync(path.dirname(d), { recursive: true }); fs.copyFileSync(a, d); console.log('Chep anh:', p); });
+if (anhThieu.length) { console.log('Thieu anh, khong duyet:', anhThieu.join(', ')); process.exit(1); }
 fs.mkdirSync(path.join(R, 'bai-viet-nguon'), { recursive: true }); fs.mkdirSync(path.join(N, 'da-duyet'), { recursive: true });
 fs.copyFileSync(src, path.join(R, 'bai-viet-nguon', slug + '.md')); fs.renameSync(src, path.join(N, 'da-duyet', slug + '.md'));
 const b = cp.spawnSync('node', [path.join(__dirname, 'build-seo.js')], { cwd: R, encoding: 'utf8' }); process.stdout.write(b.stdout);
