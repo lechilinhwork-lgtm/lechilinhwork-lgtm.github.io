@@ -75,6 +75,49 @@ ul.ds{margin:8px 0 0 18px}.ds li{margin:3px 0}
 .nhan{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;padding:2px 9px;border-radius:99px;background:#111827;color:#fff;margin:0 6px 6px 0}.nhan.moi{background:var(--do);color:#fff}
 .loi p{margin:7px 0;font-size:15px}
 .sp>div{min-width:0}img[src=""]{visibility:hidden}.gal{display:block}
+/* ---- bài viết: giao diện máy tính hai cột ---- */
+.gopy{background:#fff;border:1px solid var(--vien);border-radius:16px;padding:24px 26px;margin:6px 18px 26px}.gopy h2{margin:0 0 4px;font-size:22px}.gopy p{margin:6px 0 12px;font-size:15.5px}.gopy small{display:block;margin-top:12px;color:var(--phu);font-size:12.5px;line-height:1.5}
+.gy-nut{display:flex;gap:10px;flex-wrap:wrap}.gy-nut button{font:inherit;font-weight:700;font-size:14.5px;padding:10px 18px;border-radius:99px;border:1.5px solid var(--vien);background:#fff;cursor:pointer;color:var(--ruou)}.gy-nut button.on{background:var(--ruou);border-color:var(--ruou);color:#fff}
+.gy-form{margin-top:14px}.gy-form[hidden]{display:none}.gy-form textarea{width:100%;font:inherit;font-size:15px;padding:12px 14px;border:1.5px solid var(--vien);border-radius:12px;resize:vertical;min-height:96px;background:#F9FAFB}.gy-form textarea:focus{outline:2px solid var(--do);outline-offset:1px;background:#fff}.gy-hang{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}.gy-hang .nut{margin:0;min-height:44px}.gy-ok{margin:10px 0 0!important;font-size:14px!important;color:#15803D;font-weight:700}.gy-ok[hidden]{display:none}
+.pbar{position:fixed;top:0;left:0;height:3px;width:0;background:var(--do);z-index:80}
+.khoi h3{font-family:'Be Vietnam Pro',Arial,sans-serif;font-size:19px;font-weight:800;color:var(--ruou);margin:30px 0 8px;display:flex;align-items:center;gap:10px;line-height:1.35}
+.khoi h3 .n{flex:0 0 30px;width:30px;height:30px;border-radius:50%;background:var(--do);color:#fff;font-size:14px;display:inline-flex;align-items:center;justify-content:center}
+.khoi.k3 h3{color:#fff}.khoi figure{margin:22px 0!important}.khoi figcaption{font-size:13px!important;color:var(--phu)!important;margin-top:8px!important}.khoi.k3 figcaption{color:#CBD5E1!important}
+.khoi .luoi{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))!important}
+.bv-side{display:none}
+/* chữ đọc bài: thân bài chữ có chân (Source Serif 4) dễ đọc lâu, tiêu đề và giao diện chữ không chân đậm (Be Vietnam Pro) */
+.khoi p,.khoi li{font-family:'Source Serif 4',Georgia,'Times New Roman',serif;color:#2B3441;font-size:18px;line-height:1.8;letter-spacing:0}
+.khoi.k3 p,.khoi.k3 li{color:#E5E7EB}
+.khoi p b,.khoi li b{font-weight:700;color:#111827}.khoi.k3 p b,.khoi.k3 li b{color:#fff}
+.khoi h2,.bv-hero h1{font-family:'Be Vietnam Pro',Arial,sans-serif;font-weight:800;letter-spacing:-.012em}
+.bv-hero h1{font-size:clamp(26px,5.4vw,38px);line-height:1.22}
+.khoi h2{font-size:clamp(23px,4.6vw,28px);line-height:1.28}
+.tomtat{font-family:'Source Serif 4',Georgia,serif;font-size:17.5px;line-height:1.7}.tomtat b{font-family:'Be Vietnam Pro',Arial,sans-serif}
+.khoi .cuon,.khoi table{font-family:'Be Vietnam Pro',Arial,sans-serif}
+.bk{max-width:1180px;margin:8px auto 0;padding:0 18px}.bk-luoi{display:grid;gap:14px;grid-template-columns:1fr}.bk-luoi a{display:flex;flex-direction:column;gap:4px;background:#fff;border:1px solid var(--vien);border-radius:14px;padding:16px 18px;text-decoration:none}.bk-luoi a:hover{border-color:var(--do)}.bk-luoi small{color:var(--do);font-weight:800;font-size:11.5px;letter-spacing:.8px;text-transform:uppercase}.bk-luoi b{font-size:16.5px;line-height:1.4;color:var(--ruou)}.bk-luoi span{font-size:13.5px;color:var(--phu);line-height:1.5}
+@media(min-width:1024px){
+.bvp .top .wrap{max-width:1180px;padding:0 24px}
+.bv-hero{grid-template-columns:1.05fr .95fr;gap:48px}.hero .bv-hero h1{font-size:38px}.bv-hero img{aspect-ratio:16/10;max-height:none;height:auto;object-fit:cover}
+.hero{padding:34px 0 38px}.hero .wrap{max-width:1180px;padding:0 24px}
+.bv-wrap{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:40px;max-width:1180px;margin:0 auto;padding:30px 24px 0;align-items:start}
+.bv-main .tt-wrap{padding:0;max-width:none}.bv-main .tomtat{max-width:none;margin:0 0 24px;font-size:17px}
+.bv-main .khoi{background:#fff;border:1px solid var(--vien);border-radius:18px;padding:36px 44px;margin:0 0 24px}
+.bv-main .khoi.k3{background:linear-gradient(160deg,#2A3342,#111827);border-color:#111827}
+.bv-main .khoi .tr{max-width:none;margin:0;padding:0}
+.bv-main .khoi p,.bv-main .khoi li{font-size:18.5px;line-height:1.85}.bv-main .khoi p{margin:12px 0}
+.bv-main .khoi h2{font-size:29px}
+.bv-main .tt-wrap .ghi{margin:0 0 28px}
+  .bv-tk{display:none}
+.gopy{margin:0 0 24px}
+.bv-side{display:grid;gap:14px;position:sticky;top:16px}
+.mucluc,.side-mau{background:#fff;border:1px solid var(--vien);border-radius:14px;padding:16px 18px}
+.mucluc b,.side-mau b{display:block;font-size:12.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--phu);margin-bottom:6px}
+.mucluc ol{list-style:none;margin:0;padding:0}.mucluc a{display:block;padding:5px 0 5px 12px;border-left:3px solid var(--vien);font-size:14px;line-height:1.4;color:var(--phu);text-decoration:none}.mucluc a.h3{padding-left:26px;font-size:13px}.mucluc a:hover{color:var(--chu)}.mucluc a.on{color:var(--do);border-left-color:var(--do);font-weight:700}
+.side-mau a{display:flex;gap:11px;align-items:center;padding:6px 0;text-decoration:none;border-top:1px solid var(--vien)}.side-mau b+a{border-top:0}.side-mau i{flex:0 0 46px;height:46px;border-radius:10px;background-color:#E5E7EB;background-repeat:no-repeat;display:block}.side-mau span{font-weight:800;font-size:14px;line-height:1.3}.side-mau small{display:block;font-weight:500;color:var(--phu);font-size:12.5px;margin-top:2px}.side-mau a:hover span{color:var(--do)}
+.side-cta{background:linear-gradient(160deg,#2A3342,#111827);color:#fff;border-radius:14px;padding:16px 18px 18px}.side-cta b{display:block;font-family:'Be Vietnam Pro',Arial,sans-serif;font-weight:800;font-size:16px;margin-bottom:4px}.side-cta p{display:none}.side-cta .nut{width:100%;margin:10px 0 0;min-height:44px}
+.bk{padding:0 24px;margin-top:14px}.bk-luoi{grid-template-columns:repeat(3,1fr);gap:18px}
+}
+
 .gm{position:relative}.gm img.anh{cursor:zoom-in;display:block}.gn{position:absolute;right:10px;top:10px;background:rgba(17,24,39,.78);color:#fff;font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px}
 .gp,.gx{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;border:0;background:rgba(255,255,255,.92);box-shadow:0 2px 10px rgba(0,0,0,.22);font-size:24px;line-height:1;cursor:pointer;color:#1F2937;padding:0}.gp{left:8px}.gx{right:8px}
 .lb{display:none;position:fixed;inset:0;z-index:100;background:rgba(10,12,18,.95);align-items:center;justify-content:center}.lb.on{display:flex}.lb img{max-width:100%;max-height:100%;object-fit:contain}
@@ -121,8 +164,8 @@ function khung(o) {
 <meta property="og:type" content="${o.og || 'website'}"><meta property="og:locale" content="vi_VN"><meta property="og:site_name" content="Gạch, ngói, keo Đồng Tâm tham khảo">
 <meta property="og:title" content="${esc(o.title)}"><meta property="og:description" content="${esc(o.desc)}"><meta property="og:url" content="${SITE}${o.url}">
 ${o.img ? '<meta property="og:image" content="' + esc(o.img) + '"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="' + esc(o.img) + '">' : ''}
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;800&family=Playfair+Display:wght@600;700&display=swap">
-<style>${CSS}</style>${o.ld ? '<script type="application/ld+json">' + JSON.stringify(o.ld) + '</script>' : ''}</head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;800&family=Playfair+Display:wght@600;700&family=Source+Serif+4:wght@400;600;700&display=swap">
+<style>${CSS}</style>${o.ld ? '<script type="application/ld+json">' + JSON.stringify(o.ld) + '</script>' : ''}</head><body${o.cls ? ' class="' + o.cls + '"' : ''}>
 <div class="top"><div class="wrap"><b>Dongtam</b><nav><a href="${SITE}/">Chọn gạch theo ngân sách</a><a href="${SITE}/gach/">Gạch</a><a href="${SITE}/ngoi/">Ngói</a><a href="${SITE}/keo/">Keo và ron</a><a href="${SITE}/kinh/">Gạch kính</a>${bai.length ? '<a href="' + SITE + '/bai-viet/">Bài viết</a>' : ''}<a href="${SITE}/#dai-ly">Đại lý gần bạn</a></nav></div></div>
 ${o.body}
 <footer><div class="wrap"><p>${KHONG_CHINH_THUC}</p><p style="margin-top:8px">${GOP_Y}</p></div></footer>${o.dinh ? '<div class="dinh"><div class="g">' + o.dinh.gia + '<small>giá lẻ tham khảo</small></div><a class="nut" href="' + o.dinh.href + '">Nhắn đại lý</a></div>' : ''}</body></html>`;
@@ -160,7 +203,8 @@ function mdHtml(nd, ctx) {
     // ảnh minh hoạ trong bài: {{anh:thu-muc/file.webp|chú thích}}, file nằm ở anh/bai-viet/
     if ((m = t.match(/^\{\{anh:([^|}]+)(?:\|([^}]*))?\}\}$/))) { dong(); const cap = (m[2] || '').trim(); out.push('<figure style="margin:16px 0"><img loading="lazy" src="../anh/bai-viet/' + esc(m[1].trim()) + '" alt="' + esc(cap) + '" style="width:100%;height:auto;border-radius:12px;display:block">' + (cap ? '<figcaption style="font-size:13px;color:#6b625b;margin-top:6px;line-height:1.45">' + inl(cap) + '</figcaption>' : '') + '</figure>'); return; }
     if ((m = t.match(/^\{\{sp:([^}]+)\}\}$/))) { if (ul) dong(); const s = ctx.tim(m[1]); if (s) the.push(ctx.the(s)); return; }
-    if ((m = t.match(/^(#{2,3})\s+(.*)$/))) { dong(); out.push('<h' + m[1].length + '>' + inl(m[2]) + '</h' + m[1].length + '>'); return; }
+    if ((m = t.match(/^\*\*(\d+)\.\s+(.+?)\*\*$/))) { dong(); const id = 'm-' + (ctx.id = (ctx.id || 0) + 1); (ctx.toc = ctx.toc || []).push({ id, t: m[1] + '. ' + m[2], l: 3 }); out.push('<h3 id="' + id + '"><span class="n">' + m[1] + '</span>' + inl(m[2]) + '</h3>'); return; }
+    if ((m = t.match(/^(#{2,3})\s+(.*)$/))) { dong(); if (m[1].length === 3) { const id = 'm-' + (ctx.id = (ctx.id || 0) + 1); (ctx.toc = ctx.toc || []).push({ id, t: m[2], l: 3 }); out.push('<h3 id="' + id + '">' + inl(m[2]) + '</h3>'); } else out.push('<h2>' + inl(m[2]) + '</h2>'); return; }
     if ((m = t.match(/^[-*]\s+(.*)$/))) { if (!ul) { out.push('<ul class="ds">'); ul = true; } out.push('<li>' + inl(m[1]) + '</li>'); return; }
     dong(); out.push('<p>' + inl(t) + '</p>');
   });
@@ -252,26 +296,42 @@ if (bai.length) {
   fs.mkdirSync(bdir, { recursive: true });
   const tim = m => { m = String(m).trim().toUpperCase(); return sp.find(x => String(x.r.ma).toUpperCase() === m || String(x.r.sap) === m); };
   const theB = c => '<a class="the" href="../gach/' + c.slug + '.html">' + (c.kho.moi ? '<i class="nh">Mới</i>' : '') + cardAnh(c, '../', esc('Gạch ' + c.ten + ' ' + c.w + 'x' + c.h)) + '<span>' + esc(c.ten) + '<small>' + c.w + 'x' + c.h + ' · ' + tien(c.r.le) + ' đ/m²</small></span></a>';
+  const thumbMau = c => { const f = (c.the || [])[0]; return f ? '<i style="background-image:url(../' + f + ');background-size:118%;background-position:center top"></i>' : '<i style="background-image:url(' + (c.imgLocal ? '../' + c.imgLocal : esc(c.img || '')) + ');background-size:cover"></i>'; };
+  const BV_JS = '(function(){var pb=document.getElementById("pbar");function pr(){var h=document.documentElement.scrollHeight-innerHeight;if(pb)pb.style.width=(h>0?Math.min(100,scrollY/h*100):0)+"%";}addEventListener("scroll",pr,{passive:true});pr();var ls=document.querySelectorAll(".mucluc a");if(!ls.length||!("IntersectionObserver" in window))return;var map={};for(var i=0;i<ls.length;i++){map[ls[i].getAttribute("href").slice(1)]=ls[i];}var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){for(var k in map){map[k].classList.remove("on");}var a=map[e.target.id];if(a)a.classList.add("on");}});},{rootMargin:"-15% 0px -75% 0px"});Object.keys(map).forEach(function(id){var el=document.getElementById(id);if(el)io.observe(el);});})();';
+  const GY_JS = "(function(){var bx=document.getElementById(\"gop-y\");if(!bx)return;var tt=bx.getAttribute(\"data-t\"),vote=\"\",f=bx.querySelector(\".gy-form\"),ta=bx.querySelector(\"textarea\"),z=bx.querySelector(\".gy-zalo\"),m=bx.querySelector(\".gy-mail\"),to=bx.querySelector(\".gy-ok\");var bs=bx.querySelectorAll(\".gy-nut button\");function nd(){return \"Góp ý bài viết: \"+tt+\"\\nĐánh giá: \"+(vote===\"co\"?\"Hữu ích\":\"Chưa rõ\")+\"\\nGóp ý: \"+(ta.value||\"(chưa ghi thêm)\");}function cap(){m.href=\"mailto:lechilinh.work@gmail.com?subject=\"+encodeURIComponent(\"Góp ý bài viết: \"+tt)+\"&body=\"+encodeURIComponent(nd());}for(var i=0;i<bs.length;i++){bs[i].onclick=function(){vote=this.getAttribute(\"data-v\");for(var j=0;j<bs.length;j++){bs[j].classList.toggle(\"on\",bs[j]===this);}f.hidden=false;cap();};}ta.oninput=cap;z.onclick=function(){var t=nd();try{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t);}else{ta.select();document.execCommand(\"copy\");}}catch(e){}to.textContent=\"Đã chép nội dung góp ý. Dán vào khung chat Zalo rồi gửi nhé.\";to.hidden=false;};})();";
+  const gopY = ten => '<section class="gopy" id="gop-y" data-t="' + esc(ten) + '"><h2>Góp ý của bạn</h2><p>Bài viết này có giúp ích cho bạn không?</p><div class="gy-nut"><button type="button" data-v="co">👍 Hữu ích</button><button type="button" data-v="chua">🤔 Chưa rõ</button></div><div class="gy-form" hidden><textarea rows="4" placeholder="Bạn muốn bổ sung hay sửa điều gì? Ví dụ: thêm mẫu gạch, giải thích rõ hơn, sai thông tin..."></textarea><div class="gy-hang"><a class="nut gy-zalo" href="https://zalo.me/0819548908" target="_blank" rel="noopener">Gửi qua Zalo</a><a class="nut v gy-mail" href="mailto:lechilinh.work@gmail.com">Gửi qua email</a></div><p class="gy-ok" hidden></p></div><small>Góp ý về nội dung trang do anh Lê Chí Linh tiếp nhận. Mọi tư vấn, báo giá và giao hàng vẫn do đại lý Đồng Tâm thực hiện.</small></section>';
   bai.forEach(b => {
     const dsSp = b.sp.map(tim).filter(Boolean), url = '/bai-viet/' + b.slug + '.html';
-    const thamKhao = dsSp.length ? '<h2>Mẫu gạch được nhắc trong bài</h2><div class="luoi">' + dsSp.map(theB).join('') + '</div>' : '';
+    const thamKhao = dsSp.length ? '<div class="bv-tk"><h2>Mẫu gạch được nhắc trong bài</h2><div class="luoi">' + dsSp.map(theB).join('') + '</div></div>' : '';
     const anh = (dsSp.find(x => x.img) || {}), tu = b.nd.split(/\s+/).length, phut = Math.max(1, Math.round(tu / 190));
-    const ctx = { tim, the: theB };
+    const ctx = { tim, the: theB, toc: [], id: 0 };
     const phan = b.nd.split(/\n(?=## )/), dau = /^## /.test(phan[0]) ? '' : phan.shift();
+    let nMuc = 0;
     const cacKhoi = phan.map(p => {
-      const m = p.match(/^## (.*)\n?([\s\S]*)$/), tieu = m[1], nd = m[2];
+      const m = p.match(/^## (.*)\n?([\s\S]*)$/), tieu = m[1], nd = m[2], idm = 'muc-' + (++nMuc);
       const lop = /^Vấn đề/i.test(tieu) ? ['k1', '01'] : /^Giải pháp/i.test(tieu) ? ['k2', '02'] : /^Kết quả/i.test(tieu) ? ['k3', '03'] : ['k1', ''];
-      return '<section class="khoi ' + lop[0] + '"><div class="tr"><h2>' + (lop[1] ? '<span class="so">' + lop[1] + '</span>' : '') + inl(tieu) + '</h2>' + mdHtml(nd, ctx) + '</div></section>';
+      ctx.toc.push({ id: idm, t: tieu.replace(/^(Vấn đề|Giải pháp|Kết quả)\s*:\s*/i, '$1: '), l: 2 });
+      return '<section class="khoi ' + lop[0] + '"><div class="tr"><h2 id="' + idm + '">' + (lop[1] ? '<span class="so">' + lop[1] + '</span>' : '') + inl(tieu) + '</h2>' + mdHtml(nd, ctx) + '</div></section>';
     }).join('');
-    const imgTag = anh.img ? '<img src="' + (anh.imgLocal ? '../' + anh.imgLocal : esc(anh.img)) + '" alt="' + esc('Gạch ' + anh.ten) + '" onerror="this.style.display=\'none\'">' : '';
-    const body = '<div class="hero"><div class="wrap bv-hero"><div><small>Bài viết' + (b.nhom ? ' · ' + esc(b.nhom) : '') + '</small><h1>' + esc(b.ten) + '</h1><div class="bv-meta">' + (b.ngay ? esc(b.ngay.split('-').reverse().join('/')) + ' · ' : '') + 'Đọc khoảng ' + phut + ' phút</div></div>' + imgTag + '</div></div>'
-      + '<div class="wrap"><div class="tomtat"><b>Tóm tắt nhanh</b>' + inl(b['tom-tat'] || b['mo-ta'] || '') + '</div></div>'
+    // ảnh đầu bài: ưu tiên ảnh phòng trong bài, sau đó ảnh mẫu gạch
+    const dsAnh = [...b.nd.matchAll(/\{\{anh:([^|}]+)/g)].map(x => x[1]), ah = dsAnh.find(x => !/so-sanh/i.test(x)) || dsAnh[0];
+    const imgTag = ah ? '<img src="../anh/bai-viet/' + esc(ah.trim()) + '" alt="' + esc(b.ten) + '" onerror="this.style.display=\'none\'">'
+      : (anh.img ? '<img src="' + (anh.imgLocal ? '../' + anh.imgLocal : esc(anh.img)) + '" alt="' + esc('Gạch ' + anh.ten) + '" onerror="this.style.display=\'none\'">' : '');
+    const muc = '<nav class="mucluc" aria-label="Mục lục"><b>Trong bài này</b><ol>' + ctx.toc.map(x => '<li><a href="#' + x.id + '"' + (x.l === 3 ? ' class="h3"' : '') + '>' + esc(x.t) + '</a></li>').join('') + '</ol></nav>';
+    const mau = dsSp.length ? '<div class="side-mau"><b>Mẫu gạch trong bài</b>' + dsSp.map(c => '<a href="../gach/' + c.slug + '.html">' + thumbMau(c) + '<span>' + esc(c.ten) + '<small>' + c.w + 'x' + c.h + ' · ' + tien(c.r.le) + ' đ/m²</small></span></a>').join('') + '</div>' : '';
+    const cta = '<div class="side-cta"><b>Cần tư vấn thêm?</b><p>Đại lý Đồng Tâm gần bạn cho xem mẫu thật, tính số lượng và báo giá theo công trình.</p><a class="nut" href="' + SITE + '/#dai-ly">Nhắn đại lý gần bạn</a></div>';
+    const khac = bai.filter(x => x !== b && !x.nhap).slice(0, 3);
+    const khacHtml = khac.length ? '<section class="bk"><h2>Đọc thêm</h2><div class="bk-luoi">' + khac.map(x => '<a href="' + x.slug + '.html"><small>' + esc(x.nhom || 'Bài viết') + '</small><b>' + esc(x.ten) + '</b><span>' + esc(x['mo-ta'] || '') + '</span></a>').join('') + '</div></section>' : '';
+    const body = '<div id="pbar" class="pbar"></div><div class="hero"><div class="wrap bv-hero"><div><small>Bài viết' + (b.nhom ? ' · ' + esc(b.nhom) : '') + '</small><h1>' + esc(b.ten) + '</h1><div class="bv-meta">' + (b.ngay ? esc(b.ngay.split('-').reverse().join('/')) + ' · ' : '') + 'Đọc khoảng ' + phut + ' phút</div></div>' + imgTag + '</div></div>'
+      + '<div class="bv-wrap"><article class="bv-main">'
+      + '<div class="wrap tt-wrap"><div class="tomtat"><b>Tóm tắt nhanh</b>' + inl(b['tom-tat'] || b['mo-ta'] || '') + '</div></div>'
       + (dau.trim() ? '<div class="khoi k1" style="padding-bottom:0"><div class="tr">' + mdHtml(dau, ctx) + '</div></div>' : '')
       + cacKhoi
-      + '<div class="wrap">' + thamKhao + '<p class="ghi">Giá và chương trình thay đổi theo từng thời điểm; đại lý báo giá chính xác và chiết khấu theo công trình. <a href="./">← Tất cả bài viết</a></p></div>';
-    const img = dsSp.length ? absImg(dsSp[0].img) : absImg('anh/bia-tong-hop.jpg');
+      + '<div class="wrap tt-wrap">' + thamKhao + '<p class="ghi">Giá và chương trình thay đổi theo từng thời điểm; đại lý báo giá chính xác và chiết khấu theo công trình. <a href="./">← Tất cả bài viết</a></p></div>'
+      + gopY(b.ten) + '</article><aside class="bv-side">' + muc + mau + cta + '</aside></div>' + khacHtml + '<script>' + BV_JS + GY_JS + '</script>';
+    const img = ah ? absImg('anh/bai-viet/' + ah.trim()) : (dsSp.length ? absImg(dsSp[0].img) : absImg('anh/bia-tong-hop.jpg'));
     const ld = { '@context': 'https://schema.org', '@type': 'Article', headline: b.ten, description: b['mo-ta'] || '', datePublished: b.ngay || undefined, image: [img], inLanguage: 'vi' };
-    fs.writeFileSync(path.join(bdir, b.slug + '.html'), khung({ title: b.ten, desc: (b['mo-ta'] || b.ten).slice(0, 158), url, og: 'article', img, body, ld, noindex: !!b.nhap }));
+    fs.writeFileSync(path.join(bdir, b.slug + '.html'), khung({ title: b.ten, desc: (b['mo-ta'] || b.ten).slice(0, 158), url, og: 'article', img, body, ld, noindex: !!b.nhap, cls: 'bvp' }));
     if (!b.nhap) urls.push(url);
   });
   const bodyI = '<div class="hero"><div class="wrap"><small>Kiến thức</small><h1>Bài viết về gạch, ngói, keo Đồng Tâm</h1><p>Cách chọn gạch theo không gian, màu sắc, bề mặt và công năng, kèm link đến từng mẫu.</p></div></div><div class="wrap"><ul class="ds" style="list-style:none;margin:14px 0 0">' + bai.map(b => '<li style="margin:14px 0"><a href="' + b.slug + '.html" style="font-weight:800;font-size:17px">' + esc(b.ten) + '</a><br><span class="ghi" style="margin:0">' + esc(b['mo-ta'] || '') + (b.ngay ? ' · ' + esc(b.ngay) : '') + '</span></li>').join('') + '</ul></div>';
